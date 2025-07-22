@@ -27,13 +27,6 @@ function Screw({
           <div className={styles.crossLine}></div>
         </div>
       </div>
-      <div className={styles.screwBody}>
-        <div className={styles.threads}>
-          {Array.from({ length: 8 }, (_, i) => (
-            <div key={i} className={styles.thread}></div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
