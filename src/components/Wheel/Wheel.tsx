@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Wheel.module.css";
 import { slugify } from "@/utils/helpers";
 import { cn } from "@/utils/helpers";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 type ModWheelProps = {
   value: number;
@@ -44,6 +45,7 @@ function Wheel({
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const percentage = calculatePercentage(value, min, max);
+  const isMobile = useIsMobile();
   const id = slugify(label);
 
   function handleMouseDown(e: React.MouseEvent): void {
@@ -125,7 +127,7 @@ function Wheel({
           className={styles.track}
           style={{ cursor: isDisabled ? "not-allowed" : "unset" }}
         >
-          <div className={styles.shadow} />
+          {!isMobile && <div className={styles.shadow} />}
         </div>
         <div className={styles.thumb} />
       </div>

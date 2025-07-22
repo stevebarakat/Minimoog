@@ -39,7 +39,12 @@ function SidePanel() {
           justify="flex-end"
           gap="5rem"
           style={
-            isMobile ? { top: "14px", marginBottom: "1rem" } : { top: "14px" }
+            isMobile
+              ? {
+                  top: "14px",
+                  marginBottom: "1rem",
+                }
+              : { top: "14px" }
           }
         >
           <>

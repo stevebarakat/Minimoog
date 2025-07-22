@@ -5,11 +5,22 @@ interface ScrewProps {
   size?: "small" | "medium" | "large";
   className?: string;
   color?: "light" | "dark";
+  hidden?: boolean;
 }
 
-function Screw({ size = "medium", className, color = "light" }: ScrewProps) {
+function Screw({
+  size = "medium",
+  className,
+  color = "light",
+  hidden = false,
+}: ScrewProps) {
   return (
-    <div className={cn(styles.screw, styles[size], className)}>
+    <div
+      className={cn(styles.screw, styles[size], className)}
+      style={{
+        opacity: hidden ? 0 : 1,
+      }}
+    >
       <div className={cn(styles.screwHead, styles[color])}>
         <div className={styles.phillipsCross}>
           <div className={styles.crossLine}></div>
