@@ -98,9 +98,22 @@
     z-index: 50;
 
     &:focus-visible {
-      outline: 2px solid hsl(220deg 100% 50%);
-      outline-offset: 2px;
+      outline: none;
       border-radius: 0.175rem;
+    }
+
+    &:focus-visible::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 10.5px;
+      width: calc(var(--switch-height) + 4px);
+      height: calc(var(--switch-width) + 4px);
+      outline: 2px solid white;
+      outline-offset: -2px;
+      border-radius: 0.25rem;
+      pointer-events: none;
+      z-index: 1000;
     }
   }
 
@@ -117,10 +130,7 @@
 
 /* Focus styles for accessibility */
 .vertical:focus-visible {
-  width: 0;
-  border-radius: 0.25rem;
-  outline: 8px solid hsl(220deg 100% 50%);
-  outline-offset: 2px;
+  outline: none;
 }
 
 .state {
