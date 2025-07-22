@@ -21,6 +21,7 @@ import {
   useMinimoogURLSync,
 } from "./hooks";
 import { useIsMobile, useViewType } from "@/hooks/useMediaQuery";
+import Title from "../Title";
 
 function Minimoog() {
   const { activeKeys, setActiveKeys } = useSynthStore();
@@ -41,6 +42,18 @@ function Minimoog() {
         <div className={styles.synth}>
           <BackPanel />
           <div ref={containerRef} className={styles.controlsPanel}>
+            {isMobile && (
+              <Section
+                style={{
+                  borderRadius: "0 0 0 10px",
+                  marginRight: "-0.5rem",
+                  marginLeft: "0.5rem",
+                }}
+              >
+                <SidePanel />
+                <Title>Modulation</Title>
+              </Section>
+            )}
             <Controllers />
             <OscillatorBank />
             <Mixer audioContext={audioContext!} mixerNode={mixerNode!} />

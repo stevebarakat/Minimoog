@@ -7,7 +7,6 @@ import Section from "../Section";
 import Column from "../Column";
 import Row from "../Row";
 import { useSynthStore } from "@/store/synthStore";
-import SidePanel from "../SidePanel";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 function Controllers() {
@@ -26,11 +25,10 @@ function Controllers() {
         marginLeft: "var(--spacing-md)",
         paddingLeft: "var(--spacing-md)",
         paddingRight: "var(--spacing-lg)",
-        borderRadius: "0 0 0 0.5rem",
+        borderRadius: `${isMobile ? "0" : "0 0 0 10px"}`,
       }}
     >
       <Row>
-        {isMobile && <SidePanel />}
         <Column gap="var(--spacing-lg)">
           <Tune />
           <Row gap="var(--spacing-xl)">
