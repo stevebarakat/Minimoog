@@ -37,4 +37,5 @@
   padding: var(--spacing-sm);
   padding-left: 5px;
   height: 100%;
+  margin-bottom: -1.85rem;
 }

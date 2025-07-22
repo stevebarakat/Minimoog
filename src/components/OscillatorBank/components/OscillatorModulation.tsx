@@ -14,7 +14,7 @@ function OscillatorModulation() {
   const isMobile = useIsMobile();
   return (
     <div
-      style={isMobile ? { ...style, left: "-36.5%", top: "-0.85rem" } : style}
+      style={isMobile ? { ...style, left: "-36.5%", top: "-0.5rem" } : style}
     >
       <RockerSwitch
         theme="orange"
