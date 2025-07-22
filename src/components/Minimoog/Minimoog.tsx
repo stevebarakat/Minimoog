@@ -18,19 +18,20 @@ import { useAudioContext } from "@/hooks/useAudioContext";
 import {
   useMinimoogAudio,
   useFilterTracking,
-  useResponsiveView,
   useMinimoogURLSync,
 } from "./hooks";
+import { useIsMobile, useViewType } from "@/hooks/useMediaQuery";
 
 function Minimoog() {
   const { activeKeys, setActiveKeys } = useSynthStore();
   useMinimoogURLSync();
-  const view = useResponsiveView();
+  const view = useViewType();
   const { audioContext, isInitialized, initialize, dispose } =
     useAudioContext();
   const { mixerNode, filterNode, containerRef, synthObj } =
     useMinimoogAudio(audioContext);
   useFilterTracking(audioContext, filterNode, activeKeys);
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -61,7 +62,7 @@ function Minimoog() {
           <Hinge />
           <MidPanel />
           <div className={styles.keyboardPanel}>
-            <SidePanel />
+            {!isMobile && <SidePanel />}
             <Keyboard
               activeKeys={activeKeys}
               octaveRange={{ min: 3, max: 5 }}

@@ -14,6 +14,21 @@ global.navigator.requestMIDIAccess = vi.fn().mockResolvedValue({
   onstatechange: null,
 });
 
+// Mock window.matchMedia for media query tests
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // deprecated
+    removeListener: vi.fn(), // deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+});
+
 // Create a comprehensive AudioParam mock
 function createAudioParamMock() {
   return {

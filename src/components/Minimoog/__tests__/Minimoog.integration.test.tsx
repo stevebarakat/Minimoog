@@ -16,7 +16,6 @@ vi.mock("@/hooks/useAudioContext", () => ({
 // Mock the Minimoog hooks
 vi.mock("../hooks", () => ({
   useMinimoogURLSync: vi.fn(),
-  useResponsiveView: vi.fn(),
   useMinimoogAudio: vi.fn(),
   useFilterTracking: vi.fn(),
 }));

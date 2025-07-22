@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { calculateValueFromDelta } from "../utils";
 import { useKnob } from "./useKnob";
 import { KnobType } from "../types";
+import { useTouchDevice } from "@/hooks/useTouchDevice";
 
 type UseKnobInteractionProps = {
   value: number;
@@ -39,30 +40,9 @@ export function useKnobInteraction({
   const [startY, setStartY] = useState(0);
   const [startValue, setStartValue] = useState(0);
   const [lastUpdateTime, setLastUpdateTime] = useState(0);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const isTouchDevice = useTouchDevice();
 
   const sensitivity = 1;
-
-  // Detect touch device on mount
-  useEffect(() => {
-    const checkTouchDevice = () => {
-      const isTouch =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        ("msMaxTouchPoints" in navigator &&
-          (navigator as Navigator & { msMaxTouchPoints: number })
-            .msMaxTouchPoints > 0);
-
-      setIsTouchDevice(isTouch);
-    };
-
-    checkTouchDevice();
-    window.addEventListener("resize", checkTouchDevice);
-
-    return () => {
-      window.removeEventListener("resize", checkTouchDevice);
-    };
-  }, []);
 
   const updateValue = useCallback(
     (newValue: number) => {
