@@ -177,7 +177,7 @@ function RockerSwitch({
           }
           checked={checked}
         />
-        <div className={cn(styles.switch, disabled && styles.disabled)}>
+        <div className={cn(styles.switch, disabled && "disabled")}>
           <span className="sr-only">{label}</span>
         </div>
       </label>

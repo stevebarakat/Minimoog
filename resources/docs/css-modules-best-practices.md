@@ -32,7 +32,7 @@ import { cn } from "@/utils/helpers";
 const className = cn(
   styles.button,
   isActive && styles.active,
-  disabled && styles.disabled
+  disabled && "disabled"
 );
 
 // ✅ Good - Using cssModule utility for conditional CSS modules
@@ -87,7 +87,7 @@ export function Button({
         styles.button,
         styles[variant],
         styles[size],
-        disabled && styles.disabled
+        disabled && "disabled"
       )}
       disabled={disabled}
     >

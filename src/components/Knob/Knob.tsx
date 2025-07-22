@@ -102,8 +102,8 @@ function Knob({
             id={id}
             className={
               type === "arrow"
-                ? cn(styles.arrow, disabled && styles.disabled)
-                : cn(styles.radial, disabled && styles.disabled)
+                ? cn(styles.arrow, disabled && "disabled")
+                : cn(styles.radial, disabled && "disabled")
             }
             ref={knobRef}
             style={{

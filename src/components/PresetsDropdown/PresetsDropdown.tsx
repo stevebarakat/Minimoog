@@ -106,7 +106,7 @@ const PresetsDropdown: React.FC<{ disabled: boolean }> = ({ disabled }) => {
   return (
     <div className={styles.container} ref={dropdownRef}>
       <div className={styles.controls}>
-        <div className={cn(styles.dropdown, disabled && styles.disabled)}>
+        <div className={cn(styles.dropdown, disabled && "disabled")}>
           <button
             className={styles.trigger}
             style={{
