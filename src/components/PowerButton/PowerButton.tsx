@@ -51,6 +51,7 @@ function PowerButton({ isOn, onPowerOn, onPowerOff }: PowerButtonProps) {
         label="Power"
         theme="black"
         topLabel="On"
+        testid="power-button"
       />
     </Column>
   );

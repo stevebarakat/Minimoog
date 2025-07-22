@@ -10,10 +10,12 @@ export function WhiteKey({
   onPointerUp,
   onPointerEnter,
   onPointerLeave,
+  note,
 }: WhiteKeyProps) {
   const isDisabled = useSynthStore((s) => s.isDisabled);
   return (
     <button
+      data-testid={`key-${note}`}
       type="button"
       className={cn(
         styles.whiteKey,

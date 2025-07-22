@@ -18,6 +18,7 @@ type RockerSwitchProps = {
   style?: React.CSSProperties;
   orientation?: "horizontal" | "vertical";
   disabled?: boolean;
+  testid?: string;
 };
 
 function RockerSwitch({
@@ -35,6 +36,7 @@ function RockerSwitch({
   style,
   orientation = "horizontal",
   disabled = false,
+  testid,
 }: RockerSwitchProps) {
   // Covert label to slug for id
   const id = slugify(label);
@@ -119,7 +121,7 @@ function RockerSwitch({
     );
   }
 
-  function Switch() {
+  function Switch({ testid }: { testid: string }) {
     const handlePointerDown = (e: React.PointerEvent) => {
       e.preventDefault();
 
@@ -169,6 +171,7 @@ function RockerSwitch({
       >
         <input
           id={id}
+          data-testid={testid}
           className={styles.state}
           type="checkbox"
           tabIndex={-1}
@@ -190,7 +193,7 @@ function RockerSwitch({
 
       <LeftLabel leftLabel={leftLabel} />
 
-      <Switch />
+      <Switch testid={testid || ""} />
 
       <BottomLabels bottomLabels={bottomLabels} />
     </div>
