@@ -18,7 +18,7 @@ export function WhiteKey({
       className={cn(
         styles.whiteKey,
         isActive && styles.whiteKeyActive,
-        isDisabled && styles.disabled
+        isDisabled && "disabled"
       )}
       disabled={isDisabled}
       aria-pressed={isActive}
