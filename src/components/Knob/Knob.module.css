@@ -3,8 +3,8 @@
   --knob-container-multiplier: 1.75;
   --knob-border-radius: 50%;
   --knob-shadow-color: hsl(0deg 0% 0%);
-  --knob-highlight-color: hsl(0deg 0% 30% / 50%);
-  --knob-highlight-color-2: hsl(0deg 0% 50% / 50%);
+  --knob-highlight-color: hsl(0deg 0% 25%);
+  --knob-highlight-color-2: hsl(0deg 0% 40%);
   --knob-tick-color: hsl(0deg 0% 60%);
   --knob-dot-color: hsl(0deg 0% 75%);
   --knob-dot-gradient-start: hsl(220deg 13% 85%);
@@ -141,12 +141,8 @@
   height: var(--knob-size);
   filter: drop-shadow(0 -1px 0 var(--knob-highlight-color));
 
-  &:has(.radial) {
-    filter: drop-shadow(0 -1px 0 var(--knob-highlight-color));
-  }
-
   &:has(.arrow) {
-    filter: drop-shadow(0 -2px 0 var(--knob-highlight-color-2))
+    filter: drop-shadow(0 -1px 0 var(--knob-highlight-color-2))
       drop-shadow(0 1px 0 var(--knob-highlight-color));
   }
 }
