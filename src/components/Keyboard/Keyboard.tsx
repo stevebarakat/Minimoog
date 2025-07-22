@@ -159,7 +159,7 @@ export function Keyboard({
 
   // Keyboard event handlers for the container
   const handleContainerKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
+    (e: KeyboardEvent) => {
       if (!e.key || isDisabled) return;
       const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE);
       if (note && !e.repeat) {
@@ -170,7 +170,7 @@ export function Keyboard({
   );
 
   const handleContainerKeyUp = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
+    (e: KeyboardEvent) => {
       if (!e.key || isDisabled) return;
       const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE);
       if (note) {
@@ -179,6 +179,16 @@ export function Keyboard({
     },
     [handleKeyRelease, isDisabled]
   );
+
+  // Add global keyboard event listeners
+  useEffect(() => {
+    window.addEventListener("keydown", handleContainerKeyDown);
+    window.addEventListener("keyup", handleContainerKeyUp);
+    return () => {
+      window.removeEventListener("keydown", handleContainerKeyDown);
+      window.removeEventListener("keyup", handleContainerKeyUp);
+    };
+  }, [handleContainerKeyDown, handleContainerKeyUp]);
 
   // Focus the container on mount for keyboard accessibility
   useEffect(() => {
@@ -193,6 +203,7 @@ export function Keyboard({
       .map((key, index) => (
         <WhiteKey
           key={`white-${key.note}-${index}`}
+          note={key.note}
           isActive={activeKeys === key.note}
           onPointerDown={() => {
             handleMouseDown();
@@ -231,6 +242,7 @@ export function Keyboard({
         return (
           <BlackKey
             key={`black-${blackKey.note}-${bIdx}`}
+            note={blackKey.note}
             isActive={activeKeys === blackKey.note}
             position={positionData.position}
             width={positionData.width}
@@ -260,8 +272,6 @@ export function Keyboard({
       className={styles.keyboardContainer}
       tabIndex={0}
       data-testid="keyboard-container"
-      onKeyDown={handleContainerKeyDown}
-      onKeyUp={handleContainerKeyUp}
       onPointerUp={handleMouseUp}
       onPointerLeave={handleMouseLeave}
     >
