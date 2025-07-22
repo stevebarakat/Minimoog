@@ -7,6 +7,8 @@ import Section from "../Section";
 import Column from "../Column";
 import Row from "../Row";
 import { useSynthStore } from "@/store/synthStore";
+import SidePanel from "../SidePanel";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 function Controllers() {
   const {
@@ -16,6 +18,7 @@ function Controllers() {
     setNoiseLfoSwitch,
     isDisabled,
   } = useSynthStore();
+  const isMobile = useIsMobile();
 
   return (
     <Section
@@ -26,34 +29,37 @@ function Controllers() {
         borderRadius: "0 0 0 0.5rem",
       }}
     >
-      <Column gap="var(--spacing-lg)">
-        <Tune />
-        <Row gap="var(--spacing-xl)">
-          <Glide />
-          <ModulationMix />
-        </Row>
-        <Row
-          justify="space-around"
-          style={{ marginBottom: "var(--spacing-md)" }}
-        >
-          <RockerSwitch
-            checked={osc3FilterEgSwitch}
-            onCheckedChange={setOsc3FilterEgSwitch}
-            label="Send to mod 1"
-            bottomLabelLeft="Osc. 3"
-            bottomLabelRight="Filter Eg"
-            disabled={isDisabled}
-          />
-          <RockerSwitch
-            checked={noiseLfoSwitch}
-            onCheckedChange={setNoiseLfoSwitch}
-            label="Send to mod 2"
-            bottomLabelLeft="Noise"
-            bottomLabelRight="LFO"
-            disabled={isDisabled}
-          />
-        </Row>
-      </Column>
+      <Row>
+        {isMobile && <SidePanel />}
+        <Column gap="var(--spacing-lg)">
+          <Tune />
+          <Row gap="var(--spacing-xl)">
+            <Glide />
+            <ModulationMix />
+          </Row>
+          <Row
+            justify="space-around"
+            style={{ marginBottom: "var(--spacing-md)" }}
+          >
+            <RockerSwitch
+              checked={osc3FilterEgSwitch}
+              onCheckedChange={setOsc3FilterEgSwitch}
+              label="Send to mod 1"
+              bottomLabelLeft="Osc. 3"
+              bottomLabelRight="Filter Eg"
+              disabled={isDisabled}
+            />
+            <RockerSwitch
+              checked={noiseLfoSwitch}
+              onCheckedChange={setNoiseLfoSwitch}
+              label="Send to mod 2"
+              bottomLabelLeft="Noise"
+              bottomLabelRight="LFO"
+              disabled={isDisabled}
+            />
+          </Row>
+        </Column>
+      </Row>
       <Title>Controllers</Title>
     </Section>
   );

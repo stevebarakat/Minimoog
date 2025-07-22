@@ -32,3 +32,9 @@
     content: "";
   }
 }
+
+.mobileSidePanel {
+  padding: var(--spacing-sm);
+  padding-left: 5px;
+  height: 100%;
+}
