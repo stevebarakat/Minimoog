@@ -93,12 +93,6 @@
   transform: translateY(0);
 }
 
-.urlButton:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-  transform: none;
-}
-
 .menu {
   position: absolute;
   top: 100%;

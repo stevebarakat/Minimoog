@@ -6,7 +6,7 @@ import { convertPresetToStoreFormat } from "@/utils/presetConversion";
 import styles from "./PresetsDropdown.module.css";
 import { cn } from "@/utils/helpers";
 
-const PresetsDropdown: React.FC<{ disabled: boolean }> = ({ disabled }) => {
+function PresetsDropdown({ disabled }: { disabled: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [currentPreset, setCurrentPreset] = useState<string | null>("Fat Bass");
@@ -104,7 +104,11 @@ const PresetsDropdown: React.FC<{ disabled: boolean }> = ({ disabled }) => {
   }, [isOpen]);
 
   return (
-    <div className={styles.container} ref={dropdownRef}>
+    <div
+      ref={dropdownRef}
+      style={{ opacity: disabled ? 0.5 : 1 }}
+      className={styles.container}
+    >
       <div className={styles.controls}>
         <div className={cn(styles.dropdown, disabled && "disabled")}>
           <button
@@ -142,7 +146,7 @@ const PresetsDropdown: React.FC<{ disabled: boolean }> = ({ disabled }) => {
         </div>
 
         <button
-          className={styles.urlButton}
+          className={cn(styles.urlButton, disabled && "disabled")}
           onClick={handleCopyURL}
           disabled={disabled}
           title="Copy current settings as URL"
@@ -162,11 +166,7 @@ const PresetsDropdown: React.FC<{ disabled: boolean }> = ({ disabled }) => {
               aria-label="Filter by category"
             >
               {categories.map((category) => (
-                <option
-                  style={{ opacity: disabled ? 0.5 : 1 }}
-                  key={category}
-                  value={category}
-                >
+                <option key={category} value={category}>
                   {category}
                 </option>
               ))}
@@ -208,6 +208,6 @@ const PresetsDropdown: React.FC<{ disabled: boolean }> = ({ disabled }) => {
       )}
     </div>
   );
-};
+}
 
 export default PresetsDropdown;
