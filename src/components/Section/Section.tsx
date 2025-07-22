@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Section.module.css";
 import { cn } from "@/utils/helpers";
-import { useIsMobile } from "@/hooks/useMediaQuery";
 
 type SectionProps = {
   children: React.ReactNode;
@@ -18,9 +17,6 @@ function Section({
   align = "center",
   className,
 }: SectionProps) {
-  const isMobile = useIsMobile();
-  const mobileStyle = isMobile ? { padding: "0.25rem 0 0.75rem" } : {};
-
   return (
     <div
       className={cn(styles.section, className)}
@@ -28,7 +24,6 @@ function Section({
         ...style,
         justifyContent: justify,
         alignItems: align,
-        ...mobileStyle,
       }}
     >
       {children}

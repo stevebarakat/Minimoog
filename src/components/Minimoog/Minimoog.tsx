@@ -51,9 +51,11 @@ function Minimoog() {
                 }}
               >
                 <SidePanel
-                  style={{
-                    marginBottom: "-1.85rem",
-                  }}
+                  style={
+                    {
+                      // marginBottom: "-1.85rem",
+                    }
+                  }
                 />
                 <Title>Modulation</Title>
               </Section>
