@@ -1,4 +1,5 @@
 import { RockerSwitch } from "@/components/RockerSwitch";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useSynthStore } from "@/store/synthStore";
 
 const style: React.CSSProperties = {
@@ -10,8 +11,11 @@ const style: React.CSSProperties = {
 function OscillatorModulation() {
   const { oscillatorModulationOn, setOscillatorModulationOn, isDisabled } =
     useSynthStore();
+  const isMobile = useIsMobile();
   return (
-    <div style={style}>
+    <div
+      style={isMobile ? { ...style, left: "-36.5%", top: "-0.5rem" } : style}
+    >
       <RockerSwitch
         theme="orange"
         checked={oscillatorModulationOn}

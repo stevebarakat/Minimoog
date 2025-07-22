@@ -62,4 +62,10 @@
     right: 0;
     background: linear-gradient(to left, hsl(0deg 0% 0% / 50%), transparent);
   }
+  &.mobile {
+    &::after,
+    &::before {
+      height: 120px;
+    }
+  }
 }

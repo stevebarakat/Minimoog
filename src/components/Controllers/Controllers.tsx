@@ -7,7 +7,6 @@ import Section from "../Section";
 import Column from "../Column";
 import Row from "../Row";
 import { useSynthStore } from "@/store/synthStore";
-import { useIsMobile } from "@/hooks/useMediaQuery";
 
 function Controllers() {
   const {
@@ -17,7 +16,6 @@ function Controllers() {
     setNoiseLfoSwitch,
     isDisabled,
   } = useSynthStore();
-  const isMobile = useIsMobile();
 
   return (
     <Section
@@ -25,7 +23,7 @@ function Controllers() {
         marginLeft: "var(--spacing-md)",
         paddingLeft: "var(--spacing-md)",
         paddingRight: "var(--spacing-lg)",
-        borderRadius: `${isMobile ? "0" : "0 0 0 10px"}`,
+        borderRadius: "0 0 0 0.5rem",
       }}
     >
       <Row>

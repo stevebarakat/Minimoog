@@ -10,12 +10,15 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import Screw from "../Screw";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
-function SidePanel() {
+function SidePanel({ style }: { style?: React.CSSProperties }) {
   const isMobile = useIsMobile();
 
   return (
     <Tooltip.Provider>
-      <Column className={isMobile ? styles.mobileSidePanel : styles.sidePanel}>
+      <Column
+        className={isMobile ? styles.mobileSidePanel : styles.sidePanel}
+        style={style}
+      >
         <Row gap="var(--spacing-md)">
           <LfoRate />
           <div className={styles.switches}>
