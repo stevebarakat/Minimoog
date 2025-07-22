@@ -38,7 +38,7 @@ function convertAttackDecayValue(largeValue: number): number {
   return 10;
 }
 
-function useEnvelopes({
+export function useEnvelopes({
   audioContext,
   filterNode,
   loudnessEnvelopeGain,
@@ -264,4 +264,3 @@ function useEnvelopes({
 
   return synthObj;
 }
-export default useEnvelopes;

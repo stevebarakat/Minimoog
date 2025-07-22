@@ -3,7 +3,7 @@ import { useSynthStore } from "@/store/synthStore";
 import { AudioNodes } from "../types/synthTypes";
 import { mapCutoff } from "../utils/synthUtils";
 
-function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
+export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
   const mixerNodeRef = useRef<GainNode | null>(null);
   const filterNodeRef = useRef<AudioWorkletNode | null>(null);
   const loudnessEnvelopeGainRef = useRef<GainNode | null>(null);
@@ -171,5 +171,3 @@ function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
     isMixerReady,
   };
 }
-
-export default useAudioNodes;

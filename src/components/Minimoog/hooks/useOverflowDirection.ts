@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function useOverflowDirection() {
+export function useOverflowDirection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

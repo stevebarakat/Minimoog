@@ -3,7 +3,7 @@ import { useSynthStore } from "@/store/synthStore";
 import { mapOscillatorType } from "../utils/synthUtils";
 import type { ModulationProps } from "../types/synthTypes";
 
-function useModulation({
+export function useModulation({
   audioContext,
   osc1,
   osc2,
@@ -269,4 +269,3 @@ function useModulation({
     modEnvelopeGain: modEnvelopeGainRef.current,
   };
 }
-export default useModulation;
