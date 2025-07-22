@@ -23,6 +23,7 @@ export function Keyboard({
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isReleasing, setIsReleasing] = useState(false);
   const [pressedKeys, setPressedKeys] = useState<string[]>([]); // Track all pressed keys
+  const [octaveOffset, setOctaveOffset] = useState(0); // Track octave offset for keyboard input
   const isDisabled = useSynthStore((state) => state.isDisabled);
   const allKeys = generateKeyboardKeys(octaveRange);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -157,27 +158,61 @@ export function Keyboard({
     [isMouseDown, handleKeyRelease, isDisabled]
   );
 
+  // Handle octave changes
+  const handleOctaveChange = useCallback(
+    (direction: "up" | "down") => {
+      if (isDisabled) return;
+
+      setOctaveOffset((prev) => {
+        const newOffset = direction === "up" ? prev + 1 : prev - 1;
+        // Limit octave range to reasonable bounds (-2 to +2)
+        return Math.max(-2, Math.min(2, newOffset));
+      });
+    },
+    [isDisabled]
+  );
+
   // Keyboard event handlers for the container
   const handleContainerKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (!e.key || isDisabled) return;
-      const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE);
+
+      // Handle octave changes
+      if (e.key === "=" || e.key === "+") {
+        e.preventDefault();
+        handleOctaveChange("up");
+        return;
+      }
+
+      if (e.key === "-" || e.key === "_") {
+        e.preventDefault();
+        handleOctaveChange("down");
+        return;
+      }
+
+      const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE + octaveOffset);
       if (note && !e.repeat) {
         handleKeyPress(note);
       }
     },
-    [handleKeyPress, isDisabled]
+    [handleKeyPress, handleOctaveChange, isDisabled, octaveOffset]
   );
 
   const handleContainerKeyUp = useCallback(
     (e: KeyboardEvent) => {
       if (!e.key || isDisabled) return;
-      const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE);
+
+      // Don't handle octave keys on keyup
+      if (e.key === "=" || e.key === "+" || e.key === "-" || e.key === "_") {
+        return;
+      }
+
+      const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE + octaveOffset);
       if (note) {
         handleKeyRelease(note);
       }
     },
-    [handleKeyRelease, isDisabled]
+    [handleKeyRelease, isDisabled, octaveOffset]
   );
 
   // Add global keyboard event listeners
@@ -282,6 +317,12 @@ export function Keyboard({
           <div className={styles.leftShadow} />
           <div className={styles.rightShadow} />
         </div>
+        {/* Octave indicator */}
+        {octaveOffset !== 0 && (
+          <div className={styles.octaveIndicator}>
+            {octaveOffset > 0 ? `+${octaveOffset}` : octaveOffset}
+          </div>
+        )}
       </div>
     </div>
   );

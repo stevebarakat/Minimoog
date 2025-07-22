@@ -326,4 +326,121 @@ describe("Keyboard - Integration Tests", () => {
     expect(mockOnKeyDown).toHaveBeenCalledTimes(2);
     expect(mockSynth.triggerAttack).toHaveBeenCalledTimes(2);
   });
+
+  it("handles octave increase with = key", async () => {
+    render(<Keyboard {...defaultProps} />);
+
+    const keyboardContainer = screen.getByTestId("keyboard-container");
+    keyboardContainer.focus();
+
+    // Press = to increase octave
+    fireEvent.keyDown(keyboardContainer, { key: "=" });
+
+    // Should not trigger any synth calls for octave change
+    expect(mockSynth.triggerAttack).not.toHaveBeenCalled();
+    expect(mockOnKeyDown).not.toHaveBeenCalled();
+  });
+
+  it("handles octave decrease with - key", async () => {
+    render(<Keyboard {...defaultProps} />);
+
+    const keyboardContainer = screen.getByTestId("keyboard-container");
+    keyboardContainer.focus();
+
+    // Press - to decrease octave
+    fireEvent.keyDown(keyboardContainer, { key: "-" });
+
+    // Should not trigger any synth calls for octave change
+    expect(mockSynth.triggerAttack).not.toHaveBeenCalled();
+    expect(mockOnKeyDown).not.toHaveBeenCalled();
+  });
+
+  it("handles octave increase with + key", async () => {
+    render(<Keyboard {...defaultProps} />);
+
+    const keyboardContainer = screen.getByTestId("keyboard-container");
+    keyboardContainer.focus();
+
+    // Press + to increase octave (alternative to =)
+    fireEvent.keyDown(keyboardContainer, { key: "+" });
+
+    // Should not trigger any synth calls for octave change
+    expect(mockSynth.triggerAttack).not.toHaveBeenCalled();
+    expect(mockOnKeyDown).not.toHaveBeenCalled();
+  });
+
+  it("handles octave decrease with _ key", async () => {
+    render(<Keyboard {...defaultProps} />);
+
+    const keyboardContainer = screen.getByTestId("keyboard-container");
+    keyboardContainer.focus();
+
+    // Press _ to decrease octave (alternative to -)
+    fireEvent.keyDown(keyboardContainer, { key: "_" });
+
+    // Should not trigger any synth calls for octave change
+    expect(mockSynth.triggerAttack).not.toHaveBeenCalled();
+    expect(mockOnKeyDown).not.toHaveBeenCalled();
+  });
+
+  it("limits octave range to reasonable bounds", async () => {
+    render(<Keyboard {...defaultProps} />);
+
+    const keyboardContainer = screen.getByTestId("keyboard-container");
+    keyboardContainer.focus();
+
+    // Try to decrease octave multiple times (should be limited)
+    for (let i = 0; i < 10; i++) {
+      fireEvent.keyDown(keyboardContainer, { key: "-" });
+    }
+
+    // Try to increase octave multiple times (should be limited)
+    for (let i = 0; i < 10; i++) {
+      fireEvent.keyDown(keyboardContainer, { key: "=" });
+    }
+
+    // Should not trigger any synth calls for octave changes
+    expect(mockSynth.triggerAttack).not.toHaveBeenCalled();
+    expect(mockOnKeyDown).not.toHaveBeenCalled();
+  });
+
+  it("shows octave indicator when offset is not zero", () => {
+    render(<Keyboard {...defaultProps} />);
+
+    const keyboardContainer = screen.getByTestId("keyboard-container");
+    keyboardContainer.focus();
+
+    // Initially no octave indicator should be visible
+    expect(screen.queryByText("+1")).not.toBeInTheDocument();
+    expect(screen.queryByText("-1")).not.toBeInTheDocument();
+
+    // Increase octave
+    fireEvent.keyDown(keyboardContainer, { key: "=" });
+
+    // Should show +1 indicator
+    expect(screen.getByText("+1")).toBeInTheDocument();
+
+    // Decrease octave twice
+    fireEvent.keyDown(keyboardContainer, { key: "-" });
+    fireEvent.keyDown(keyboardContainer, { key: "-" });
+
+    // Should show -1 indicator
+    expect(screen.getByText("-1")).toBeInTheDocument();
+  });
+
+  it("applies octave offset to keyboard input", async () => {
+    render(<Keyboard {...defaultProps} />);
+
+    const keyboardContainer = screen.getByTestId("keyboard-container");
+    keyboardContainer.focus();
+
+    // Increase octave by 1
+    fireEvent.keyDown(keyboardContainer, { key: "=" });
+
+    // Press 'a' key (which should now be F5 instead of F4)
+    fireEvent.keyDown(keyboardContainer, { key: "a" });
+
+    // Should trigger attack with the higher octave note
+    expect(mockSynth.triggerAttack).toHaveBeenCalledWith("F5");
+  });
 });
