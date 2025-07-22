@@ -20,7 +20,12 @@ import { useSynthStore } from "@/store/synthStore";
 import { useAudioContext } from "@/hooks/useAudioContext";
 import styles from "./Minimoog.module.css";
 import PowerButton from "../PowerButton";
-import { useAudioNodes, useModulation, useEnvelopes } from "./hooks";
+import {
+  useAudioNodes,
+  useModulation,
+  useEnvelopes,
+  useOverflowDirection,
+} from "./hooks";
 import { mapCutoff, noteNameToMidi } from "./utils/synthUtils";
 import Section from "../Section";
 import PresetsDropdown from "../PresetsDropdown";
@@ -55,6 +60,7 @@ function Minimoog() {
   // Set up audio nodes
   const { mixerNode, filterNode, loudnessEnvelopeGain, masterGain } =
     useAudioNodes(audioContext);
+  const containerRef = useOverflowDirection();
 
   // Set up oscillators
   const validCtx = audioContext && mixerNode ? audioContext : null;
@@ -153,7 +159,7 @@ function Minimoog() {
         <Side />
         <div className={styles.synth}>
           <BackPanel />
-          <div className={styles.controlsPanel}>
+          <div ref={containerRef} className={styles.controlsPanel}>
             <Controllers />
             <OscillatorBank />
             <Mixer audioContext={audioContext!} mixerNode={mixerNode!} />

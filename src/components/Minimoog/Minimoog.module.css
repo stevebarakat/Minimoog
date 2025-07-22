@@ -22,7 +22,6 @@
   display: flex;
   padding: 0;
   width: 100%;
-  max-width: 90vw;
   overflow: auto hidden;
   background: var(--color-gray-l);
   scrollbar-width: none; /* Firefox */
