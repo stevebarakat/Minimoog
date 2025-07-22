@@ -402,14 +402,15 @@ describe("Minimoog - Integration Tests", () => {
 
     render(<Minimoog />);
 
-    // Check that controls are disabled - some may not have the "disabled" class but are functionally disabled
+    // Check that controls are functionally disabled
     const allKnobs = screen.getAllByRole("slider");
     allKnobs.forEach((knob) => {
-      // Check if the knob is functionally disabled (either has disabled class or is not interactive)
+      // Check if the knob is functionally disabled
       const isDisabled =
         knob.classList.contains("disabled") ||
-        knob.getAttribute("aria-disabled") === "true";
-      expect(isDisabled || knob.getAttribute("tabindex") === "-1").toBeTruthy();
+        knob.getAttribute("aria-disabled") === "true" ||
+        knob.getAttribute("tabindex") === "-1";
+      expect(isDisabled).toBeTruthy();
     });
 
     // Power button should be off
