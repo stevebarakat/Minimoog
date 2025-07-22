@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { useKnobKeyboard } from "../useKnobKeyboard";
+import { useKnob } from "../useKnob";
 import * as utils from "../../utils";
 
 // Mock the calculateValueFromDelta function
@@ -8,7 +8,7 @@ vi.mock("../../utils", () => ({
   calculateValueFromDelta: vi.fn(),
 }));
 
-describe("useKnobKeyboard", () => {
+describe("useKnob", () => {
   const mockOnChange = vi.fn();
   const mockCalculateValueFromDelta = vi.mocked(utils.calculateValueFromDelta);
 
@@ -19,7 +19,7 @@ describe("useKnobKeyboard", () => {
   describe("keyboard interaction", () => {
     it("should use normal step size for radial type", () => {
       const { result } = renderHook(() =>
-        useKnobKeyboard({
+        useKnob({
           value: 50,
           min: 0,
           max: 100,
@@ -52,7 +52,7 @@ describe("useKnobKeyboard", () => {
 
     it("should use larger step size with shift key", () => {
       const { result } = renderHook(() =>
-        useKnobKeyboard({
+        useKnob({
           value: 50,
           min: 0,
           max: 100,

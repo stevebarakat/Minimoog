@@ -13,7 +13,7 @@ type UseKnobKeyboardProps = {
   size?: "small" | "medium" | "large";
 };
 
-export function useKnobKeyboard({
+export function useKnob({
   value,
   min,
   max,

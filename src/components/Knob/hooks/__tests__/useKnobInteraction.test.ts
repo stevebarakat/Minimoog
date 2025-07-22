@@ -13,9 +13,9 @@ const createMockElement = () => {
   return element;
 };
 
-// Mock the useKnobKeyboard hook
-vi.mock("../useKnobKeyboard", () => ({
-  useKnobKeyboard: vi.fn(() => ({
+// Mock the useKnob hook
+vi.mock("../useKnob", () => ({
+  useKnob: vi.fn(() => ({
     knobRef: { current: createMockElement() },
   })),
 }));

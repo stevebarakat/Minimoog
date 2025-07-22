@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { calculateValueFromDelta } from "../utils";
-import { useKnobKeyboard } from "./useKnobKeyboard";
+import { useKnob } from "./useKnob";
 import { KnobType } from "../types";
 
 type UseKnobInteractionProps = {
@@ -24,7 +24,7 @@ export function useKnobInteraction({
   logarithmic = false,
   size,
 }: UseKnobInteractionProps) {
-  const { knobRef } = useKnobKeyboard({
+  const { knobRef } = useKnob({
     value,
     min,
     max,
