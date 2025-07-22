@@ -8,6 +8,7 @@
   background: var(--color-gray-l);
   scrollbar-width: none;
   -ms-overflow-style: none;
+
   &::-webkit-scrollbar {
     display: none;
   }

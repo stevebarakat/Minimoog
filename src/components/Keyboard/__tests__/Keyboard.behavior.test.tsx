@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { Keyboard } from "../Keyboard";
+import type { SynthState, SynthActions } from "@/store/types/synth";
 
 // Mock the store
 vi.mock("@/store/synthStore", () => ({
@@ -25,13 +26,14 @@ describe("Keyboard - User Behavior Tests", () => {
     mockSynth.triggerAttack = vi.fn();
     mockSynth.triggerRelease = vi.fn();
 
-    // @ts-expect-error - Mock implementation for testing
-    mockedUseSynthStore.mockImplementation((selector?: (state: any) => any) => {
-      const state = {
-        isDisabled: false,
-      };
-      return typeof selector === "function" ? selector(state) : state;
-    });
+    mockedUseSynthStore.mockImplementation(
+      (selector?: (state: SynthState & SynthActions) => unknown) => {
+        const state = {
+          isDisabled: false,
+        } as SynthState & SynthActions;
+        return typeof selector === "function" ? selector(state) : state;
+      }
+    );
   });
 
   it("plays a note when user clicks a white key", async () => {

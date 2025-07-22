@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
+import type { SynthState, SynthActions } from "@/store/types/synth";
 
 // Mock the store
 vi.mock("@/store/synthStore", () => ({
@@ -24,13 +25,14 @@ describe("Keyboard - Integration Tests", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // @ts-expect-error - Mock implementation for testing
-    mockedUseSynthStore.mockImplementation((selector?: (state: any) => any) => {
-      const state = {
-        isDisabled: false,
-      };
-      return typeof selector === "function" ? selector(state) : state;
-    });
+    mockedUseSynthStore.mockImplementation(
+      (selector?: (state: SynthState & SynthActions) => unknown) => {
+        const state = {
+          isDisabled: false,
+        } as SynthState & SynthActions;
+        return typeof selector === "function" ? selector(state) : state;
+      }
+    );
   });
 
   const defaultProps = {

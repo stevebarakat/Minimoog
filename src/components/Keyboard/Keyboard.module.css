@@ -114,16 +114,18 @@
     inset: 2px 4px;
     content: "";
     transform-origin: top center;
+
     @container (width < 25px) {
-      border: none;
-      inset: 2px 5px 15px;
-      border-radius: 0 0 2px 2px;
       background: linear-gradient(
         180deg,
         hsl(217deg 13% 20%),
         hsl(217deg 13% 45%)
       );
+      border: none;
+      border-radius: 0 0 2px 2px;
+      inset: 2px 5px 15px;
     }
+
     @container (width < 20px) {
       background: none;
     }
@@ -187,20 +189,21 @@
   z-index: 30;
   padding: 4px 8px;
   background: hsl(0deg 0% 0% / 80%);
-  color: hsl(0deg 0% 100%);
   border-radius: 4px;
+  color: hsl(0deg 0% 100%);
+  font-family: var(--font-family-mono);
   font-size: 12px;
   font-weight: bold;
-  font-family: var(--font-family-mono);
+  animation: fade-in 0.2s ease-in-out;
   pointer-events: none;
-  animation: fadeIn 0.2s ease-in-out;
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
     opacity: 0;
     transform: translateY(-5px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

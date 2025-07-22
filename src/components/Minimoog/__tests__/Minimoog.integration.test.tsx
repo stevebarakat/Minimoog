@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
+import type { Oscillator } from "../types/synthTypes";
 
 // Mock the store
 vi.mock("@/store/synthStore", () => ({
@@ -149,9 +150,9 @@ describe("Minimoog - Integration Tests", () => {
       loudnessEnvelopeGain: {} as GainNode,
       masterGain: {} as GainNode,
       containerRef: { current: null },
-      osc1: {} as any,
-      osc2: {} as any,
-      osc3: {} as any,
+      osc1: {} as Oscillator,
+      osc2: {} as Oscillator,
+      osc3: {} as Oscillator,
       synthObj: mockSynthObj,
     } as ReturnType<typeof useMinimoogAudio>);
 
