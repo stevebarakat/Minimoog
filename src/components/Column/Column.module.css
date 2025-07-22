@@ -1,0 +1,6 @@
+.column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}

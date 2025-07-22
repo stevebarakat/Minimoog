@@ -1,0 +1,11 @@
+.side {
+  position: relative;
+  margin: 0;
+  min-width: 1.75rem;
+  background-image: url("./images/side.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-top: 3px solid hsl(24deg 41% 47% / 50%);
+  border-radius: 0.3rem;
+}

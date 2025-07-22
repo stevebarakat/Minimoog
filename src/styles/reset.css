@@ -1,0 +1,28 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1;
+  text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body,
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+body {
+  margin: 0;
+  vertical-align: baseline;
+  font: inherit;
+}
