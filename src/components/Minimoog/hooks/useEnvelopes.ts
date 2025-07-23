@@ -8,36 +8,6 @@ import {
 } from "../utils/synthUtils";
 import type { EnvelopeProps } from "../types/synthTypes";
 
-// Convert large attack/decay values (0-10000) to 0-10 range for mapEnvelopeTime
-function convertAttackDecayValue(largeValue: number): number {
-  // Map 0-10000 to 0-10 logarithmically to match the original mapping
-  if (largeValue <= 0) return 0;
-  if (largeValue >= 10000) return 10;
-
-  // Use a more gradual mapping that gives better control over the range
-  // Map the original values (0, 10, 200, 600, 1000, 5000, 10000) to (0, 3, 5, 7, 8.5, 9.5, 10)
-  // This gives better attack times and longer decay times
-  const stops = [
-    { pos: 0, value: 0 },
-    { pos: 10, value: 3 },
-    { pos: 200, value: 5 },
-    { pos: 600, value: 7 },
-    { pos: 1000, value: 8.5 },
-    { pos: 5000, value: 9.5 },
-    { pos: 10000, value: 10 },
-  ];
-
-  for (let i = 0; i < stops.length - 1; i++) {
-    const a = stops[i];
-    const b = stops[i + 1];
-    if (largeValue >= a.pos && largeValue <= b.pos) {
-      const t = (largeValue - a.pos) / (b.pos - a.pos);
-      return a.value + t * (b.value - a.value);
-    }
-  }
-  return 10;
-}
-
 export function useEnvelopes({
   audioContext,
   filterNode,
@@ -104,12 +74,8 @@ export function useEnvelopes({
             // Filter envelope modulation
             const contourOctaves =
               mapContourAmount(filterContourAmount) * (modWheel / 100);
-            const attackTime = mapEnvelopeTime(
-              convertAttackDecayValue(filterAttack)
-            );
-            const decayTime = mapEnvelopeTime(
-              convertAttackDecayValue(filterDecay)
-            );
+            const attackTime = mapEnvelopeTime(filterAttack);
+            const decayTime = mapEnvelopeTime(filterDecay);
             const sustainLevel = filterSustain / 10;
             // Clamp contourOctaves to prevent extreme values
             const clampedContourOctaves = Math.max(
@@ -221,7 +187,7 @@ export function useEnvelopes({
               cutoffParam.setValueAtTime(currentFreq, now);
               cutoffParam.linearRampToValueAtTime(
                 trackedBaseCutoff,
-                now + mapEnvelopeTime(convertAttackDecayValue(filterDecay))
+                now + mapEnvelopeTime(filterDecay)
               );
             } else {
               cutoffParam.setValueAtTime(trackedBaseCutoff, now);

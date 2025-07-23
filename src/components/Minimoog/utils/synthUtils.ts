@@ -44,21 +44,21 @@ export function mapEnvelopeTime(value: number): number {
   return minTime * Math.pow(maxTime / minTime, value / 10);
 }
 
-// Helper to map -4 to 4 to 20 Hz - 20,000 Hz logarithmically
-// Practical range that works well with digital audio systems
+// Helper to map -4 to 4 to 20 Hz - 12,000 Hz logarithmically
+// More conservative range to prevent distortion and provide better musical control
 export function mapCutoff(val: number): number {
   const minFreq = 20; // Practical lower limit for digital audio
-  const maxFreq = 20000; // Practical upper limit for digital audio
+  const maxFreq = 12000; // Reduced from 20000 to prevent distortion
   // Clamp input to -4 to 4 range
   const clampedVal = Math.max(-4, Math.min(4, val));
   // Map -4 to 4 to 0 to 1, then apply logarithmic mapping
   const normalizedVal = (clampedVal + 4) / 8; // Convert -4..4 to 0..1
   // Apply a more musical curve that gives better control in the middle range
-  const musicalCurve = Math.pow(normalizedVal, 1.5); // Less aggressive curve
+  const musicalCurve = Math.pow(normalizedVal, 1.2); // Even less aggressive curve
   let result = minFreq * Math.pow(maxFreq / minFreq, musicalCurve);
 
   // Add safety limits to prevent extreme values
-  result = Math.max(20, Math.min(20000, result));
+  result = Math.max(20, Math.min(12000, result));
 
   return result;
 }
