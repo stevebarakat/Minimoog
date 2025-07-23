@@ -1,3 +1,12 @@
+// Preset data for the Minimoog synthesizer
+//
+// NOTE: These are user-facing preset values, not system constants.
+// The values here are intentionally hard-coded to represent musical presets.
+// For system-wide constants (e.g., MIDI note names, value ranges), use the centralized config in '@/config'.
+//
+// If you need to reference system-wide constants, import them as shown below:
+// import { MIDI, SYNTH_PARAMS } from "@/config";
+
 import { SynthState } from "@/store/types/synth";
 
 export type Preset = {

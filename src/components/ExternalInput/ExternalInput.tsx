@@ -5,6 +5,7 @@ import { useExternalInput } from "./hooks";
 import Row from "../Row";
 import { RockerSwitch } from "../RockerSwitch";
 import Line from "../Line";
+import { UI, SYNTH_PARAMS } from "@/config";
 
 type ExternalInputProps = {
   audioContext: AudioContext;
@@ -48,8 +49,8 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
           }}
           logarithmic={false}
           value={mixerExternal.volume}
-          min={0.001}
-          max={10}
+          min={SYNTH_PARAMS.EXTERNAL_INPUT.VOLUME.MIN}
+          max={SYNTH_PARAMS.EXTERNAL_INPUT.VOLUME.MAX}
           step={0.1}
           label="External Input Volume"
           title={
@@ -65,8 +66,8 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
             }
           }}
           style={{
-            left: "1.25rem",
-            bottom: "0.25rem",
+            left: UI.EXTERNAL_INPUT.POSITION.LEFT,
+            bottom: UI.EXTERNAL_INPUT.POSITION.BOTTOM,
           }}
           disabled={isDisabled}
         />

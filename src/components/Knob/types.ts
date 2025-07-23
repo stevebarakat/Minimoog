@@ -1,7 +1,6 @@
 import React from "react";
 
 type KnobProps = {
-  value: number;
   min: number;
   max: number;
   step?: number;

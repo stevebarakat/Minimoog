@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSynthStore } from "@/store/synthStore";
+import { MIDI } from "@/config";
 
 export function useTuner(audioContext: AudioContext | null) {
   const { tunerOn } = useSynthStore();
@@ -13,7 +14,10 @@ export function useTuner(audioContext: AudioContext | null) {
       // Create oscillator for A-440 tone
       const oscillator = audioContext.createOscillator();
       oscillator.type = "sine"; // Pure sine wave for tuning
-      oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A-440 Hz
+      oscillator.frequency.setValueAtTime(
+        MIDI.A4_FREQUENCY,
+        audioContext.currentTime
+      ); // A-440 Hz
 
       // Create gain node for volume control
       const gainNode = audioContext.createGain();

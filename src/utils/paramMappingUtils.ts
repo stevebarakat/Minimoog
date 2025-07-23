@@ -1,4 +1,5 @@
 // Parameter mapping and MIDI conversion utilities
+import { MIDI, FILTER_MAPPING, SYNTH_PARAMS } from "@/config";
 
 /**
  * Convert note name (e.g., 'C4') to MIDI number.
@@ -21,7 +22,7 @@ export function noteNameToMidi(note: string): number {
     B: 11,
   };
   const match = note.match(/^([A-G]#?)(-?\d+)$/);
-  if (!match) return 60; // default to C4
+  if (!match) return MIDI.A4_MIDI_NOTE; // default to A4
   const [, n, oct] = match;
   return 12 * (parseInt(oct, 10) + 1) + noteMap[n];
 }
@@ -43,13 +44,19 @@ export function mapEnvelopeTime(value: number): number {
  * @returns Frequency in Hz
  */
 export function mapCutoff(val: number): number {
-  const minFreq = 20;
-  const maxFreq = 12000;
-  const clampedVal = Math.max(-4, Math.min(4, val));
+  const minFreq = FILTER_MAPPING.CUTOFF.MIN_FREQ;
+  const maxFreq = FILTER_MAPPING.CUTOFF.MAX_FREQ;
+  const clampedVal = Math.max(
+    SYNTH_PARAMS.FILTER.CUTOFF.MIN,
+    Math.min(SYNTH_PARAMS.FILTER.CUTOFF.MAX, val)
+  );
   const normalizedVal = (clampedVal + 4) / 8;
-  const musicalCurve = Math.pow(normalizedVal, 1.2);
+  const musicalCurve = Math.pow(
+    normalizedVal,
+    FILTER_MAPPING.CUTOFF.MUSICAL_CURVE_POWER
+  );
   let result = minFreq * Math.pow(maxFreq / minFreq, musicalCurve);
-  result = Math.max(20, Math.min(12000, result));
+  result = Math.max(minFreq, Math.min(maxFreq, result));
   return result;
 }
 

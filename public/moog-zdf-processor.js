@@ -1,18 +1,45 @@
+// Audio constants for Moog ZDF Filter
+const AUDIO_CONSTANTS = {
+  MOOG_FILTER: {
+    DEFAULT_CUTOFF: 1000,
+    MIN_CUTOFF: 20,
+    MAX_CUTOFF: 20000,
+    DEFAULT_RESONANCE: 0.5,
+    MIN_RESONANCE: 0,
+    MAX_RESONANCE: 4.0,
+    SMOOTHING_COEFFICIENT: 0.99,
+    OVERSAMPLE_FACTOR: 4,
+    TEMPERATURE_DRIFT: 0.001,
+    COMPONENT_TOLERANCE: 0.005,
+    THERMAL_NOISE: 0.0001,
+  },
+  FILTER_MAPPING: {
+    RESONANCE: {
+      LINEAR_THRESHOLD: 2.4,
+      CURVED_THRESHOLD: 3.4,
+      CURVE_POWER: 1.2,
+      STEEP_CURVE_POWER: 0.8,
+      LINEAR_FEEDBACK_RANGE: 0.8,
+      STEEP_FEEDBACK_RANGE: 0.8,
+    },
+  },
+};
+
 class MoogZDFProcessor extends AudioWorkletProcessor {
   static get parameterDescriptors() {
     return [
       {
         name: "cutoff",
-        defaultValue: 1000,
-        minValue: 20, // Practical lower limit for digital audio
-        maxValue: 20000, // Practical upper limit for digital audio
+        defaultValue: AUDIO_CONSTANTS.MOOG_FILTER.DEFAULT_CUTOFF,
+        minValue: AUDIO_CONSTANTS.MOOG_FILTER.MIN_CUTOFF,
+        maxValue: AUDIO_CONSTANTS.MOOG_FILTER.MAX_CUTOFF,
         automationRate: "k-rate",
       },
       {
         name: "resonance",
-        defaultValue: 0.5,
-        minValue: 0,
-        maxValue: 4,
+        defaultValue: AUDIO_CONSTANTS.MOOG_FILTER.DEFAULT_RESONANCE,
+        minValue: AUDIO_CONSTANTS.MOOG_FILTER.MIN_RESONANCE,
+        maxValue: AUDIO_CONSTANTS.MOOG_FILTER.MAX_RESONANCE,
         automationRate: "k-rate",
       },
     ];
@@ -25,24 +52,24 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
     this.sampleRate = sampleRate;
 
     // Parameter smoothing to prevent zipper noise
-    this.smoothedCutoff = 1000;
-    this.smoothedResonance = 0.5;
-    this.smoothingCoeff = 0.99; // Adjust for faster/slower smoothing
+    this.smoothedCutoff = AUDIO_CONSTANTS.MOOG_FILTER.DEFAULT_CUTOFF;
+    this.smoothedResonance = AUDIO_CONSTANTS.MOOG_FILTER.DEFAULT_RESONANCE;
+    this.smoothingCoeff = AUDIO_CONSTANTS.MOOG_FILTER.SMOOTHING_COEFFICIENT;
 
     // Pre-compute constants
     this.T = 1 / this.sampleRate;
     this.T2 = this.T / 2;
 
     // Oversampling factor - increased for better quality
-    this.oversampleFactor = 4; // Increased from 2x to 4x for better quality
+    this.oversampleFactor = AUDIO_CONSTANTS.MOOG_FILTER.OVERSAMPLE_FACTOR;
 
     // Safety limits - more authentic to original
-    this.maxResonance = 4.0; // Allow full self-oscillation like original
+    this.maxResonance = AUDIO_CONSTANTS.MOOG_FILTER.MAX_RESONANCE;
 
     // Original Minimoog characteristics
-    this.temperatureDrift = 0.001; // Simulate component temperature variations
-    this.componentTolerance = 0.005; // Simulate component tolerances
-    this.thermalNoise = 0.0001; // Subtle thermal noise for authenticity
+    this.temperatureDrift = AUDIO_CONSTANTS.MOOG_FILTER.TEMPERATURE_DRIFT;
+    this.componentTolerance = AUDIO_CONSTANTS.MOOG_FILTER.COMPONENT_TOLERANCE;
+    this.thermalNoise = AUDIO_CONSTANTS.MOOG_FILTER.THERMAL_NOISE;
   }
 
   // More authentic saturation function - closer to original Moog ladder filter
@@ -113,9 +140,12 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
       : resonanceValues[0];
 
     // Validate and smooth parameters - practical digital audio range
-    const targetCutoff = Math.max(20, Math.min(20000, initialCutoff));
+    const targetCutoff = Math.max(
+      AUDIO_CONSTANTS.MOOG_FILTER.MIN_CUTOFF,
+      Math.min(AUDIO_CONSTANTS.MOOG_FILTER.MAX_CUTOFF, initialCutoff)
+    );
     const targetResonance = Math.max(
-      0,
+      AUDIO_CONSTANTS.MOOG_FILTER.MIN_RESONANCE,
       Math.min(this.maxResonance, initialResonance)
     );
 
@@ -147,10 +177,16 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
       } else {
         const rawCutoff = isCutoffConstant
           ? targetCutoff
-          : Math.max(20, Math.min(20000, cutoffValues[i]));
+          : Math.max(
+              AUDIO_CONSTANTS.MOOG_FILTER.MIN_CUTOFF,
+              Math.min(AUDIO_CONSTANTS.MOOG_FILTER.MAX_CUTOFF, cutoffValues[i])
+            );
         const rawResonance = isResonanceConstant
           ? targetResonance
-          : Math.max(0, Math.min(this.maxResonance, resonanceValues[i]));
+          : Math.max(
+              AUDIO_CONSTANTS.MOOG_FILTER.MIN_RESONANCE,
+              Math.min(this.maxResonance, resonanceValues[i])
+            );
 
         // Apply smoothing for variable rate parameters
         fc = this.smoothParameter(
@@ -176,19 +212,35 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
       // Apply non-linear curve to resonance for more musical control
       let resonanceValue;
 
-      if (res < 2.4) {
+      if (res < AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.LINEAR_THRESHOLD) {
         // Linear mapping for lower values (0-2.4 resonance = 0-2.4 feedback)
         resonanceValue = res;
-      } else if (res < 3.4) {
+      } else if (
+        res < AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.CURVED_THRESHOLD
+      ) {
         // Curved mapping for middle values (2.4-3.4 resonance = 2.4-3.2 feedback)
-        const remaining = res - 2.4;
-        const curve = Math.pow(remaining / 1.0, 1.2);
-        resonanceValue = 2.4 + curve * 0.8;
+        const remaining =
+          res - AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.LINEAR_THRESHOLD;
+        const curve = Math.pow(
+          remaining / 1.0,
+          AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.CURVE_POWER
+        );
+        resonanceValue =
+          AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.LINEAR_THRESHOLD +
+          curve *
+            AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.LINEAR_FEEDBACK_RANGE;
       } else {
         // Steep curve for self-oscillation (3.4-4.0 resonance = 3.2-4.0 feedback)
-        const remaining = res - 3.4;
-        const steepCurve = Math.pow(remaining / 0.6, 0.8);
-        resonanceValue = 3.2 + steepCurve * 0.8;
+        const remaining =
+          res - AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.CURVED_THRESHOLD;
+        const steepCurve = Math.pow(
+          remaining / 0.6,
+          AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.STEEP_CURVE_POWER
+        );
+        resonanceValue =
+          3.2 +
+          steepCurve *
+            AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.STEEP_FEEDBACK_RANGE;
       }
 
       const feedback = resonanceValue * this.stage[3];

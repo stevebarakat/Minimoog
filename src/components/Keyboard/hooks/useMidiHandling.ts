@@ -5,7 +5,6 @@ import { useMidiMessageHandler } from "./useMidiMessageHandler";
 import { useMidiAnimationFrame } from "./useMidiAnimationFrame";
 
 type MIDIValue = number;
-type NoteName = string;
 
 type SynthObject = {
   triggerAttack: (note: string) => void;

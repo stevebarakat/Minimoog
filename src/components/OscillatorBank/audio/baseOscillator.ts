@@ -1,3 +1,5 @@
+import { OSCILLATOR } from "@/config";
+
 export type BaseOscillatorParams = {
   audioContext: AudioContext;
   waveform: string;
@@ -30,7 +32,7 @@ export function createPulseWave(
   audioContext: AudioContext,
   dutyCycle: number
 ): PeriodicWave {
-  const n = 128; // Increased harmonics for fatter sound
+  const n = OSCILLATOR.HARMONICS_COUNT; // Increased harmonics for fatter sound
   const real = new Float32Array(n);
   const imag = new Float32Array(n);
   for (let i = 1; i < n; i++) {

@@ -2,6 +2,7 @@ import { useMemo, useCallback } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { clampParameter } from "@/utils/audioUtils";
 import { calculateFrequency, noteToFrequency } from "@/utils/frequencyUtils";
+import { OSCILLATOR, SYNTH_PARAMS } from "@/config";
 
 // Memoized vibrato amount calculation
 export const calculateVibratoAmount = (
@@ -9,8 +10,12 @@ export const calculateVibratoAmount = (
   modWheel: number
 ): number => {
   if (!oscillatorModulationOn || modWheel <= 0) return 0;
-  const clampedModWheel = clampParameter(modWheel, 0, 100);
-  return clampedModWheel / 100;
+  const clampedModWheel = clampParameter(
+    modWheel,
+    SYNTH_PARAMS.MOD_WHEEL.MIN,
+    SYNTH_PARAMS.MOD_WHEEL.MAX
+  );
+  return clampedModWheel / SYNTH_PARAMS.MOD_WHEEL.MAX;
 };
 
 // Hook for memoized oscillator calculations
@@ -34,9 +39,21 @@ export function useOscillatorCalculations(
   // Memoize clamped parameters to prevent recalculation
   const clampedParams = useMemo(
     () => ({
-      masterTune: clampParameter(masterTune, -12, 12),
-      detuneSemis: clampParameter(oscillatorState.frequency || 0, -12, 12),
-      pitchWheel: clampParameter(pitchWheel, 0, 100),
+      masterTune: clampParameter(
+        masterTune,
+        SYNTH_PARAMS.MASTER_TUNE.MIN,
+        SYNTH_PARAMS.MASTER_TUNE.MAX
+      ),
+      detuneSemis: clampParameter(
+        oscillatorState.frequency || 0,
+        SYNTH_PARAMS.MASTER_TUNE.MIN,
+        SYNTH_PARAMS.MASTER_TUNE.MAX
+      ),
+      pitchWheel: clampParameter(
+        pitchWheel,
+        SYNTH_PARAMS.PITCH_WHEEL.MIN,
+        SYNTH_PARAMS.PITCH_WHEEL.MAX
+      ),
       vibratoAmount: clampParameter(
         calculateVibratoAmount(oscillatorModulationOn, modWheel),
         0,
@@ -54,13 +71,16 @@ export function useOscillatorCalculations(
 
   // Memoize glide time calculation
   const mappedGlideTime = useMemo(
-    () => Math.pow(10, glideTime / 5) * 0.02,
+    () =>
+      Math.pow(10, glideTime / OSCILLATOR.GLIDE_TIME_POWER) *
+      OSCILLATOR.GLIDE_TIME_MULTIPLIER,
     [glideTime]
   );
 
   // Memoize volume calculation
   const boostedVolume = useMemo(
-    () => Math.min(1, (mixerState.volume / 10) * volumeBoost),
+    () =>
+      Math.min(1, (mixerState.volume / SYNTH_PARAMS.VOLUME.MAX) * volumeBoost),
     [mixerState.volume, volumeBoost]
   );
 

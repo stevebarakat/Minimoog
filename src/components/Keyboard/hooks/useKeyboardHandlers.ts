@@ -1,5 +1,26 @@
-import { useCallback, useEffect, useRef } from "react";
-import { getNoteFromKeyEvent, FIXED_OCTAVE } from "../utils";
+import { useCallback, useEffect } from "react";
+import { getNoteFromKeyEvent } from "../utils";
+
+export type UseKeyboardHandlersProps = {
+  isMouseDown: boolean;
+  setIsMouseDown: (down: boolean) => void;
+  isReleasing: boolean;
+  setIsReleasing: (releasing: boolean) => void;
+  pressedKeys: string[];
+  setPressedKeys: (keys: string[] | ((prev: string[]) => string[])) => void;
+  octaveOffset: number;
+  setOctaveOffset: (offset: number) => void;
+  synth: {
+    triggerAttack: (note: string) => void;
+    triggerRelease: (note: string) => void;
+  };
+  activeKeys: string | null;
+  onKeyDown: (note: string) => void;
+  onKeyUp: (note: string) => void;
+  onMouseDown: () => void;
+  onMouseUp: () => void;
+  isDisabled: boolean;
+};
 
 export function useKeyboardHandlers({
   isMouseDown,
@@ -17,7 +38,7 @@ export function useKeyboardHandlers({
   onMouseDown,
   onMouseUp,
   isDisabled,
-}) {
+}: UseKeyboardHandlersProps) {
   const handleKeyPress = useCallback(
     (note: string): void => {
       if (isReleasing || isDisabled) return;
@@ -145,12 +166,9 @@ export function useKeyboardHandlers({
   const handleOctaveChange = useCallback(
     (direction: "up" | "down") => {
       if (isDisabled) return;
-      setOctaveOffset((prev) => {
-        const newOffset = direction === "up" ? prev + 1 : prev - 1;
-        return Math.max(-2, Math.min(2, newOffset));
-      });
+      setOctaveOffset(octaveOffset + (direction === "up" ? 1 : -1));
     },
-    [isDisabled, setOctaveOffset]
+    [isDisabled, setOctaveOffset, octaveOffset]
   );
 
   // Keyboard event handlers for the container
@@ -167,7 +185,7 @@ export function useKeyboardHandlers({
         handleOctaveChange("down");
         return;
       }
-      const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE + octaveOffset);
+      const note = getNoteFromKeyEvent(e.key, 4);
       if (note && !e.repeat) {
         handleKeyPress(note);
       }
@@ -181,7 +199,7 @@ export function useKeyboardHandlers({
       if (e.key === "=" || e.key === "+" || e.key === "-" || e.key === "_") {
         return;
       }
-      const note = getNoteFromKeyEvent(e.key, FIXED_OCTAVE + octaveOffset);
+      const note = getNoteFromKeyEvent(e.key, 4);
       if (note) {
         handleKeyRelease(note);
       }

@@ -3,6 +3,7 @@ import { useSynthStore } from "@/store/synthStore";
 import { mapOscillatorType } from "../utils/synthUtils";
 import type { ModulationProps } from "../types/synthTypes";
 import { getPooledNode, releaseNode } from "@/utils/audioNodePool";
+import { AUDIO, MIDI, SYNTH_PARAMS } from "@/config";
 
 export function useModulation({
   audioContext,
@@ -147,14 +148,15 @@ export function useModulation({
     const osc = getPooledNode("oscillator", audioContext) as OscillatorNode;
     osc.type = mapOscillatorType(osc3State.waveform);
     osc.frequency.setValueAtTime(
-      osc3Control ? 440 : 6,
+      osc3Control ? MIDI.A4_FREQUENCY : 6,
       audioContext.currentTime
     );
     osc.start();
     modOsc3Ref.current = osc;
 
     // Create modulation-only Noise
-    const bufferSize = audioContext.sampleRate * 2;
+    const bufferSize =
+      audioContext.sampleRate * AUDIO.MODULATION_BUFFER_SIZE_MULTIPLIER;
     const buffer = audioContext.createBuffer(
       1,
       bufferSize,
@@ -201,7 +203,7 @@ export function useModulation({
     }
 
     // Set crossfade mix
-    const mix = modMix / 10;
+    const mix = modMix / SYNTH_PARAMS.MOD_MIX.MAX;
     const depth = 5;
     modLeftGainRef.current.gain.setValueAtTime(
       (1 - mix) * depth,
@@ -217,7 +219,7 @@ export function useModulation({
     modRightGainRef.current.connect(modSumGainRef.current);
     modSumGainRef.current.connect(modWheelGainRef.current);
     modWheelGainRef.current.gain.setValueAtTime(
-      modWheel / 100,
+      modWheel / SYNTH_PARAMS.MOD_WHEEL.MAX,
       audioContext.currentTime
     );
 
@@ -232,9 +234,9 @@ export function useModulation({
           else if (index === 1) modOsc2GainRef.current = modGain;
           else if (index === 2) modOsc3GainRef.current = modGain;
 
-          const baseFreq = node.frequency.value || 440;
+          const baseFreq = node.frequency.value || MIDI.A4_FREQUENCY;
           modGain.gain.setValueAtTime(
-            baseFreq * 0.0595 * (modWheel / 100),
+            baseFreq * 0.0595 * (modWheel / SYNTH_PARAMS.MOD_WHEEL.MAX),
             audioContext.currentTime
           );
 

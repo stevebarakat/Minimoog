@@ -15,8 +15,6 @@ export const OCTAVE_NOTES: Note[] = [
   { note: "E", isSharp: false },
 ];
 
-export const FIXED_OCTAVE = 4;
-
 export const BASE_KEYBOARD_MAP: { [key: string]: string } = {
   a: "F",
   w: "F#",

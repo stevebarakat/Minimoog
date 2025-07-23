@@ -1,8 +1,15 @@
+// Audio constants for Modulation Monitor Processor
+const AUDIO_CONSTANTS = {
+  MODULATION_MONITOR: {
+    BUFFER_SIZE: 256, // Match the original ScriptProcessor buffer size
+  },
+};
+
 class ModulationMonitorProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
     this.frameCount = 0;
-    this.bufferSize = 256; // Match the original ScriptProcessor buffer size
+    this.bufferSize = AUDIO_CONSTANTS.MODULATION_MONITOR.BUFFER_SIZE;
   }
 
   process(inputs, outputs) {

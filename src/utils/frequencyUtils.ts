@@ -1,26 +1,15 @@
 // Convert MIDI note name (e.g., 'C4') to frequency in Hz
+import { MIDI } from "@/config";
+
 export function noteToFrequency(note: string): number {
   const noteRegex = /^([A-G]#?)(-?\d+)$/;
   const match = note.match(noteRegex);
-  if (!match) return 440;
-  const noteNames = [
-    "C",
-    "C#",
-    "D",
-    "D#",
-    "E",
-    "F",
-    "F#",
-    "G",
-    "G#",
-    "A",
-    "A#",
-    "B",
-  ];
-  const noteIndex = noteNames.indexOf(match[1]);
+  if (!match) return MIDI.A4_FREQUENCY;
+  const noteNames = MIDI.NOTE_NAMES;
+  const noteIndex = noteNames.indexOf(match[1] as (typeof noteNames)[number]);
   const octave = parseInt(match[2], 10);
   const midiNumber = noteIndex + (octave + 1) * 12;
-  return 440 * Math.pow(2, (midiNumber - 69) / 12);
+  return MIDI.A4_FREQUENCY * Math.pow(2, (midiNumber - MIDI.A4_MIDI_NOTE) / 12);
 }
 
 // Calculate frequency with detune, pitch bend, and cents

@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { resetGain } from "@/utils/audioUtils";
+import {
+  EXTERNAL_INPUT,
+  SYNTH_PARAMS,
+  getExternalInputAnalyzerConfig,
+} from "@/config";
 
 export function useExternalInput(
   audioContext: AudioContext | null,
@@ -18,8 +23,15 @@ export function useExternalInput(
 
   // Convert linear volume (0-10) to logarithmic gain (0-1)
   const linearToLogGain = (linearVolume: number) => {
-    const normalizedVolume = linearVolume / 10;
-    return Math.pow(normalizedVolume, 1.5) * 0.9 + 0.1;
+    const normalizedVolume = linearVolume / SYNTH_PARAMS.VOLUME.MAX;
+    return (
+      Math.pow(
+        normalizedVolume,
+        EXTERNAL_INPUT.LEVEL_MONITORING.VOLUME_CURVE_POWER
+      ) *
+        EXTERNAL_INPUT.LEVEL_MONITORING.MAX_GAIN +
+      EXTERNAL_INPUT.LEVEL_MONITORING.MIN_GAIN
+    );
   };
 
   // Simple audio level monitoring - only when enabled
@@ -36,7 +48,10 @@ export function useExternalInput(
         );
         analyzerRef.current!.getByteFrequencyData(dataArray);
         const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
-        const normalizedLevel = Math.min(1, average / 50);
+        const normalizedLevel = Math.min(
+          1,
+          average / EXTERNAL_INPUT.LEVEL_MONITORING.NORMALIZATION_FACTOR
+        );
         const volumeFactor = linearToLogGain(mixerExternal.volume);
         const adjustedLevel = normalizedLevel * (1 + volumeFactor);
         setAudioLevel(adjustedLevel);
@@ -114,7 +129,8 @@ export function useExternalInput(
         // Create analyzer node
         if (!analyzerRef.current) {
           analyzerRef.current = audioContext.createAnalyser();
-          analyzerRef.current.fftSize = 256;
+          const analyzerConfig = getExternalInputAnalyzerConfig();
+          analyzerRef.current.fftSize = analyzerConfig.fftSize;
         }
 
         // Request microphone access if needed

@@ -1,6 +1,7 @@
 // Vitest setup file
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
+import { AUDIO } from "@/config";
 
 // Mock Web Audio API for jsdom
 if (typeof global.GainNode === "undefined") {
@@ -84,8 +85,8 @@ function createBiquadFilterNodeMock() {
 // Create a comprehensive AnalyserNode mock
 function createAnalyserNodeMock() {
   return {
-    fftSize: 2048,
-    frequencyBinCount: 1024,
+    fftSize: AUDIO.TEST_FFT_SIZE,
+    frequencyBinCount: AUDIO.TEST_FREQUENCY_BIN_COUNT,
     minDecibels: -100,
     maxDecibels: -30,
     smoothingTimeConstant: 0.8,
@@ -140,7 +141,7 @@ function createWaveShaperNodeMock() {
 function createAudioContextMock() {
   const context = {
     // Properties
-    sampleRate: 44100,
+    sampleRate: AUDIO.TEST_SAMPLE_RATE,
     currentTime: 0,
     state: "running",
     baseLatency: 0.005,

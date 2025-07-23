@@ -1,5 +1,6 @@
 import { useSynthStore } from "@/store/synthStore";
 import { useAudioNodes } from "./useAudioNodes";
+import { OSCILLATOR, SYNTH_PARAMS } from "@/config";
 import { useModulation } from "./useModulation";
 import { useEnvelopes } from "./useEnvelopes";
 import { useOverflowDirection } from "./useOverflowDirection";
@@ -62,8 +63,11 @@ export function useAudio(audioContext: AudioContext | null) {
   // Vibrato amount
   const vibratoAmount = useSynthStore((state) => {
     if (!state.oscillatorModulationOn || state.modWheel <= 0) return 0;
-    const clampedModWheel = Math.max(0, Math.min(100, state.modWheel));
-    return clampedModWheel / 100;
+    const clampedModWheel = Math.max(
+      SYNTH_PARAMS.MOD_WHEEL.MIN,
+      Math.min(SYNTH_PARAMS.MOD_WHEEL.MAX, state.modWheel)
+    );
+    return clampedModWheel / SYNTH_PARAMS.MOD_WHEEL.MAX;
   });
 
   // Helper to cast range and waveform to correct types
@@ -94,8 +98,8 @@ export function useAudio(audioContext: AudioContext | null) {
       mixerKey: "osc1",
       createOscillator: (config, mixerNode) =>
         createOscillator1({ ...config, ...castOsc1(config) }, mixerNode),
-      detuneCents: 2, // osc1 slightly sharp
-      volumeBoost: 1.2,
+      detuneCents: OSCILLATOR.OSC1_DETUNE_CENTS, // osc1 slightly sharp
+      volumeBoost: OSCILLATOR.OSC1_VOLUME_BOOST,
     },
     vibratoAmount
   );

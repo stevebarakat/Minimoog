@@ -1,17 +1,10 @@
 // Knob and range mapping utilities for envelope and parameter controls
+import { ENVELOPE_MAPPING } from "@/config";
 
 /**
  * Stops for mapping knob positions to envelope times (ms) and vice versa.
  */
-export const attackDecayStops = [
-  { pos: 0, value: 0 }, // 0 ms
-  { pos: 1000, value: 10 }, // 10 ms
-  { pos: 2000, value: 200 }, // 200 ms
-  { pos: 4000, value: 600 }, // 600 ms
-  { pos: 6000, value: 1000 }, // 1000 ms (1 sec)
-  { pos: 8000, value: 5000 }, // 5000 ms (5 sec)
-  { pos: 10000, value: 10000 }, // 10000 ms (10 sec)
-];
+export const attackDecayStops = ENVELOPE_MAPPING.ATTACK_DECAY_STOPS;
 
 /**
  * Convert milliseconds to 0-10 envelope range (logarithmic mapping).

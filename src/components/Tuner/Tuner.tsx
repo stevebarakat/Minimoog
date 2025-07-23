@@ -1,5 +1,6 @@
 import { RockerSwitch } from "../RockerSwitch";
 import { useSynthStore } from "@/store/synthStore";
+import { UI } from "@/config";
 
 function Tuner() {
   const { isDisabled, tunerOn, setTunerOn } = useSynthStore();
@@ -10,7 +11,7 @@ function Tuner() {
       checked={tunerOn}
       onCheckedChange={setTunerOn}
       label="Tuner"
-      topLabel="A-440"
+      topLabel={UI.TUNER.A440_LABEL}
       bottomLabelRight="On"
       disabled={isDisabled}
     />

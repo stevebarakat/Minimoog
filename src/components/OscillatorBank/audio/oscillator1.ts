@@ -4,6 +4,7 @@ import {
   createBaseOscillator,
   createPulseWave,
 } from "./baseOscillator";
+import { OSCILLATOR } from "@/config";
 
 export type Osc1Params = BaseOscillatorParams & {
   waveform:
@@ -23,7 +24,7 @@ const pulseWavesCache = new WeakMap<
 >();
 
 function createTriangleSawtoothWave(audioContext: AudioContext): PeriodicWave {
-  const n = 128; // Increased harmonics for fatter sound
+  const n = OSCILLATOR.HARMONICS_COUNT; // Increased harmonics for fatter sound
   const real = new Float32Array(n);
   const imag = new Float32Array(n);
   for (let i = 1; i < n; i++) {
