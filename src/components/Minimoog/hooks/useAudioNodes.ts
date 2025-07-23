@@ -116,12 +116,6 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
   useEffect(() => {
     if (!audioContext || !mixerNodeRef.current) return;
 
-    console.log("Mixer gain update:", {
-      isMainActive,
-      newGain: isMainActive ? 1 : 0,
-      currentTime: audioContext.currentTime,
-    });
-
     if (!isMainActive) {
       mixerNodeRef.current.gain.setValueAtTime(0, audioContext.currentTime);
     } else {

@@ -3,6 +3,7 @@ import { useSynthStore } from "@/store/synthStore";
 import { OscillatorType } from "@/types";
 import { noteToFrequency } from "@/utils/noteToFrequency";
 import type { BaseOscillatorParams } from "../audio/baseOscillator";
+import { getPooledNode, releaseNode } from "@/utils/audioNodePool";
 
 export type OscillatorFactoryConfig = {
   oscillatorKey: "oscillator1" | "oscillator2" | "oscillator3";
@@ -149,40 +150,45 @@ export function useOscillatorFactory(
   // Memoize vibrato setup function
   const setupVibrato = useCallback(
     (oscNode: OscillatorNode, baseFreq: number) => {
-      if (clampedParams.vibratoAmount <= 0) return;
+      if (clampedParams.vibratoAmount <= 0 || !audioContext) return;
 
       // Clean up previous LFO if any
-      vibratoLfoRef.current?.disconnect();
-      vibratoGainRef.current?.disconnect();
-      vibratoLfoRef.current = null;
-      vibratoGainRef.current = null;
-
-      if (audioContext) {
-        const lfo = audioContext.createOscillator();
-        lfo.type = "sine";
-        lfo.frequency.setValueAtTime(6, audioContext.currentTime); // 6 Hz vibrato
-        const lfoGain = audioContext.createGain();
-        lfoGain.gain.setValueAtTime(
-          baseFreq * (Math.pow(2, clampedParams.vibratoAmount / 12) - 1),
-          audioContext.currentTime
-        );
-        lfo.connect(lfoGain);
-        lfoGain.connect(oscNode.frequency);
-        lfo.start();
-        vibratoLfoRef.current = lfo;
-        vibratoGainRef.current = lfoGain;
+      if (vibratoLfoRef.current) {
+        releaseNode("oscillator", vibratoLfoRef.current);
+        vibratoLfoRef.current = null;
       }
+      if (vibratoGainRef.current) {
+        releaseNode("gain", vibratoGainRef.current);
+        vibratoGainRef.current = null;
+      }
+
+      const lfo = getPooledNode("oscillator", audioContext) as OscillatorNode;
+      lfo.type = "sine";
+      lfo.frequency.setValueAtTime(6, audioContext.currentTime); // 6 Hz vibrato
+      const lfoGain = getPooledNode("gain", audioContext) as GainNode;
+      lfoGain.gain.setValueAtTime(
+        baseFreq * (Math.pow(2, clampedParams.vibratoAmount / 12) - 1),
+        audioContext.currentTime
+      );
+      lfo.connect(lfoGain);
+      lfoGain.connect(oscNode.frequency);
+      lfo.start();
+      vibratoLfoRef.current = lfo;
+      vibratoGainRef.current = lfoGain;
     },
     [audioContext, clampedParams.vibratoAmount]
   );
 
   // Memoize cleanup function
   const cleanupVibrato = useCallback(() => {
-    vibratoLfoRef.current?.stop();
-    vibratoLfoRef.current?.disconnect();
-    vibratoGainRef.current?.disconnect();
-    vibratoLfoRef.current = null;
-    vibratoGainRef.current = null;
+    if (vibratoLfoRef.current) {
+      releaseNode("oscillator", vibratoLfoRef.current);
+      vibratoLfoRef.current = null;
+    }
+    if (vibratoGainRef.current) {
+      releaseNode("gain", vibratoGainRef.current);
+      vibratoGainRef.current = null;
+    }
   }, []);
 
   // Volume control effect - memoized to prevent unnecessary updates

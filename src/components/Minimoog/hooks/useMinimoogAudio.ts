@@ -11,19 +11,6 @@ import { createOscillator3 } from "@/components/OscillatorBank/audio/oscillator3
 import { useTuner } from "@/components/Tuner/hooks";
 import { useAuxOutput } from "@/components/Output/hooks";
 import { useMidiHandling } from "@/components/Keyboard/hooks";
-import type { OscillatorRange } from "@/components/OscillatorBank/audio/oscillator1";
-import {
-  OscillatorWaveform as Osc1Waveform,
-  OscillatorRange as Osc1Range,
-} from "@/components/OscillatorBank/audio/oscillator1";
-import {
-  OscillatorWaveform as Osc2Waveform,
-  OscillatorRange as Osc2Range,
-} from "@/components/OscillatorBank/audio/oscillator2";
-import {
-  OscillatorWaveform as Osc3Waveform,
-  OscillatorRange as Osc3Range,
-} from "@/components/OscillatorBank/audio/oscillator3";
 
 // Oscillator 1 types
 type Osc1Waveform =
