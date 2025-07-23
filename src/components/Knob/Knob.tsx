@@ -1,3 +1,4 @@
+import React from "react";
 import { getRotation, getDisplayValue } from "./utils";
 import { useKnobInteraction } from "./hooks";
 import { KnobTicks, KnobLabels, KnobRing } from "./components";
@@ -6,7 +7,7 @@ import styles from "./Knob.module.css";
 import { cn } from "@/utils/helpers";
 import { slugify } from "@/utils/";
 
-function Knob({
+const Knob = React.memo(function Knob({
   value,
   min,
   max,
@@ -74,7 +75,7 @@ function Knob({
       )}
 
       <div className={styles.knob}>
-        <KnobRing type={type} />
+        <KnobRing type={type === "attackDecay" ? "arrow" : type} />
         {/* Tick marks around the knob */}
         {valueLabels && (
           <KnobTicks
@@ -101,7 +102,7 @@ function Knob({
           <div
             id={id}
             className={
-              type === "arrow"
+              type === "arrow" || type === "attackDecay"
                 ? cn(styles.arrow, disabled && "disabled")
                 : cn(styles.radial, disabled && "disabled")
             }
@@ -124,6 +125,6 @@ function Knob({
       </div>
     </div>
   );
-}
+});
 
 export default Knob;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { cn, cssModule } from "@/utils/helpers";
 import styles from "./VintageLED.module.css";
 import Title from "../Title";
@@ -19,7 +19,7 @@ export type VintageLEDProps = {
   onCheckedChange: (e: React.FormEvent<HTMLInputElement>) => void;
 };
 
-function VintageLED({
+const VintageLED = React.memo(function VintageLED({
   isOn = true,
   warmupEffect = true,
   className,
@@ -79,6 +79,6 @@ function VintageLED({
       </Title>
     </div>
   );
-}
+});
 
 export default VintageLED;

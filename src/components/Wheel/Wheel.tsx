@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Wheel.module.css";
 import { slugify } from "@/utils/helpers";
 import { cn } from "@/utils/helpers";
@@ -32,7 +32,7 @@ function calculateNewValue(
   return Math.max(min, Math.min(max, steppedValue));
 }
 
-function Wheel({
+const Wheel = React.memo(function Wheel({
   value,
   min,
   max,
@@ -136,6 +136,6 @@ function Wheel({
       </label>
     </div>
   );
-}
+});
 
 export default Wheel;
