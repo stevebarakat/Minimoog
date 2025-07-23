@@ -4,7 +4,7 @@ import { presets, Preset, getCategories } from "@/data/presets";
 import { copyURLToClipboard, convertPresetToStoreFormat } from "@/utils";
 import logger from "@/utils/logger";
 import { reportError } from "@/utils/errorReporter";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/components/useToast";
 
 export function usePresetsDropdown() {
   const [isOpen, setIsOpen] = useState(false);

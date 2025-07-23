@@ -1,12 +1,12 @@
 import * as React from "react";
 
-interface ToastContextValue {
+type ToastContextValue = {
   showToast: (opts: {
     title: string;
     description?: string | string[];
     variant?: "error" | "info" | "success";
   }) => void;
-}
+};
 
 const ToastContext = React.createContext<ToastContextValue | undefined>(
   undefined

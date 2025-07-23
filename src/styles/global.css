@@ -16,6 +16,7 @@ body {
 
 a {
   color: var(--color-error-light);
+
   &:hover {
     color: var(--color-error);
   }
@@ -43,7 +44,7 @@ a {
 
 /* Remove numbers from Radix Toast viewport <ol> */
 [role="region"][aria-label*="Notification"] > ol {
-  list-style: none !important;
-  padding-left: 0 !important;
   margin-left: 0 !important;
+  padding-left: 0 !important;
+  list-style: none !important;
 }

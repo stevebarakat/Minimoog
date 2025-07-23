@@ -103,17 +103,17 @@
     }
 
     &:focus-visible::after {
-      content: "";
       position: absolute;
       top: 5px;
       left: 10.5px;
+      z-index: 1000;
       width: calc(var(--switch-height) + 4px);
       height: calc(var(--switch-width) + 4px);
+      border-radius: 0.25rem;
+      content: "";
       outline: 2px solid white;
       outline-offset: -2px;
-      border-radius: 0.25rem;
       pointer-events: none;
-      z-index: 1000;
     }
   }
 

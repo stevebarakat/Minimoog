@@ -2,21 +2,23 @@
   position: relative;
   margin: 0;
   min-width: 1.75rem;
+  overflow: hidden;
   background-image: url("./images/side.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   border-top: 3px solid hsl(24deg 41% 47% / 50%);
   border-radius: 0.3rem;
-  overflow: hidden;
+
   &::after {
     position: absolute;
+    right: -3.5px;
+    bottom: 2rem;
     z-index: 99999999;
     height: 25%;
-    bottom: 2rem;
-    right: -3.5px;
-    rotate: 2deg;
     box-shadow: 0 0 5px 5px hsl(0deg 0% 0% / 35%);
+    rotate: 2deg;
+
     /* background: hsl(0 0% 0% / 0.95);
     filter: blur(8px); */
     content: "";

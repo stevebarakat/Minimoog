@@ -54,13 +54,14 @@
   &::after,
   &::before {
     position: absolute;
+    top: 66.5%;
     z-index: 9;
     width: 30px;
     height: 55%;
-    top: 66.5%;
+
     /* filter: blur(8px);
     background: hsl(0deg 0% 0% / 85%); */
-    box-shadow: 0 0 20px 15px hsl(0, 0%, 0%);
+    box-shadow: 0 0 20px 15px hsl(0deg 0% 0%);
     content: "";
   }
 
@@ -73,6 +74,7 @@
     rotate: -1.5deg;
     right: -26px;
   }
+
   &.mobile {
     &::after,
     &::before {

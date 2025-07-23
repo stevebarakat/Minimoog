@@ -1,2 +1,1 @@
-export { ToastProvider } from "./ToastProvider";
-export { useToast } from "./hooks";
+export { useToast } from "../useToast";

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import logger from "@/utils/logger";
 import { reportError } from "@/utils/errorReporter";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/components/useToast";
 
 export function useAudioContext() {
   const audioContextRef = useRef<AudioContext | null>(null);

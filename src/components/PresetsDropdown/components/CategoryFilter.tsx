@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../PresetsDropdown.module.css";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/components/useToast";
 
 type CategoryFilterProps = {
   selectedCategory: string;
