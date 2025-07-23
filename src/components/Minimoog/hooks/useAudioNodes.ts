@@ -4,11 +4,11 @@ import { AudioNodes } from "../types/synthTypes";
 import { mapCutoff } from "../utils/synthUtils";
 
 export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
+  const [isMixerReady, setIsMixerReady] = useState(false);
   const mixerNodeRef = useRef<GainNode | null>(null);
-  const filterNodeRef = useRef<BiquadFilterNode | null>(null);
+  const filterNodeRef = useRef<AudioWorkletNode | null>(null); // Changed back to AudioWorkletNode
   const loudnessEnvelopeGainRef = useRef<GainNode | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
-  const [isMixerReady, setIsMixerReady] = useState(false);
 
   const { filterCutoff, filterEmphasis, mainVolume, isMainActive } =
     useSynthStore();
@@ -18,29 +18,27 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
     if (!audioContext) return;
 
     let isMounted = true;
+
     (async () => {
       try {
-        // Create nodes
         // --- Mixer ---
         const mixer = audioContext.createGain();
         mixer.gain.value = 1;
         mixerNodeRef.current = mixer;
         setIsMixerReady(true);
 
-        // --- Saturation (unchanged) ---
-        const saturationNode = audioContext.createWaveShaper();
-        const saturationCurve = new Float32Array(4096);
-        for (let i = 0; i < 4096; i++) {
-          const x = (i * 2) / 4096 - 1;
-          saturationCurve[i] = Math.tanh(x * 1.5) / 1.5; // Subtle saturation
-        }
-        saturationNode.curve = saturationCurve;
-        saturationNode.oversample = "4x";
-
-        // --- Biquad Filter (replacing Moog ZDF) ---
-        const biquadFilter = audioContext.createBiquadFilter();
-        biquadFilter.type = "lowpass";
-        filterNodeRef.current = biquadFilter;
+        // --- Moog ZDF Filter ---
+        await audioContext.audioWorklet.addModule("/moog-zdf-processor.js");
+        const moogFilter = new AudioWorkletNode(
+          audioContext,
+          "moog-zdf-processor",
+          {
+            numberOfInputs: 1,
+            numberOfOutputs: 1,
+            outputChannelCount: [1],
+          }
+        );
+        filterNodeRef.current = moogFilter;
 
         // --- Loudness Envelope Gain ---
         const loudnessGain = audioContext.createGain();
@@ -52,23 +50,15 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
         masterGain.gain.value = 1;
         masterGainRef.current = masterGain;
 
-        // --- Connect: Mixer -> Saturation -> Biquad Filter -> Loudness Envelope -> Master -> Destination ---
-        if (
-          isMounted &&
-          mixer &&
-          saturationNode &&
-          biquadFilter &&
-          loudnessGain &&
-          masterGain
-        ) {
-          mixer.connect(biquadFilter);
-          // saturationNode.connect(biquadFilter);
-          biquadFilter.connect(loudnessGain);
+        // --- Connect: Mixer -> Moog ZDF Filter -> Loudness Envelope -> Master -> Destination ---
+        if (isMounted && mixer && moogFilter && loudnessGain && masterGain) {
+          mixer.connect(moogFilter);
+          moogFilter.connect(loudnessGain);
           loudnessGain.connect(masterGain);
           masterGain.connect(audioContext.destination);
         }
       } catch (error) {
-        console.error("Failed to initialize Biquad filter:", error);
+        console.error("Failed to initialize Moog ZDF filter:", error);
         return;
       }
     })();
@@ -95,25 +85,24 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
     };
   }, [audioContext]);
 
-  // Set filter cutoff and emphasis (Biquad Filter)
+  // Set filter cutoff and emphasis (Moog ZDF Filter)
   useEffect(() => {
     if (!filterNodeRef.current || !audioContext) return;
 
-    // Use the mapCutoff function to get the actual frequency
-    const actualFreq = mapCutoff(filterCutoff);
+    const cutoffParam = filterNodeRef.current.parameters.get("cutoff");
+    const resonanceParam = filterNodeRef.current.parameters.get("resonance");
 
-    // Clamp frequency to Web Audio API safe range
-    const clampedFreq = Math.max(20, Math.min(22050, actualFreq));
+    if (cutoffParam && resonanceParam) {
+      // Use the mapCutoff function to get the actual frequency
+      const actualFreq = mapCutoff(filterCutoff);
 
-    // Set Biquad filter parameters
-    filterNodeRef.current.frequency.setValueAtTime(
-      clampedFreq,
-      audioContext.currentTime
-    );
+      // Set Moog ZDF filter parameters
+      cutoffParam.setValueAtTime(actualFreq, audioContext.currentTime);
 
-    // Map emphasis (0-10) to Q value (0-5) for Biquad filter
-    const qValue = filterEmphasis / 2;
-    filterNodeRef.current.Q.setValueAtTime(qValue, audioContext.currentTime);
+      // Map emphasis (0-10) to resonance value (0-4) for Moog ZDF filter
+      const resonanceValue = filterEmphasis / 2.5; // Scale to 0-4 range
+      resonanceParam.setValueAtTime(resonanceValue, audioContext.currentTime);
+    }
   }, [filterCutoff, filterEmphasis, audioContext]);
 
   // Set master volume

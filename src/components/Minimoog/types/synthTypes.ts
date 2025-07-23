@@ -6,7 +6,7 @@ export type Oscillator = {
 
 export type AudioNodes = {
   mixerNode: GainNode | null;
-  filterNode: BiquadFilterNode | null;
+  filterNode: AudioWorkletNode | null; // Only AudioWorkletNode for Moog ZDF
   loudnessEnvelopeGain: GainNode | null;
   masterGain: GainNode | null;
   isMixerReady: boolean;
@@ -14,7 +14,7 @@ export type AudioNodes = {
 
 export type EnvelopeProps = {
   audioContext: AudioContext | null;
-  filterNode: AudioWorkletNode | BiquadFilterNode | null;
+  filterNode: AudioWorkletNode | null; // Only AudioWorkletNode for Moog ZDF
   loudnessEnvelopeGain: GainNode | null;
   osc1: Oscillator | null;
   osc2: Oscillator | null;
@@ -26,5 +26,5 @@ export type ModulationProps = {
   osc1: Oscillator | null;
   osc2: Oscillator | null;
   osc3: Oscillator | null;
-  filterNode: AudioWorkletNode | BiquadFilterNode | null;
+  filterNode: AudioWorkletNode | null; // Only AudioWorkletNode for Moog ZDF
 };

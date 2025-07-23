@@ -4,7 +4,7 @@ import { mapCutoff, noteNameToMidi } from "../utils/synthUtils";
 
 export function useFilterTracking(
   audioContext: AudioContext | null,
-  filterNode: BiquadFilterNode | null,
+  filterNode: AudioWorkletNode | null, // Changed back to AudioWorkletNode
   activeKeys: string | null
 ) {
   useEffect(() => {
@@ -24,14 +24,11 @@ export function useFilterTracking(
         baseCutoff *
         Math.pow(2, (keyTracking * (noteNumber - baseNoteNumber)) / 12);
 
-      // Clamp frequency to Web Audio API safe range
-      const clampedTrackedCutoff = Math.max(20, Math.min(22050, trackedCutoff));
-
-      // BiquadFilterNode case - set frequency directly
-      filterNode.frequency.setValueAtTime(
-        clampedTrackedCutoff,
-        audioContext.currentTime
-      );
+      // AudioWorkletNode case - set cutoff parameter
+      const cutoffParam = filterNode.parameters.get("cutoff");
+      if (cutoffParam) {
+        cutoffParam.setValueAtTime(trackedCutoff, audioContext.currentTime);
+      }
     }
   }, [filterNode, audioContext, activeKeys]); // Removed filterCutoff from dependencies
 }

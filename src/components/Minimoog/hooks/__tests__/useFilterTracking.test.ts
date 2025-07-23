@@ -11,15 +11,17 @@ vi.mock("../utils/synthUtils", () => ({
 
 describe("useFilterTracking", () => {
   let setValueAtTime: ReturnType<typeof vi.fn>;
-  let filterNode: BiquadFilterNode;
+  let filterNode: AudioWorkletNode;
 
   beforeEach(() => {
     setValueAtTime = vi.fn();
     filterNode = {
-      frequency: {
-        setValueAtTime,
+      parameters: {
+        get: vi.fn(() => ({
+          setValueAtTime,
+        })),
       },
-    } as unknown as BiquadFilterNode;
+    } as unknown as AudioWorkletNode;
 
     vi.spyOn(synthStore, "useSynthStore").mockImplementation(() => ({
       filterCutoff: 3,
