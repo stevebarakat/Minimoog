@@ -35,7 +35,9 @@ export function noteNameToMidi(note: string): number {
 export function mapEnvelopeTime(value: number): number {
   const minTime = 0.02; // 20ms
   const maxTime = 15; // 15s
-  return minTime * Math.pow(maxTime / minTime, value / 10);
+  const mapped = minTime * Math.pow(maxTime / minTime, value / 10);
+  console.log("mapEnvelopeTime:", value, "->", mapped);
+  return mapped;
 }
 
 /**

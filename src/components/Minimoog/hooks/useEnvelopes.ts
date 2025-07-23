@@ -135,6 +135,12 @@ export function useEnvelopes({
           // For smooth note transitions, start from current gain if it's not zero
           const currentGain = loudnessEnvelopeGain.gain.value;
           const startGain = currentGain > 0.01 ? currentGain * 0.3 : 0;
+          console.log(
+            "useEnvelopes: loudnessDecay",
+            loudnessDecay,
+            "loudnessDecayTime",
+            loudnessDecayTime
+          );
           scheduleEnvelopeAttack(loudnessEnvelopeGain.gain, {
             start: startGain,
             peak: 1,
@@ -196,6 +202,12 @@ export function useEnvelopes({
         if (decaySwitchOn) {
           if (loudnessEnvelopeGain) {
             const currentGain = loudnessEnvelopeGain.gain.value;
+            console.log(
+              "useEnvelopes (release): loudnessDecay",
+              loudnessDecay,
+              "loudnessDecayTime",
+              loudnessDecayTime
+            );
             scheduleEnvelopeRelease(loudnessEnvelopeGain.gain, {
               from: currentGain,
               to: 0,
@@ -206,7 +218,13 @@ export function useEnvelopes({
         } else {
           if (loudnessEnvelopeGain) {
             const currentGain = loudnessEnvelopeGain.gain.value;
-            const releaseTime = Math.max(0.01, loudnessDecayTime * 0.1); // At least 10ms
+            const releaseTime = Math.max(0.01, loudnessDecayTime); // At least 10ms
+            console.log(
+              "useEnvelopes (release, else): loudnessDecay",
+              loudnessDecay,
+              "loudnessDecayTime",
+              loudnessDecayTime
+            );
             scheduleEnvelopeRelease(loudnessEnvelopeGain.gain, {
               from: currentGain,
               to: 0,

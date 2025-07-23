@@ -45,11 +45,13 @@ function FilterEnvelope() {
             max={10000}
             step={100}
             label="Decay Time"
-            onChange={(position) =>
+            onChange={(position) => {
+              const decayValue = Number(knobPosToValue(position).toFixed(0));
+              console.log("Decay knob set to:", decayValue);
               setFilterEnvelope({
-                decay: Number(knobPosToValue(position).toFixed(0)),
-              })
-            }
+                decay: decayValue,
+              });
+            }}
             disabled={isDisabled}
           />
           <Knob

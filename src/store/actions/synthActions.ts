@@ -85,14 +85,24 @@ export function createSynthActions(
     setOsc3FilterEgSwitch: (on: boolean) => set({ osc3FilterEgSwitch: on }),
     setNoiseLfoSwitch: (on: boolean) => set({ noiseLfoSwitch: on }),
     setLoudnessEnvelope: (env) =>
-      set((state: SynthState) => ({
-        loudnessAttack:
-          env.attack !== undefined ? env.attack : state.loudnessAttack,
-        loudnessDecay:
-          env.decay !== undefined ? env.decay : state.loudnessDecay,
-        loudnessSustain:
-          env.sustain !== undefined ? env.sustain : state.loudnessSustain,
-      })),
+      set((state: SynthState) => {
+        const newAttack =
+          env.attack !== undefined ? env.attack : state.loudnessAttack;
+        const newDecay =
+          env.decay !== undefined ? env.decay : state.loudnessDecay;
+        const newSustain =
+          env.sustain !== undefined ? env.sustain : state.loudnessSustain;
+        console.log("setLoudnessEnvelope:", {
+          attack: newAttack,
+          decay: newDecay,
+          sustain: newSustain,
+        });
+        return {
+          loudnessAttack: newAttack,
+          loudnessDecay: newDecay,
+          loudnessSustain: newSustain,
+        };
+      }),
     setDecaySwitchOn: (on: boolean) => set({ decaySwitchOn: on }),
     setTunerOn: (on: boolean) => set({ tunerOn: on }),
     setAuxOutput: (value) =>

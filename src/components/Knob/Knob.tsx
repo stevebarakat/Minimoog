@@ -75,7 +75,7 @@ const Knob = React.memo(function Knob({
       )}
 
       <div className={styles.knob}>
-        <KnobRing type={type === "attackDecay" ? "arrow" : type} />
+        <KnobRing type={type === "attackDecay" ? "radial" : type} />
         {/* Tick marks around the knob */}
         {valueLabels && (
           <KnobTicks
@@ -102,9 +102,9 @@ const Knob = React.memo(function Knob({
           <div
             id={id}
             className={
-              type === "arrow" || type === "attackDecay"
-                ? cn(styles.arrow, disabled && "disabled")
-                : cn(styles.radial, disabled && "disabled")
+              type === "radial" || type === "attackDecay"
+                ? cn(styles.radial, disabled && "disabled")
+                : cn(styles.arrow, disabled && "disabled")
             }
             ref={knobRef}
             style={{

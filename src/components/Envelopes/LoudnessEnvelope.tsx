@@ -47,11 +47,13 @@ function LoudnessEnvelope() {
             max={10000}
             step={100}
             label="Decay Time"
-            onChange={(position) =>
+            onChange={(position) => {
+              const decayValue = Number(knobPosToValue(position).toFixed(0));
+              console.log("Loudness Decay knob set to:", decayValue);
               setLoudnessEnvelope({
-                decay: Number(knobPosToValue(position).toFixed(0)),
-              })
-            }
+                decay: decayValue,
+              });
+            }}
             disabled={isDisabled}
           />
           <Knob

@@ -56,6 +56,7 @@ export function scheduleEnvelopeRelease(
     now: number;
   }
 ) {
+  console.log("scheduleEnvelopeRelease:", { from, to, releaseTime, now });
   param.cancelScheduledValues(now);
   param.setValueAtTime(from, now);
   param.linearRampToValueAtTime(to, now + releaseTime);
