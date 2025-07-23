@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { OscillatorType } from "@/types";
 import { noteToFrequency } from "@/utils/noteToFrequency";
+import type { BaseOscillatorParams } from "../audio/baseOscillator";
 
 export type OscillatorFactoryConfig = {
   oscillatorKey: "oscillator1" | "oscillator2" | "oscillator3";
@@ -19,7 +20,9 @@ export type OscillatorInstance = {
   stop: () => void;
   getNode: () => OscillatorNode | null;
   getGainNode: () => GainNode;
-  update: (config: { waveform: string; range: string }) => void;
+  update: (
+    params: Partial<Pick<BaseOscillatorParams, "waveform" | "range" | "gain">>
+  ) => void;
   setFrequency: (frequency: number) => void;
 };
 
@@ -157,10 +160,12 @@ export function useOscillatorFactory(
       if (audioContext) {
         const lfo = audioContext.createOscillator();
         lfo.type = "sine";
-        lfo.frequency.value = 6; // 6 Hz vibrato
+        lfo.frequency.setValueAtTime(6, audioContext.currentTime); // 6 Hz vibrato
         const lfoGain = audioContext.createGain();
-        lfoGain.gain.value =
-          baseFreq * (Math.pow(2, clampedParams.vibratoAmount / 12) - 1);
+        lfoGain.gain.setValueAtTime(
+          baseFreq * (Math.pow(2, clampedParams.vibratoAmount / 12) - 1),
+          audioContext.currentTime
+        );
         lfo.connect(lfoGain);
         lfoGain.connect(oscNode.frequency);
         lfo.start();
@@ -183,11 +188,14 @@ export function useOscillatorFactory(
   // Volume control effect - memoized to prevent unnecessary updates
   useEffect(() => {
     if (oscRef.current) {
-      oscRef.current.getGainNode().gain.value = mixerState.enabled
-        ? boostedVolume
-        : 0;
+      oscRef.current
+        .getGainNode()
+        .gain.setValueAtTime(
+          mixerState.enabled ? boostedVolume : 0,
+          audioContext.currentTime
+        );
     }
-  }, [mixerState.enabled, boostedVolume]);
+  }, [mixerState.enabled, boostedVolume, audioContext]);
 
   // Waveform and range update effect - memoized config prevents unnecessary updates
   useEffect(() => {

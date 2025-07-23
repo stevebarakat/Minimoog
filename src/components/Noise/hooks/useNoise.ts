@@ -32,7 +32,10 @@ export function useNoise(
       // Always create the nodes
       gainRef.current = audioContext.createGain();
       const initialGain = mixer.noise.volume / 10;
-      gainRef.current.gain.value = isFinite(initialGain) ? initialGain : 0;
+      gainRef.current.gain.setValueAtTime(
+        isFinite(initialGain) ? initialGain : 0,
+        audioContext.currentTime
+      );
 
       noiseRef.current = new AudioWorkletNode(
         audioContext,
@@ -94,7 +97,10 @@ export function useNoise(
     if (gainRef.current) {
       const newGain = mixer.noise.volume / 10;
       // Guard against NaN and non-finite values
-      gainRef.current.gain.value = isFinite(newGain) ? newGain : 0;
+      gainRef.current.gain.setValueAtTime(
+        isFinite(newGain) ? newGain : 0,
+        audioContext.currentTime
+      );
     }
   }, [mixer.noise.volume]);
 }

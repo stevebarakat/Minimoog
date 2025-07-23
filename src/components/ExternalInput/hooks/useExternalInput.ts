@@ -80,7 +80,7 @@ export function useExternalInput(
     // Create audio nodes
     if (!gainRef.current) {
       gainRef.current = audioContext.createGain();
-      gainRef.current.gain.value = 0; // Start muted
+      gainRef.current.gain.setValueAtTime(0, audioContext.currentTime); // Start muted
     }
 
     if (!analyzerRef.current) {

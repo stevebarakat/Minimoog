@@ -202,9 +202,12 @@ export function useVibratoSetup(audioContext: AudioContext | null) {
 
       const lfo = audioContext.createOscillator();
       lfo.type = "sine";
-      lfo.frequency.value = 6; // 6 Hz vibrato
+      lfo.frequency.setValueAtTime(6, audioContext.currentTime); // 6 Hz vibrato
       const lfoGain = audioContext.createGain();
-      lfoGain.gain.value = baseFreq * (Math.pow(2, vibratoAmount / 12) - 1);
+      lfoGain.gain.setValueAtTime(
+        baseFreq * (Math.pow(2, vibratoAmount / 12) - 1),
+        audioContext.currentTime
+      );
       lfo.connect(lfoGain);
       lfoGain.connect(oscNode.frequency);
       lfo.start();

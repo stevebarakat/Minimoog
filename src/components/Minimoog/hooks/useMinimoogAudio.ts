@@ -4,14 +4,54 @@ import { useModulation } from "./useModulation";
 import { useEnvelopes } from "./useEnvelopes";
 import { useOverflowDirection } from "./useOverflowDirection";
 import { useNoise } from "@/components/Noise/hooks";
-import {
-  useOscillator1,
-  useOscillator2,
-  useOscillator3,
-} from "@/components/OscillatorBank/hooks";
+import { useOscillatorFactory } from "@/components/OscillatorBank/hooks/useOscillatorFactory";
+import { createOscillator1 } from "@/components/OscillatorBank/audio/oscillator1";
+import { createOscillator2 } from "@/components/OscillatorBank/audio/oscillator2";
+import { createOscillator3 } from "@/components/OscillatorBank/audio/oscillator3";
 import { useTuner } from "@/components/Tuner/hooks";
 import { useAuxOutput } from "@/components/Output/hooks";
 import { useMidiHandling } from "@/components/Keyboard/hooks";
+import type { OscillatorRange } from "@/components/OscillatorBank/audio/oscillator1";
+import {
+  OscillatorWaveform as Osc1Waveform,
+  OscillatorRange as Osc1Range,
+} from "@/components/OscillatorBank/audio/oscillator1";
+import {
+  OscillatorWaveform as Osc2Waveform,
+  OscillatorRange as Osc2Range,
+} from "@/components/OscillatorBank/audio/oscillator2";
+import {
+  OscillatorWaveform as Osc3Waveform,
+  OscillatorRange as Osc3Range,
+} from "@/components/OscillatorBank/audio/oscillator3";
+
+// Oscillator 1 types
+type Osc1Waveform =
+  | "triangle"
+  | "tri_saw"
+  | "sawtooth"
+  | "pulse1"
+  | "pulse2"
+  | "pulse3";
+type Osc1Range = "32" | "16" | "8" | "4" | "2" | "lo";
+// Oscillator 2 types
+type Osc2Waveform =
+  | "triangle"
+  | "tri_saw"
+  | "sawtooth"
+  | "pulse1"
+  | "pulse2"
+  | "pulse3";
+type Osc2Range = "32" | "16" | "8" | "4" | "2" | "lo";
+// Oscillator 3 types
+type Osc3Waveform =
+  | "triangle"
+  | "rev_saw"
+  | "sawtooth"
+  | "pulse1"
+  | "pulse2"
+  | "pulse3";
+type Osc3Range = "32" | "16" | "8" | "4" | "2" | "lo";
 
 export function useMinimoogAudio(audioContext: AudioContext | null) {
   const { mixerNode, filterNode, loudnessEnvelopeGain, masterGain } =
@@ -39,9 +79,67 @@ export function useMinimoogAudio(audioContext: AudioContext | null) {
     return clampedModWheel / 100;
   });
 
-  const osc1 = useOscillator1(validCtx, validMixer, vibratoAmount);
-  const osc2 = useOscillator2(validCtx, validMixer, vibratoAmount);
-  const osc3 = useOscillator3(validCtx, validMixer, vibratoAmount);
+  // Helper to cast range and waveform to correct types
+  function castOsc1(config: { range: string; waveform: string }) {
+    return {
+      range: config.range as Osc1Range,
+      waveform: config.waveform as Osc1Waveform,
+    };
+  }
+  function castOsc2(config: { range: string; waveform: string }) {
+    return {
+      range: config.range as Osc2Range,
+      waveform: config.waveform as Osc2Waveform,
+    };
+  }
+  function castOsc3(config: { range: string; waveform: string }) {
+    return {
+      range: config.range as Osc3Range,
+      waveform: config.waveform as Osc3Waveform,
+    };
+  }
+
+  const osc1 = useOscillatorFactory(
+    validCtx,
+    validMixer,
+    {
+      oscillatorKey: "oscillator1",
+      mixerKey: "osc1",
+      createOscillator: (config, mixerNode) =>
+        createOscillator1({ ...config, ...castOsc1(config) }, mixerNode),
+      detuneCents: 2, // osc1 slightly sharp
+      volumeBoost: 1.2,
+    },
+    vibratoAmount
+  );
+
+  const osc2 = useOscillatorFactory(
+    validCtx,
+    validMixer,
+    {
+      oscillatorKey: "oscillator2",
+      mixerKey: "osc2",
+      createOscillator: (config, mixerNode) =>
+        createOscillator2({ ...config, ...castOsc2(config) }, mixerNode),
+      detuneCents: -3, // osc2 slightly flat
+      volumeBoost: 1.15,
+    },
+    vibratoAmount
+  );
+
+  const osc3 = useOscillatorFactory(
+    validCtx,
+    validMixer,
+    {
+      oscillatorKey: "oscillator3",
+      mixerKey: "osc3",
+      createOscillator: (config, mixerNode) =>
+        createOscillator3({ ...config, ...castOsc3(config) }, mixerNode),
+      detuneCents: 1, // osc3 slightly sharp
+      volumeBoost: 1.1,
+    },
+    vibratoAmount
+  );
 
   // Set up modulation
   useModulation({ audioContext, osc1, osc2, osc3, filterNode });

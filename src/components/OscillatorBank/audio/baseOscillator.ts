@@ -49,7 +49,10 @@ export function createBaseOscillator(
   let osc: OscillatorNode | null = null;
   let currentParams = { ...params };
   const gainNode = params.audioContext.createGain();
-  gainNode.gain.value = params.gain ?? 1;
+  gainNode.gain.setValueAtTime(
+    params.gain ?? 1,
+    params.audioContext.currentTime
+  );
   if (mixerNode) {
     gainNode.connect(mixerNode);
   } else {
@@ -126,7 +129,10 @@ export function createBaseOscillator(
       }
     }
     if (typeof newParams.gain === "number") {
-      gainNode.gain.value = newParams.gain;
+      gainNode.gain.setValueAtTime(
+        newParams.gain,
+        params.audioContext.currentTime
+      );
     }
   }
 

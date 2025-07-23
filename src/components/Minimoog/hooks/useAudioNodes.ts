@@ -23,7 +23,7 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
       try {
         // --- Mixer ---
         const mixer = audioContext.createGain();
-        mixer.gain.value = 1;
+        mixer.gain.setValueAtTime(1, audioContext.currentTime);
         mixerNodeRef.current = mixer;
         setIsMixerReady(true);
 
@@ -42,12 +42,12 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
 
         // --- Loudness Envelope Gain ---
         const loudnessGain = audioContext.createGain();
-        loudnessGain.gain.value = 1;
+        loudnessGain.gain.setValueAtTime(1, audioContext.currentTime);
         loudnessEnvelopeGainRef.current = loudnessGain;
 
         // --- Master Gain ---
         const masterGain = audioContext.createGain();
-        masterGain.gain.value = 1;
+        masterGain.gain.setValueAtTime(1, audioContext.currentTime);
         masterGainRef.current = masterGain;
 
         // --- Connect: Mixer -> Moog ZDF Filter -> Loudness Envelope -> Master -> Destination ---

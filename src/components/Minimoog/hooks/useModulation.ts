@@ -53,9 +53,12 @@ export function useModulation({
     lfo.type = lfoWaveform;
     const minHz = 0.1;
     const maxHz = 20;
-    lfo.frequency.value = minHz * Math.pow(maxHz / minHz, lfoRate / 10);
+    lfo.frequency.setValueAtTime(
+      minHz * Math.pow(maxHz / minHz, lfoRate / 10),
+      audioContext.currentTime
+    );
     const lfoGain = audioContext.createGain();
-    lfoGain.gain.value = 1;
+    lfoGain.gain.setValueAtTime(1, audioContext.currentTime);
     lfo.connect(lfoGain);
     lfo.start();
     lfoNodeRef.current = lfo;
@@ -125,7 +128,10 @@ export function useModulation({
     // Create modulation-only OSC3
     const osc = audioContext.createOscillator();
     osc.type = mapOscillatorType(osc3State.waveform);
-    osc.frequency.value = osc3Control ? 440 : 6;
+    osc.frequency.setValueAtTime(
+      osc3Control ? 440 : 6,
+      audioContext.currentTime
+    );
     osc.start();
     modOsc3Ref.current = osc;
 
@@ -150,7 +156,7 @@ export function useModulation({
 
     // Create modulation gains
     modEnvelopeGainRef.current = audioContext.createGain();
-    modEnvelopeGainRef.current.gain.value = 0;
+    modEnvelopeGainRef.current.gain.setValueAtTime(0, audioContext.currentTime);
 
     modLeftGainRef.current = audioContext.createGain();
     modRightGainRef.current = audioContext.createGain();
@@ -176,14 +182,23 @@ export function useModulation({
     // Set crossfade mix
     const mix = modMix / 10;
     const depth = 5;
-    modLeftGainRef.current.gain.value = (1 - mix) * depth;
-    modRightGainRef.current.gain.value = mix * depth;
+    modLeftGainRef.current.gain.setValueAtTime(
+      (1 - mix) * depth,
+      audioContext.currentTime
+    );
+    modRightGainRef.current.gain.setValueAtTime(
+      mix * depth,
+      audioContext.currentTime
+    );
 
     // Connect modulation chain
     modLeftGainRef.current.connect(modSumGainRef.current);
     modRightGainRef.current.connect(modSumGainRef.current);
     modSumGainRef.current.connect(modWheelGainRef.current);
-    modWheelGainRef.current.gain.value = modWheel / 100;
+    modWheelGainRef.current.gain.setValueAtTime(
+      modWheel / 100,
+      audioContext.currentTime
+    );
 
     // Route to destinations
     if (oscillatorModulationOn && audioContext && modWheelGainRef.current) {
@@ -197,7 +212,10 @@ export function useModulation({
           else if (index === 2) modOsc3GainRef.current = modGain;
 
           const baseFreq = node.frequency.value || 440;
-          modGain.gain.value = baseFreq * 0.0595 * (modWheel / 100);
+          modGain.gain.setValueAtTime(
+            baseFreq * 0.0595 * (modWheel / 100),
+            audioContext.currentTime
+          );
 
           modWheelGainRef.current?.connect(modGain);
           modGain.connect(node.frequency);
@@ -229,7 +247,7 @@ export function useModulation({
 
         // Connect worklet output to a silent gain to complete the audio graph
         const silentGain = audioContext.createGain();
-        silentGain.gain.value = 0;
+        silentGain.gain.setValueAtTime(0, audioContext.currentTime);
         modMonitorWorklet.connect(silentGain);
 
         // Listen for modulation values from the worklet

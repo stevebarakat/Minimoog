@@ -30,7 +30,7 @@ export function useAuxOutput(
     // Create gain node if it doesn't exist
     if (!gainRef.current) {
       gainRef.current = audioContext.createGain();
-      gainRef.current.gain.value = 0; // Start muted
+      gainRef.current.gain.setValueAtTime(0, audioContext.currentTime); // Start muted
     }
 
     // Connect input node to aux output if provided

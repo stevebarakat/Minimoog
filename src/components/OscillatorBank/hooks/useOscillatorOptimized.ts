@@ -172,10 +172,12 @@ export function useOscillatorOptimized(
 
       const lfo = audioContext.createOscillator();
       lfo.type = "sine";
-      lfo.frequency.value = 6; // 6 Hz vibrato
+      lfo.frequency.setValueAtTime(6, audioContext.currentTime); // 6 Hz vibrato
       const lfoGain = audioContext.createGain();
-      lfoGain.gain.value =
-        baseFreq * (Math.pow(2, clampedParams.vibratoAmount / 12) - 1);
+      lfoGain.gain.setValueAtTime(
+        baseFreq * (Math.pow(2, clampedParams.vibratoAmount / 12) - 1),
+        audioContext.currentTime
+      );
       lfo.connect(lfoGain);
       lfoGain.connect(oscNode.frequency);
       lfo.start();
@@ -197,11 +199,14 @@ export function useOscillatorOptimized(
   // Volume control effect - memoized to prevent unnecessary updates
   useEffect(() => {
     if (oscRef.current) {
-      oscRef.current.getGainNode().gain.value = mixerState.enabled
-        ? boostedVolume
-        : 0;
+      oscRef.current
+        .getGainNode()
+        .gain.setValueAtTime(
+          mixerState.enabled ? boostedVolume : 0,
+          audioContext.currentTime
+        );
     }
-  }, [mixerState.enabled, boostedVolume]);
+  }, [mixerState.enabled, boostedVolume, audioContext]);
 
   // Waveform and range update effect - memoized config prevents unnecessary updates
   useEffect(() => {
