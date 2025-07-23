@@ -44,7 +44,6 @@ export function useAudioContext() {
 
   const dispose = async () => {
     if (audioContextRef.current) {
-      // Use suspend instead of close to allow resuming later
       if (audioContextRef.current.state === "running") {
         await audioContextRef.current.suspend();
       }
@@ -56,7 +55,6 @@ export function useAudioContext() {
   useEffect(() => {
     return () => {
       if (audioContextRef.current) {
-        // Only close the context when the component unmounts
         audioContextRef.current.close();
         audioContextRef.current = null;
         setIsInitialized(false);

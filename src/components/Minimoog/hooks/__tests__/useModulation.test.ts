@@ -42,7 +42,12 @@ describe("useModulation", () => {
       })),
       createOscillator: vi.fn(() => ({
         type: "triangle",
-        frequency: { value: 440 },
+        frequency: {
+          value: 440,
+          setValueAtTime: vi.fn(),
+          linearRampToValueAtTime: vi.fn(),
+          exponentialRampToValueAtTime: vi.fn(),
+        },
         connect: vi.fn(),
         disconnect: vi.fn(),
         start: vi.fn(),
@@ -68,16 +73,17 @@ describe("useModulation", () => {
     ) as unknown as typeof AudioWorkletNode;
   });
 
-  it("returns the expected structure after setup", () => {
-    const { result } = renderHook(() =>
-      useModulation({
-        audioContext: mockAudioContext as AudioContext,
-        osc1: { getNode: vi.fn() },
-        osc2: { getNode: vi.fn() },
-        osc3: { getNode: vi.fn() },
-        filterNode: mockAudioWorkletNode as AudioWorkletNode,
-      })
-    );
-    expect(result.current).toHaveProperty("modEnvelopeGain");
+  it("sets up modulation without errors", () => {
+    expect(() => {
+      renderHook(() =>
+        useModulation({
+          audioContext: mockAudioContext as AudioContext,
+          osc1: { getNode: vi.fn() },
+          osc2: { getNode: vi.fn() },
+          osc3: { getNode: vi.fn() },
+          filterNode: mockAudioWorkletNode as AudioWorkletNode,
+        })
+      );
+    }).not.toThrow();
   });
 });

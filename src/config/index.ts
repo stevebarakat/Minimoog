@@ -17,16 +17,8 @@ import {
   PERFORMANCE,
 } from "./constants";
 
-// ============================================================================
-// ENVIRONMENT DETECTION
-// ============================================================================
-
 const isDevelopment = import.meta.env.DEV;
 const isTest = import.meta.env.MODE === "test";
-
-// ============================================================================
-// CONFIGURATION GETTERS
-// ============================================================================
 
 /**
  * Get environment-specific configuration
@@ -65,10 +57,6 @@ export function getPerformanceConfig() {
 export function getFeatureFlags() {
   return FEATURES;
 }
-
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
 
 /**
  * Get a parameter value within its defined range
@@ -139,10 +127,6 @@ export function isFeatureEnabled(featurePath: string): boolean {
   return Boolean(current);
 }
 
-// ============================================================================
-// AUDIO UTILITIES
-// ============================================================================
-
 /**
  * Get audio context configuration
  */
@@ -177,10 +161,6 @@ export function getExternalInputAnalyzerConfig() {
   };
 }
 
-// ============================================================================
-// MIDI UTILITIES
-// ============================================================================
-
 /**
  * Convert MIDI note number to frequency
  */
@@ -206,10 +186,6 @@ export function getOctaveRangeMultiplier(
   return MIDI.OCTAVE_RANGES[range];
 }
 
-// ============================================================================
-// EXPORTS
-// ============================================================================
-
 export {
   AUDIO,
   MIDI,
@@ -224,7 +200,6 @@ export {
   PERFORMANCE,
 };
 
-// Export configuration as default
 export default {
   AUDIO,
   MIDI,

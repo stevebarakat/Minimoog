@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/test/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import type { Oscillator } from "../types/synthTypes";
@@ -160,7 +160,7 @@ describe("Minimoog - Integration Tests", () => {
   });
 
   it("renders the complete Minimoog synthesizer", () => {
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     // Check for main sections
     expect(screen.getByText("Controllers")).toBeInTheDocument();
@@ -183,7 +183,7 @@ describe("Minimoog - Integration Tests", () => {
   });
 
   it("displays all synthesizer controls correctly", () => {
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     // Check for oscillator controls
     expect(
@@ -232,7 +232,7 @@ describe("Minimoog - Integration Tests", () => {
 
   it("handles power state correctly", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const powerButton = screen.getByRole("button", { name: "Power" });
 
@@ -252,14 +252,14 @@ describe("Minimoog - Integration Tests", () => {
     });
 
     // Re-render to see the change
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
     const newPowerButton = screen.getAllByRole("button", { name: "Power" })[1];
     expect(newPowerButton).toHaveAttribute("aria-pressed", "false");
   });
 
   it("allows users to interact with oscillator controls", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const osc1VolumeKnob = screen.getByRole("slider", {
       name: "Oscillator 1 Volume",
@@ -276,7 +276,7 @@ describe("Minimoog - Integration Tests", () => {
 
   it("allows users to interact with filter controls", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const cutoffKnob = screen.getByRole("slider", { name: "Cutoff Frequency" });
     const emphasisKnob = screen.getByRole("slider", { name: "Emphasis" });
@@ -291,7 +291,7 @@ describe("Minimoog - Integration Tests", () => {
 
   it("allows users to interact with envelope controls", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const filterAttackKnob = screen.getAllByRole("slider", {
       name: "Attack Time",
@@ -311,7 +311,7 @@ describe("Minimoog - Integration Tests", () => {
 
   it("allows users to toggle modulation switches", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const filterModSwitch = screen.getByRole("button", {
       name: "Filter Modulation",
@@ -327,7 +327,7 @@ describe("Minimoog - Integration Tests", () => {
 
   it("supports keyboard navigation through all controls", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     // Start with first control and tab through
     const firstKnob = screen.getAllByRole("slider")[0];
@@ -400,7 +400,7 @@ describe("Minimoog - Integration Tests", () => {
       return mockState;
     });
 
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     // Check that controls are functionally disabled
     const allKnobs = screen.getAllByRole("slider");
@@ -473,7 +473,7 @@ describe("Minimoog - Integration Tests", () => {
       return mockState;
     });
 
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const osc1VolumeKnob = screen.getByRole("slider", {
       name: "Oscillator 1 Volume",
@@ -545,7 +545,7 @@ describe("Minimoog - Integration Tests", () => {
       return mockState;
     });
 
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     // Verify the new values are displayed
     const allKnobs = screen.getAllByRole("slider");
@@ -570,7 +570,7 @@ describe("Minimoog - Integration Tests", () => {
   });
 
   it("maintains proper layout structure", () => {
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     // Check that the main sections are present and properly structured
     expect(screen.getByText("Controllers")).toBeInTheDocument();
@@ -585,7 +585,7 @@ describe("Minimoog - Integration Tests", () => {
 
   it("supports complete synthesizer workflow", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     // Simulate a typical synthesizer workflow
     const osc1VolumeKnob = screen.getByRole("slider", {
@@ -623,7 +623,7 @@ describe("Minimoog - Integration Tests", () => {
 
   it("handles multiple rapid interactions correctly", async () => {
     const user = userEvent.setup();
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const osc1VolumeKnob = screen.getByRole("slider", {
       name: "Oscillator 1 Volume",
@@ -640,7 +640,7 @@ describe("Minimoog - Integration Tests", () => {
   });
 
   it("renders presets dropdown correctly", () => {
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const presetsButton = screen.getByRole("button", {
       name: "Select a preset",
@@ -658,7 +658,7 @@ describe("Minimoog - Integration Tests", () => {
       dispose: mockDispose,
     });
 
-    render(<Minimoog />);
+    render(<Minimoog />, { withToast: true });
 
     const presetsButton = screen.getByRole("button", {
       name: "Select a preset",

@@ -13,10 +13,8 @@ export function createInitialState(): Omit<
   | "setOscillator2"
   | "setOscillator3"
 > {
-  // Get the Fat Bass preset
   const fatBassPreset = getPresetById("fat-bass");
 
-  // Default state values (for properties not covered by the preset)
   const defaultState: Omit<
     SynthState,
     | "setActiveKeys"
@@ -27,12 +25,19 @@ export function createInitialState(): Omit<
     | "setOscillator2"
     | "setOscillator3"
   > = {
+    // Audio context state
     isDisabled: true,
+
+    // Keyboard state
     activeKeys: null,
     keyboardRef: { synth: null },
+
+    // Controller state
     pitchWheel: SYNTH_PARAMS.PITCH_WHEEL.DEFAULT,
     modWheel: SYNTH_PARAMS.MOD_WHEEL.DEFAULT,
     masterTune: SYNTH_PARAMS.MASTER_TUNE?.DEFAULT ?? 0,
+
+    // Oscillator state
     oscillator1: {
       waveform: "sawtooth",
       frequency: MIDI.A4_FREQUENCY,
@@ -51,6 +56,8 @@ export function createInitialState(): Omit<
       range: "8",
       enabled: true,
     },
+
+    // Mixer state
     mixer: {
       osc1: { enabled: true, volume: 8 },
       osc2: { enabled: true, volume: 8 },
@@ -60,8 +67,12 @@ export function createInitialState(): Omit<
     },
     mainVolume: SYNTH_PARAMS.VOLUME.DEFAULT,
     isMainActive: true,
+
+    // Glide state
     glideOn: false,
     glideTime: SYNTH_PARAMS.GLIDE.TIME.DEFAULT,
+
+    // Filter state
     filterAttack: SYNTH_PARAMS.FILTER.ATTACK.DEFAULT,
     filterDecay: SYNTH_PARAMS.FILTER.DECAY.DEFAULT,
     filterSustain: SYNTH_PARAMS.FILTER.SUSTAIN.DEFAULT,
@@ -71,10 +82,14 @@ export function createInitialState(): Omit<
     filterModulationOn: false,
     keyboardControl1: false,
     keyboardControl2: false,
+
+    // Loudness envelope state
     loudnessAttack: SYNTH_PARAMS.LOUDNESS.ATTACK.DEFAULT,
     loudnessDecay: SYNTH_PARAMS.LOUDNESS.DECAY.DEFAULT,
     loudnessSustain: SYNTH_PARAMS.LOUDNESS.SUSTAIN.DEFAULT,
     decaySwitchOn: false,
+
+    // Modulation state
     oscillatorModulationOn: false,
     lfoWaveform: "triangle",
     lfoRate: SYNTH_PARAMS.LFO.RATE.DEFAULT,
@@ -82,6 +97,8 @@ export function createInitialState(): Omit<
     osc3Control: true,
     osc3FilterEgSwitch: true,
     noiseLfoSwitch: true,
+
+    // Output state
     tunerOn: false,
     auxOutput: {
       enabled: false,
@@ -89,12 +106,10 @@ export function createInitialState(): Omit<
     },
   };
 
-  // If Fat Bass preset exists, merge it with the default state
   if (fatBassPreset) {
     const presetParameters = convertPresetToStoreFormat(fatBassPreset);
     return { ...defaultState, ...presetParameters };
   }
 
-  // Fallback to default state if preset not found
   return defaultState;
 }

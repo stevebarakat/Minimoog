@@ -24,7 +24,7 @@ class ErrorBoundaryInner extends React.Component<
   }
 
   componentDidCatch() {
-    // Optionally: log to error reporting service here
+    // Error logging can be added here
   }
 
   render() {

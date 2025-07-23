@@ -44,16 +44,22 @@ export type MixerState = {
 };
 
 export type SynthState = {
-  // Audio context state
+  // ============================================================================
+  // AUDIO CONTEXT STATE
+  // ============================================================================
   isDisabled: boolean;
 
-  // Keyboard state
+  // ============================================================================
+  // KEYBOARD STATE
+  // ============================================================================
   activeKeys: Note | null;
   keyboardRef: {
     synth: SynthObject | null;
   };
 
-  // Controller state
+  // ============================================================================
+  // CONTROLLER STATE
+  // ============================================================================
   pitchWheel: number;
   modWheel: number;
   masterTune: number; // -2 to +2 semitones
@@ -64,21 +70,25 @@ export type SynthState = {
   mainVolume: number; // 0-10, controls the final output gain
   isMainActive: boolean; // true = muted, false = unmuted
 
-  // Glide
+  // ============================================================================
+  // GLIDE STATE
+  // ============================================================================
   glideOn: boolean;
   glideTime: number;
 
-  // Filter envelope (contour)
+  // ============================================================================
+  // FILTER STATE
+  // ============================================================================
   filterAttack: number; // 0-10
   filterDecay: number; // 0-10
   filterSustain: number; // 0-10
-
-  // Filter controls
   filterCutoff: number; // -4 to 4
   filterEmphasis: number; // 0-10
   filterContourAmount: number; // 0-10
 
-  // New switches
+  // ============================================================================
+  // MODULATION STATE
+  // ============================================================================
   filterModulationOn: boolean;
   keyboardControl1: boolean;
   keyboardControl2: boolean;
@@ -86,22 +96,22 @@ export type SynthState = {
   lfoWaveform: "triangle" | "square";
   lfoRate: number; // 0-10
   osc3Control: boolean;
-
   modMix: number;
-
   osc3FilterEgSwitch: boolean;
   noiseLfoSwitch: boolean;
 
-  // Add loudness envelope state
+  // ============================================================================
+  // ENVELOPE STATE
+  // ============================================================================
   loudnessAttack: number;
   loudnessDecay: number;
   loudnessSustain: number;
   decaySwitchOn: boolean;
 
-  // Tuner state
+  // ============================================================================
+  // OUTPUT STATE
+  // ============================================================================
   tunerOn: boolean;
-
-  // Aux output state
   auxOutput: {
     enabled: boolean;
     volume: number;
@@ -109,17 +119,36 @@ export type SynthState = {
 };
 
 export type SynthActions = {
+  // ============================================================================
+  // AUDIO CONTEXT ACTIONS
+  // ============================================================================
   setIsDisabled: (disabled: boolean) => void;
+
+  // ============================================================================
+  // KEYBOARD ACTIONS
+  // ============================================================================
   setActiveKeys: (
     key: Note | null | ((prev: Note | null) => Note | null)
   ) => void;
   setKeyboardRef: (ref: { synth: SynthObject | null }) => void;
+
+  // ============================================================================
+  // CONTROLLER ACTIONS
+  // ============================================================================
   setPitchWheel: (value: number) => void;
   setModWheel: (value: number) => void;
   setMasterTune: (value: number) => void;
+
+  // ============================================================================
+  // OSCILLATOR ACTIONS
+  // ============================================================================
   setOscillator1: (osc: Partial<OscillatorState>) => void;
   setOscillator2: (osc: Partial<OscillatorState>) => void;
   setOscillator3: (osc: Partial<OscillatorState>) => void;
+
+  // ============================================================================
+  // MIXER ACTIONS
+  // ============================================================================
   setMixerSource: (
     source: "osc1" | "osc2" | "osc3",
     value: Partial<MixerSourceState>
@@ -128,8 +157,16 @@ export type SynthActions = {
   setMixerExternal: (value: Partial<MixerExternalState>) => void;
   setMainVolume: (value: number) => void;
   setIsMainActive: (value: boolean) => void;
+
+  // ============================================================================
+  // GLIDE ACTIONS
+  // ============================================================================
   setGlideOn: (on: boolean) => void;
   setGlideTime: (time: number) => void;
+
+  // ============================================================================
+  // FILTER ACTIONS
+  // ============================================================================
   setFilterEnvelope: (env: {
     attack?: number;
     decay?: number;
@@ -141,6 +178,10 @@ export type SynthActions = {
   setFilterModulationOn: (on: boolean) => void;
   setKeyboardControl1: (on: boolean) => void;
   setKeyboardControl2: (on: boolean) => void;
+
+  // ============================================================================
+  // MODULATION ACTIONS
+  // ============================================================================
   setOscillatorModulationOn: (on: boolean) => void;
   setLfoWaveform: (waveform: "triangle" | "square") => void;
   setLfoRate: (rate: number) => void;
@@ -148,14 +189,26 @@ export type SynthActions = {
   setModMix: (value: number) => void;
   setOsc3FilterEgSwitch: (on: boolean) => void;
   setNoiseLfoSwitch: (on: boolean) => void;
+
+  // ============================================================================
+  // ENVELOPE ACTIONS
+  // ============================================================================
   setLoudnessEnvelope: (env: {
     attack?: number;
     decay?: number;
     sustain?: number;
   }) => void;
   setDecaySwitchOn: (on: boolean) => void;
+
+  // ============================================================================
+  // OUTPUT ACTIONS
+  // ============================================================================
   setTunerOn: (on: boolean) => void;
   setAuxOutput: (value: Partial<{ enabled: boolean; volume: number }>) => void;
+
+  // ============================================================================
+  // PRESET ACTIONS
+  // ============================================================================
   loadPreset: (preset: Partial<SynthState>) => void;
   updateURL: () => void;
 };

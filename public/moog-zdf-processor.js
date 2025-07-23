@@ -47,26 +47,20 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
 
   constructor() {
     super();
-    // Filter states for the 4-pole ladder filter
     this.stage = [0, 0, 0, 0];
     this.sampleRate = sampleRate;
 
-    // Parameter smoothing to prevent zipper noise
     this.smoothedCutoff = AUDIO_CONSTANTS.MOOG_FILTER.DEFAULT_CUTOFF;
     this.smoothedResonance = AUDIO_CONSTANTS.MOOG_FILTER.DEFAULT_RESONANCE;
     this.smoothingCoeff = AUDIO_CONSTANTS.MOOG_FILTER.SMOOTHING_COEFFICIENT;
 
-    // Pre-compute constants
     this.T = 1 / this.sampleRate;
     this.T2 = this.T / 2;
 
-    // Oversampling factor - increased for better quality
     this.oversampleFactor = AUDIO_CONSTANTS.MOOG_FILTER.OVERSAMPLE_FACTOR;
 
-    // Safety limits - more authentic to original
     this.maxResonance = AUDIO_CONSTANTS.MOOG_FILTER.MAX_RESONANCE;
 
-    // Original Minimoog characteristics
     this.temperatureDrift = AUDIO_CONSTANTS.MOOG_FILTER.TEMPERATURE_DRIFT;
     this.componentTolerance = AUDIO_CONSTANTS.MOOG_FILTER.COMPONENT_TOLERANCE;
     this.thermalNoise = AUDIO_CONSTANTS.MOOG_FILTER.THERMAL_NOISE;
@@ -127,19 +121,16 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
     const input = inputs[0][0] || [];
     const output = outputs[0][0] || [];
 
-    // Optimize parameter access - only check length once per buffer
     const cutoffValues = parameters.cutoff;
     const resonanceValues = parameters.resonance;
     const isCutoffConstant = cutoffValues.length === 1;
     const isResonanceConstant = resonanceValues.length === 1;
 
-    // Get initial values with validation - use original Minimoog range
     const initialCutoff = isCutoffConstant ? cutoffValues[0] : cutoffValues[0];
     const initialResonance = isResonanceConstant
       ? resonanceValues[0]
       : resonanceValues[0];
 
-    // Validate and smooth parameters - practical digital audio range
     const targetCutoff = Math.max(
       AUDIO_CONSTANTS.MOOG_FILTER.MIN_CUTOFF,
       Math.min(AUDIO_CONSTANTS.MOOG_FILTER.MAX_CUTOFF, initialCutoff)
@@ -169,7 +160,6 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
     for (let i = 0; i < output.length; i++) {
       const inputSample = input[i] || 0;
 
-      // Get current parameter values (handle both constant and variable rates)
       let fc, res;
       if (isCutoffConstant && isResonanceConstant) {
         fc = this.smoothedCutoff;
@@ -188,7 +178,6 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
               Math.min(this.maxResonance, resonanceValues[i])
             );
 
-        // Apply smoothing for variable rate parameters
         fc = this.smoothParameter(
           this.smoothedCutoff,
           rawCutoff,
@@ -200,16 +189,11 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
           this.smoothingCoeff
         );
 
-        // Update smoothed values for next iteration
         this.smoothedCutoff = fc;
         this.smoothedResonance = res;
       }
 
-      // Compute filter coefficient if needed
       const currentG = G !== null ? G : this.prewarpFrequency(fc);
-
-      // Authentic to original Minimoog emphasis behavior
-      // Apply non-linear curve to resonance for more musical control
       let resonanceValue;
 
       if (res < AUDIO_CONSTANTS.FILTER_MAPPING.RESONANCE.LINEAR_THRESHOLD) {
@@ -258,9 +242,6 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
           this.addAnalogCharacteristics(oversampledInput)
         );
 
-        // Four cascaded one-pole filters (Topology-Preserving Transform)
-        // This implements the classic Moog ladder filter structure
-        // Each stage has slightly different characteristics for authenticity
         this.stage[0] += currentG * (x - this.stage[0]);
         this.stage[1] +=
           currentG *
@@ -275,13 +256,11 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
           (this.saturate(this.addAnalogCharacteristics(this.stage[2])) -
             this.stage[3]);
 
-        // Update input for next oversample iteration
         if (oversample < this.oversampleFactor - 1) {
           oversampledInput = inputSample - resonanceValue * this.stage[3];
         }
       }
 
-      // Output is the last stage with final saturation and analog characteristics
       output[i] = this.saturate(this.addAnalogCharacteristics(this.stage[3]));
     }
 

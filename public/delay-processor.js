@@ -57,15 +57,12 @@ class DelayProcessor extends AudioWorkletProcessor {
     const inputChannel = input[0];
     const outputChannel = output[0];
 
-    // Get current parameter values
     const currentDelayTime = parameters.delayTime[0] || this.delayTime;
     const currentFeedback = parameters.feedback[0] || this.feedback;
     const currentMix = parameters.mix[0] || this.mix;
 
-    // Calculate buffer size based on delay time
     const newBufferSize = Math.floor(currentDelayTime * sampleRate);
 
-    // Resize buffer if needed
     if (newBufferSize !== this.bufferSize) {
       this.bufferSize = newBufferSize;
       this.buffer = new Float32Array(this.bufferSize);
@@ -76,19 +73,15 @@ class DelayProcessor extends AudioWorkletProcessor {
     for (let i = 0; i < inputChannel.length; i++) {
       const inputSample = inputChannel[i];
 
-      // Read from delay buffer
       const delayedSample = this.buffer[this.readIndex] || 0;
 
-      // Calculate output (dry + wet)
       const drySignal = inputSample * (1 - currentMix);
       const wetSignal = delayedSample * currentMix;
       outputChannel[i] = drySignal + wetSignal;
 
-      // Write to delay buffer with feedback
       this.buffer[this.writeIndex] =
         inputSample + delayedSample * currentFeedback;
 
-      // Update indices
       this.writeIndex = (this.writeIndex + 1) % this.bufferSize;
       this.readIndex = (this.readIndex + 1) % this.bufferSize;
     }

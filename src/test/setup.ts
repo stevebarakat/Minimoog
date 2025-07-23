@@ -1,36 +1,31 @@
-// Vitest setup file
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 import { AUDIO } from "@/config";
 
-// Mock Web Audio API for jsdom
 if (typeof global.GainNode === "undefined") {
   // @ts-expect-error - Mock for testing
   global.GainNode = class MockGainNode {};
 }
 
-// Mock navigator.requestMIDIAccess for MIDI tests
 global.navigator.requestMIDIAccess = vi.fn().mockResolvedValue({
   inputs: new Map(),
   onstatechange: null,
 });
 
-// Mock window.matchMedia for media query tests
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
-    addListener: vi.fn(), // deprecated
-    removeListener: vi.fn(), // deprecated
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
 });
 
-// Create a comprehensive AudioParam mock
 function createAudioParamMock() {
   return {
     value: 0,
@@ -44,7 +39,6 @@ function createAudioParamMock() {
   };
 }
 
-// Create a comprehensive GainNode mock
 function createGainNodeMock() {
   return {
     gain: createAudioParamMock(),
@@ -54,7 +48,6 @@ function createGainNodeMock() {
   };
 }
 
-// Create a comprehensive OscillatorNode mock
 function createOscillatorNodeMock() {
   return {
     frequency: createAudioParamMock(),
@@ -68,7 +61,6 @@ function createOscillatorNodeMock() {
   };
 }
 
-// Create a comprehensive BiquadFilterNode mock
 function createBiquadFilterNodeMock() {
   return {
     frequency: createAudioParamMock(),
@@ -82,7 +74,6 @@ function createBiquadFilterNodeMock() {
   };
 }
 
-// Create a comprehensive AnalyserNode mock
 function createAnalyserNodeMock() {
   return {
     fftSize: AUDIO.TEST_FFT_SIZE,
@@ -110,7 +101,6 @@ function createMediaElementAudioSourceNodeMock() {
   };
 }
 
-// Create a comprehensive AudioWorkletNode mock
 function createAudioWorkletNodeMock() {
   return {
     port: {
@@ -126,7 +116,6 @@ function createAudioWorkletNodeMock() {
   };
 }
 
-// Create a comprehensive WaveShaperNode mock
 function createWaveShaperNodeMock() {
   return {
     curve: null,
@@ -137,10 +126,8 @@ function createWaveShaperNodeMock() {
   };
 }
 
-// Create a comprehensive AudioContext mock
 function createAudioContextMock() {
   const context = {
-    // Properties
     sampleRate: AUDIO.TEST_SAMPLE_RATE,
     currentTime: 0,
     state: "running",
@@ -153,8 +140,6 @@ function createAudioContextMock() {
     audioWorklet: {
       addModule: vi.fn().mockResolvedValue(undefined),
     },
-
-    // Methods
     createGain: vi.fn(() => {
       const gainNode = createGainNodeMock();
       gainNode.context = context;
@@ -197,12 +182,10 @@ function createAudioContextMock() {
       return waveShaper;
     }),
 
-    // AudioContext lifecycle methods
     close: vi.fn().mockResolvedValue(undefined),
     suspend: vi.fn().mockResolvedValue(undefined),
     resume: vi.fn().mockResolvedValue(undefined),
 
-    // Legacy method for compatibility
     addModule: vi.fn().mockResolvedValue(undefined),
   };
 

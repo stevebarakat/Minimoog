@@ -5,7 +5,7 @@ Object.defineProperty(navigator, "clipboard", {
   configurable: true,
 });
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@/test/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import PresetsDropdown from "../PresetsDropdown";
@@ -154,7 +154,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
 
   it("opens preset menu when user clicks dropdown", async () => {
     const user = userEvent.setup();
-    render(<PresetsDropdown disabled={false} />);
+    render(<PresetsDropdown disabled={false} />, { withToast: true });
 
     const dropdownTrigger = screen.getByRole("button", {
       name: /select a preset/i,
@@ -170,7 +170,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
   it("loads a preset when user selects one", async () => {
     const user = userEvent.setup();
 
-    render(<PresetsDropdown disabled={false} />);
+    render(<PresetsDropdown disabled={false} />, { withToast: true });
 
     // Open the dropdown
     const dropdownTrigger = screen.getByRole("button", {
@@ -199,7 +199,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
 
   it("filters presets by category when user selects category", async () => {
     const user = userEvent.setup();
-    render(<PresetsDropdown disabled={false} />);
+    render(<PresetsDropdown disabled={false} />, { withToast: true });
 
     // Open dropdown
     const dropdownTrigger = screen.getByRole("button", {
@@ -224,7 +224,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
   it("copies URL when user clicks copy button", async () => {
     const user = userEvent.setup();
 
-    render(<PresetsDropdown disabled={false} />);
+    render(<PresetsDropdown disabled={false} />, { withToast: true });
 
     // Find and click the copy URL button
     const copyButton = screen.getByRole("button", {
@@ -237,7 +237,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
   });
 
   it("is disabled when synth is not initialized", () => {
-    render(<PresetsDropdown disabled={true} />);
+    render(<PresetsDropdown disabled={true} />, { withToast: true });
 
     const dropdownTrigger = screen.getByRole("button", {
       name: /select a preset/i,
@@ -247,7 +247,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
 
   it("shows loading state while presets are being loaded", async () => {
     const user = userEvent.setup();
-    render(<PresetsDropdown disabled={false} />);
+    render(<PresetsDropdown disabled={false} />, { withToast: true });
 
     // Open dropdown
     const dropdownTrigger = screen.getByRole("button", {
@@ -263,7 +263,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
 
   it("closes dropdown when user clicks outside", async () => {
     const user = userEvent.setup();
-    render(<PresetsDropdown disabled={false} />);
+    render(<PresetsDropdown disabled={false} />, { withToast: true });
 
     // Open dropdown
     const dropdownTrigger = screen.getByRole("button", {
@@ -287,7 +287,7 @@ describe("PresetsDropdown - User Behavior Tests", () => {
 
   it("supports keyboard navigation", async () => {
     const user = userEvent.setup();
-    render(<PresetsDropdown disabled={false} />);
+    render(<PresetsDropdown disabled={false} />, { withToast: true });
 
     // Open dropdown with keyboard
     const dropdownTrigger = screen.getByRole("button", {

@@ -8,7 +8,5 @@ describe("useOverflowDirection", () => {
     expect(result.current).toHaveProperty("current");
   });
 
-  // NOTE: We cannot reliably test event listener setup in jsdom/RTL because
-  // the effect runs before the ref is assigned, so the event listener is never set up.
-  // This is a limitation of React Testing Library and jsdom.
+  // Event listener setup cannot be reliably tested in jsdom/RTL due to timing issues
 });

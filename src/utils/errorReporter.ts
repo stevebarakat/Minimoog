@@ -6,5 +6,4 @@ import logger from "./logger";
  */
 export function reportError(error: Error, context?: Record<string, unknown>) {
   logger.error("[ErrorReporter]", error, context);
-  // TODO: Send error to backend or external service
 }

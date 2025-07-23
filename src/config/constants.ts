@@ -3,29 +3,20 @@
  * This file contains all hard-coded values that were previously scattered throughout the codebase
  */
 
-// ============================================================================
-// AUDIO CONSTANTS
-// ============================================================================
-
 export const AUDIO = {
-  // Sample rates
   DEFAULT_SAMPLE_RATE: 44100,
   TEST_SAMPLE_RATE: 44100,
 
-  // Buffer sizes
   DEFAULT_FFT_SIZE: 256,
   TEST_FFT_SIZE: 2048,
   DEFAULT_FREQUENCY_BIN_COUNT: 128,
   TEST_FREQUENCY_BIN_COUNT: 1024,
 
-  // Modulation buffer
   MODULATION_BUFFER_SIZE_MULTIPLIER: 2, // 2 seconds
 
-  // Analyzer settings
   EXTERNAL_INPUT_FFT_SIZE: 256,
   EXTERNAL_INPUT_FREQUENCY_BIN_COUNT: 128,
 
-  // Delay processor defaults
   DELAY: {
     DEFAULT_TIME: 0.3, // 300ms
     MIN_TIME: 0.001,
@@ -38,7 +29,6 @@ export const AUDIO = {
     MAX_MIX: 1.0,
   },
 
-  // Moog ZDF Filter constants
   MOOG_FILTER: {
     DEFAULT_CUTOFF: 1000,
     MIN_CUTOFF: 20,
@@ -53,7 +43,6 @@ export const AUDIO = {
     THERMAL_NOISE: 0.0001,
   },
 
-  // Pink noise filter coefficients
   PINK_NOISE: {
     B0_COEFF: 0.99886,
     B1_COEFF: 0.99332,
@@ -66,16 +55,10 @@ export const AUDIO = {
   },
 } as const;
 
-// ============================================================================
-// MIDI & FREQUENCY CONSTANTS
-// ============================================================================
-
 export const MIDI = {
-  // Standard tuning
   A4_FREQUENCY: 440,
   A4_MIDI_NOTE: 69,
 
-  // Note names
   NOTE_NAMES: [
     "C",
     "C#",
@@ -105,47 +88,37 @@ export const MIDI = {
   MIN_FREQUENCY: 20,
   MAX_FREQUENCY: 20000,
 
-  // Detune limits
   MIN_DETUNE_SEMITONES: -12,
   MAX_DETUNE_SEMITONES: 12,
   MIN_MASTER_TUNE: -12,
   MAX_MASTER_TUNE: 12,
 } as const;
 
-// ============================================================================
-// SYNTHESIZER PARAMETER RANGES
-// ============================================================================
-
 export const SYNTH_PARAMS = {
-  // Volume ranges
   VOLUME: {
     MIN: 0,
     MAX: 10,
     DEFAULT: 5,
   },
 
-  // Pitch wheel
   PITCH_WHEEL: {
     MIN: 0,
     MAX: 100,
     DEFAULT: 50,
   },
 
-  // Modulation wheel
   MOD_WHEEL: {
     MIN: 0,
     MAX: 100,
     DEFAULT: 50,
   },
 
-  // Master tune
   MASTER_TUNE: {
     MIN: -12,
     MAX: 12,
     DEFAULT: 0,
   },
 
-  // Filter parameters
   FILTER: {
     CUTOFF: {
       MIN: -4,
@@ -179,7 +152,6 @@ export const SYNTH_PARAMS = {
     },
   },
 
-  // Loudness envelope
   LOUDNESS: {
     ATTACK: {
       MIN: 0,
@@ -198,7 +170,6 @@ export const SYNTH_PARAMS = {
     },
   },
 
-  // Glide
   GLIDE: {
     TIME: {
       MIN: 0,
@@ -207,7 +178,6 @@ export const SYNTH_PARAMS = {
     },
   },
 
-  // LFO
   LFO: {
     RATE: {
       MIN: 0,
@@ -216,14 +186,12 @@ export const SYNTH_PARAMS = {
     },
   },
 
-  // Modulation mix
   MOD_MIX: {
     MIN: 0,
     MAX: 10,
     DEFAULT: 0,
   },
 
-  // External input
   EXTERNAL_INPUT: {
     VOLUME: {
       MIN: 0.001,
@@ -232,7 +200,6 @@ export const SYNTH_PARAMS = {
     },
   },
 
-  // Aux output
   AUX_OUTPUT: {
     VOLUME: {
       MIN: 0,
@@ -242,15 +209,9 @@ export const SYNTH_PARAMS = {
   },
 } as const;
 
-// ============================================================================
-// UI CONSTANTS
-// ============================================================================
-
 export const UI = {
-  // Animation frame rate
   ANIMATION_FRAME_DELAY: 16, // ~60fps
 
-  // External input UI
   EXTERNAL_INPUT: {
     VOLUME_STEPS: 10,
     POSITION: {
@@ -259,15 +220,10 @@ export const UI = {
     },
   },
 
-  // Tuner
   TUNER: {
     A440_LABEL: "A-440",
   },
 } as const;
-
-// ============================================================================
-// ENVELOPE MAPPING CONSTANTS
-// ============================================================================
 
 export const ENVELOPE_MAPPING = {
   ATTACK_DECAY_STOPS: [
@@ -280,10 +236,6 @@ export const ENVELOPE_MAPPING = {
     { pos: 10000, value: 10000 }, // 10000 ms (10 sec)
   ],
 } as const;
-
-// ============================================================================
-// FILTER MAPPING CONSTANTS
-// ============================================================================
 
 export const FILTER_MAPPING = {
   CUTOFF: {
@@ -301,10 +253,6 @@ export const FILTER_MAPPING = {
     STEEP_FEEDBACK_RANGE: 0.8,
   },
 } as const;
-
-// ============================================================================
-// OSCILLATOR CONSTANTS
-// ============================================================================
 
 export const OSCILLATOR = {
   // Harmonics for custom waveforms
@@ -333,12 +281,7 @@ export const EXTERNAL_INPUT = {
   },
 } as const;
 
-// ============================================================================
-// ENVIRONMENT-BASED CONFIGURATION
-// ============================================================================
-
 export const ENV = {
-  // Development settings
   DEV: {
     AUDIO: {
       SAMPLE_RATE: AUDIO.DEFAULT_SAMPLE_RATE,
@@ -351,7 +294,6 @@ export const ENV = {
     },
   },
 
-  // Production settings
   PROD: {
     AUDIO: {
       SAMPLE_RATE: AUDIO.DEFAULT_SAMPLE_RATE,
@@ -364,7 +306,6 @@ export const ENV = {
     },
   },
 
-  // Test settings
   TEST: {
     AUDIO: {
       SAMPLE_RATE: AUDIO.TEST_SAMPLE_RATE,
@@ -378,26 +319,19 @@ export const ENV = {
   },
 } as const;
 
-// ============================================================================
-// FEATURE FLAGS
-// ============================================================================
-
 export const FEATURES = {
-  // Audio features
   AUDIO: {
     ENABLE_OVERSAMPLING: true,
     ENABLE_ANALOG_CHARACTERISTICS: true,
     ENABLE_TEMPERATURE_DRIFT: true,
   },
 
-  // UI features
   UI: {
     ENABLE_ANIMATIONS: true,
     ENABLE_TOOLTIPS: true,
     ENABLE_KEYBOARD_SHORTCUTS: true,
   },
 
-  // Performance features
   PERFORMANCE: {
     ENABLE_MEMOIZATION: true,
     ENABLE_LAZY_LOADING: true,
@@ -405,26 +339,19 @@ export const FEATURES = {
   },
 } as const;
 
-// ============================================================================
-// PERFORMANCE TUNING PARAMETERS
-// ============================================================================
-
 export const PERFORMANCE = {
-  // Audio processing
   AUDIO: {
     MAX_CONCURRENT_OSCILLATORS: 32,
     BUFFER_POOL_SIZE: 16,
     MAX_AUDIO_NODES: 100,
   },
 
-  // UI rendering
   UI: {
     DEBOUNCE_DELAY: 16,
     THROTTLE_DELAY: 100,
     MAX_RENDER_ITERATIONS: 1000,
   },
 
-  // Memory management
   MEMORY: {
     MAX_CACHED_WAVEFORMS: 50,
     MAX_CACHED_FREQUENCIES: 100,

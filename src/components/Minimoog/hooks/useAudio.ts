@@ -1,7 +1,6 @@
 import { useAudioNodes } from "./useAudioNodes";
 import { useModulation } from "./useModulation";
 import { useEnvelopes } from "./useEnvelopes";
-import { useOverflowDirection } from "./useOverflowDirection";
 import { useNoiseAndAux } from "./useNoiseAndAux";
 import { useOscillators } from "./useOscillators";
 import { useVibratoCalculation } from "./useVibratoCalculation";
@@ -10,7 +9,6 @@ import { useMidiHandling } from "@/components/Keyboard/hooks";
 export function useAudio(audioContext: AudioContext | null) {
   const { mixerNode, filterNode, loudnessEnvelopeGain, masterGain } =
     useAudioNodes(audioContext);
-  const containerRef = useOverflowDirection();
 
   // Set up noise, tuner, and aux output
   useNoiseAndAux(audioContext, mixerNode, masterGain);
@@ -46,7 +44,6 @@ export function useAudio(audioContext: AudioContext | null) {
     filterNode,
     loudnessEnvelopeGain,
     masterGain,
-    containerRef,
     osc1,
     osc2,
     osc3,

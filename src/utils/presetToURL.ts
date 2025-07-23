@@ -11,13 +11,8 @@ export function presetToURL(
   preset: Preset,
   baseURL: string = window.location.origin
 ): string {
-  // Create a complete synth state by merging preset parameters with defaults
   const completeState = createCompleteStateFromPreset(preset);
-
-  // Convert to URL parameters
   const urlParams = saveStateToURL(completeState);
-
-  // Return full URL
   return `${baseURL}?${urlParams}`;
 }
 
@@ -25,13 +20,8 @@ export function presetToURL(
  * Creates a complete SynthState by merging preset parameters with default state
  */
 function createCompleteStateFromPreset(preset: Preset): SynthState {
-  // Get the initial state as a base
   const defaultState = createInitialState();
-
-  // Convert preset to store format
   const presetParameters = convertPresetToStoreFormat(preset);
-
-  // Deep merge preset parameters with default state
   return deepMerge(defaultState, presetParameters);
 }
 

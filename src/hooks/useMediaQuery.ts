@@ -39,21 +39,17 @@ export function useMediaQuery(
       setMatches(mediaQuery.matches);
     };
 
-    // Debounced version for performance
     let timeoutId: NodeJS.Timeout;
     const debouncedUpdate = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(updateMatches, debounceMs);
     };
 
-    // Initial check
     updateMatches();
 
-    // Add listener
     if (mediaQuery.addEventListener) {
       mediaQuery.addEventListener("change", debouncedUpdate);
     } else {
-      // Fallback for older browsers
       mediaQuery.addListener(debouncedUpdate);
     }
 
@@ -62,7 +58,6 @@ export function useMediaQuery(
       if (mediaQuery.removeEventListener) {
         mediaQuery.removeEventListener("change", debouncedUpdate);
       } else {
-        // Fallback for older browsers
         mediaQuery.removeListener(debouncedUpdate);
       }
     };
@@ -71,7 +66,6 @@ export function useMediaQuery(
   return matches;
 }
 
-// Convenience hooks for specific breakpoints
 export function useIsMobile(): boolean {
   return useMediaQuery("mobile");
 }
@@ -84,7 +78,6 @@ export function useIsDesktop(): boolean {
   return useMediaQuery("desktop");
 }
 
-// Hook to get current view type
 export function useViewType(): Breakpoint {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
@@ -94,6 +87,5 @@ export function useViewType(): Breakpoint {
   if (isTablet) return "tablet";
   if (isDesktop) return "desktop";
 
-  // Default fallback
   return "desktop";
 }

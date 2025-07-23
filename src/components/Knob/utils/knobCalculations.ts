@@ -72,6 +72,11 @@ export function getDisplayValue(
   unit: string,
   valueLabels?: Record<number, string | React.ReactElement>
 ): string | React.ReactElement {
+  // Handle undefined or null values
+  if (value == null || isNaN(value)) {
+    return "0" + (unit ? ` ${unit}` : "");
+  }
+
   if (valueLabels?.[Math.round(value)]) {
     return valueLabels[Math.round(value)];
   }

@@ -14,22 +14,30 @@ import PowerButton from "../PowerButton";
 import Hinge from "../Hinge";
 import SidePanel from "../SidePanel";
 import Keyboard from "@/components/Keyboard";
-import { useAudioContext } from "@/hooks/useAudioContext";
 import { useAudio, useFilterTracking, useURLSync } from "./hooks";
-import { useIsMobile, useViewType } from "@/hooks/useMediaQuery";
+import { useUIState } from "./hooks/useUIState";
+import { useAudioContextManagement } from "./hooks/useAudioContextManagement";
 import Title from "../Title";
 import { cn } from "@/utils/helpers";
 
 function Minimoog() {
   const { activeKeys, setActiveKeys } = useSynthStore();
-  useURLSync();
-  const view = useViewType();
+
+  // UI state management
+  const { containerRef, isMobile, view } = useUIState();
+
+  // Audio context management
   const { audioContext, isInitialized, initialize, dispose } =
-    useAudioContext();
-  const { mixerNode, filterNode, containerRef, synthObj } =
-    useAudio(audioContext);
+    useAudioContextManagement();
+
+  // URL synchronization
+  useURLSync();
+
+  // Audio processing
+  const { mixerNode, filterNode, synthObj } = useAudio(audioContext);
+
+  // Filter tracking
   useFilterTracking(audioContext, filterNode, activeKeys);
-  const isMobile = useIsMobile();
 
   return (
     <>

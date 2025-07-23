@@ -8,7 +8,6 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
   const loudnessEnvelopeGainRef = useRef<GainNode | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
 
-  // Initialize audio nodes
   useEffect(() => {
     if (!audioContext) return;
 
@@ -16,13 +15,11 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
 
     (async () => {
       try {
-        // --- Mixer ---
         const mixer = audioContext.createGain();
         mixer.gain.setValueAtTime(1, audioContext.currentTime);
         mixerNodeRef.current = mixer;
         setIsMixerReady(true);
 
-        // --- Moog ZDF Filter ---
         await audioContext.audioWorklet.addModule("/moog-zdf-processor.js");
         const moogFilter = new AudioWorkletNode(
           audioContext,
@@ -35,17 +32,14 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
         );
         filterNodeRef.current = moogFilter;
 
-        // --- Loudness Envelope Gain ---
         const loudnessGain = audioContext.createGain();
         loudnessGain.gain.setValueAtTime(1, audioContext.currentTime);
         loudnessEnvelopeGainRef.current = loudnessGain;
 
-        // --- Master Gain ---
         const masterGain = audioContext.createGain();
         masterGain.gain.setValueAtTime(1, audioContext.currentTime);
         masterGainRef.current = masterGain;
 
-        // --- Connect: Mixer -> Moog ZDF Filter -> Loudness Envelope -> Master -> Destination ---
         if (isMounted && mixer && moogFilter && loudnessGain && masterGain) {
           mixer.connect(moogFilter);
           moogFilter.connect(loudnessGain);
