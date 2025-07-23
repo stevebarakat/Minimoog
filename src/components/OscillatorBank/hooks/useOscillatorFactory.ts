@@ -1,9 +1,14 @@
 import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { OscillatorType } from "@/types";
-import { noteToFrequency } from "@/utils/noteToFrequency";
-import type { BaseOscillatorParams } from "../audio/baseOscillator";
 import { getPooledNode, releaseNode } from "@/utils/audioNodePool";
+import {
+  clampParameter,
+  calculateGlideTime,
+  calculateVolume,
+} from "@/utils/audioUtils";
+import { calculateFrequency, noteToFrequency } from "@/utils/frequencyUtils";
+import type { BaseOscillatorParams } from "../audio/baseOscillator";
 
 export type OscillatorFactoryConfig = {
   oscillatorKey: "oscillator1" | "oscillator2" | "oscillator3";
@@ -38,43 +43,6 @@ export type UseOscillatorResult = {
   triggerAttack: (note: string) => void;
   triggerRelease: (note?: string) => void;
   getNode: () => OscillatorNode | null;
-};
-
-// Memoized parameter clamping utility
-const clampParameter = (value: number, min: number, max: number): number => {
-  return Math.max(min, Math.min(max, value));
-};
-
-// Memoized frequency calculation utility
-const calculateFrequency = (
-  note: string,
-  masterTune: number,
-  detuneSemis: number,
-  pitchWheel: number,
-  detuneCents: number
-): number => {
-  const clampedMasterTune = clampParameter(masterTune, -12, 12);
-  const clampedDetuneSemis = clampParameter(detuneSemis, -12, 12);
-  const clampedPitchWheel = clampParameter(pitchWheel, 0, 100);
-  const bendSemis = ((clampedPitchWheel - 50) / 50) * 2;
-
-  const baseFreq = noteToFrequency(note) * Math.pow(2, clampedMasterTune / 12);
-  const frequency =
-    baseFreq *
-    Math.pow(2, (clampedDetuneSemis + bendSemis + detuneCents / 100) / 12);
-
-  // Final safety check to prevent extreme frequencies
-  return clampParameter(frequency, 20, 22050);
-};
-
-// Memoized glide time calculation
-const calculateGlideTime = (glideTime: number): number => {
-  return Math.pow(10, glideTime / 5) * 0.02;
-};
-
-// Memoized volume calculation
-const calculateVolume = (volume: number, volumeBoost: number): number => {
-  return Math.min(1, (volume / 10) * volumeBoost);
 };
 
 export function useOscillatorFactory(
@@ -145,6 +113,14 @@ export function useOscillatorFactory(
       );
     },
     [clampedParams, detuneCents]
+  );
+
+  // Memoize base frequency calculation for vibrato
+  const calculateBaseFrequency = useCallback(
+    (note: string): number => {
+      return noteToFrequency(note) * Math.pow(2, clampedParams.masterTune / 12);
+    },
+    [clampedParams.masterTune]
   );
 
   // Memoize vibrato setup function
@@ -252,8 +228,7 @@ export function useOscillatorFactory(
       // Setup vibrato if needed
       const oscNode = oscRef.current.getNode();
       if (oscNode) {
-        const baseFreq =
-          noteToFrequency(note) * Math.pow(2, clampedParams.masterTune / 12);
+        const baseFreq = calculateBaseFrequency(note);
         setupVibrato(oscNode, baseFreq);
       }
     },
@@ -267,6 +242,7 @@ export function useOscillatorFactory(
       setupVibrato,
       clampedParams.masterTune,
       createOscillator,
+      calculateBaseFrequency,
     ]
   );
 

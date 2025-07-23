@@ -1,11 +1,16 @@
 import { useMemo } from "react";
 import { useSynthStore } from "@/store/synthStore";
+import { clampParameter } from "@/utils/audioUtils";
 import {
   mapEnvelopeTime,
   mapContourAmount,
   mapCutoff,
   noteNameToMidi,
-} from "../utils/synthUtils";
+} from "@/utils/paramMappingUtils";
+import {
+  scheduleEnvelopeAttack,
+  scheduleEnvelopeRelease,
+} from "@/utils/envelopeUtils";
 import type { EnvelopeProps } from "../types/synthTypes";
 
 export function useEnvelopes({
@@ -78,10 +83,7 @@ export function useEnvelopes({
             const decayTime = mapEnvelopeTime(filterDecay);
             const sustainLevel = filterSustain / 10;
             // Clamp contourOctaves to prevent extreme values
-            const clampedContourOctaves = Math.max(
-              0,
-              Math.min(3, contourOctaves)
-            ); // Max 3 octaves
+            const clampedContourOctaves = clampParameter(contourOctaves, 0, 3); // Max 3 octaves
             const envMax = Math.min(
               20000,
               trackedCutoff * Math.pow(2, clampedContourOctaves)
@@ -90,20 +92,19 @@ export function useEnvelopes({
               trackedCutoff + (envMax - trackedCutoff) * sustainLevel;
             const now = audioContext.currentTime;
 
-            cutoffParam.cancelScheduledValues(now);
-
             // For smooth note transitions, start from current frequency if it's close
             const currentFreq = cutoffParam.value;
             const freqDiff =
               Math.abs(currentFreq - trackedCutoff) / trackedCutoff;
-            const startFreq = freqDiff < 0.5 ? currentFreq : trackedCutoff; // Smooth transition if close
-
-            cutoffParam.setValueAtTime(startFreq, now);
-            cutoffParam.linearRampToValueAtTime(envMax, now + attackTime);
-            cutoffParam.linearRampToValueAtTime(
-              envSustain,
-              now + attackTime + decayTime
-            );
+            const startFreq = freqDiff < 0.5 ? currentFreq : trackedCutoff;
+            scheduleEnvelopeAttack(cutoffParam, {
+              start: startFreq,
+              peak: envMax,
+              sustain: envSustain,
+              attackTime,
+              decayTime,
+              now,
+            });
           }
         } else if (filterNode && filterNode instanceof AudioWorkletNode) {
           // Just set cutoff with key tracking (no envelope modulation)
@@ -131,21 +132,17 @@ export function useEnvelopes({
         // Apply loudness envelope
         const now = audioContext.currentTime;
         if (loudnessEnvelopeGain) {
-          loudnessEnvelopeGain.gain.cancelScheduledValues(now);
-
           // For smooth note transitions, start from current gain if it's not zero
           const currentGain = loudnessEnvelopeGain.gain.value;
-          const startGain = currentGain > 0.01 ? currentGain * 0.3 : 0; // Smooth transition
-
-          loudnessEnvelopeGain.gain.setValueAtTime(startGain, now);
-          loudnessEnvelopeGain.gain.linearRampToValueAtTime(
-            1,
-            now + loudnessAttackTime
-          );
-          loudnessEnvelopeGain.gain.linearRampToValueAtTime(
-            loudnessSustainLevel,
-            now + loudnessAttackTime + loudnessDecayTime
-          );
+          const startGain = currentGain > 0.01 ? currentGain * 0.3 : 0;
+          scheduleEnvelopeAttack(loudnessEnvelopeGain.gain, {
+            start: startGain,
+            peak: 1,
+            sustain: loudnessSustainLevel,
+            attackTime: loudnessAttackTime,
+            decayTime: loudnessDecayTime,
+            now,
+          });
         }
       },
       triggerRelease: () => {
@@ -182,13 +179,13 @@ export function useEnvelopes({
             }
 
             if (decaySwitchOn) {
-              cutoffParam.cancelScheduledValues(now);
               const currentFreq = cutoffParam.value;
-              cutoffParam.setValueAtTime(currentFreq, now);
-              cutoffParam.linearRampToValueAtTime(
-                trackedBaseCutoff,
-                now + mapEnvelopeTime(filterDecay)
-              );
+              scheduleEnvelopeRelease(cutoffParam, {
+                from: currentFreq,
+                to: trackedBaseCutoff,
+                releaseTime: mapEnvelopeTime(filterDecay),
+                now,
+              });
             } else {
               cutoffParam.setValueAtTime(trackedBaseCutoff, now);
             }
@@ -198,25 +195,24 @@ export function useEnvelopes({
         // Handle loudness envelope release
         if (decaySwitchOn) {
           if (loudnessEnvelopeGain) {
-            loudnessEnvelopeGain.gain.cancelScheduledValues(now);
             const currentGain = loudnessEnvelopeGain.gain.value;
-            loudnessEnvelopeGain.gain.setValueAtTime(currentGain, now);
-            loudnessEnvelopeGain.gain.linearRampToValueAtTime(
-              0,
-              now + loudnessDecayTime
-            );
+            scheduleEnvelopeRelease(loudnessEnvelopeGain.gain, {
+              from: currentGain,
+              to: 0,
+              releaseTime: loudnessDecayTime,
+              now,
+            });
           }
         } else {
           if (loudnessEnvelopeGain) {
-            loudnessEnvelopeGain.gain.cancelScheduledValues(now);
             const currentGain = loudnessEnvelopeGain.gain.value;
-            loudnessEnvelopeGain.gain.setValueAtTime(currentGain, now);
-            // Add a small release time to prevent popping
             const releaseTime = Math.max(0.01, loudnessDecayTime * 0.1); // At least 10ms
-            loudnessEnvelopeGain.gain.linearRampToValueAtTime(
-              0,
-              now + releaseTime
-            );
+            scheduleEnvelopeRelease(loudnessEnvelopeGain.gain, {
+              from: currentGain,
+              to: 0,
+              releaseTime,
+              now,
+            });
           }
         }
       },

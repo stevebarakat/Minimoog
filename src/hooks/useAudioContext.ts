@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useSynthStore } from "@/store/synthStore";
+import logger from "@/utils/logger";
+import { reportError } from "@/utils/errorReporter";
+import { useToast } from "@/components/ToastProvider";
 
 export function useAudioContext() {
   const audioContextRef = useRef<AudioContext | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const setIsDisabled = useSynthStore((state) => state.setIsDisabled);
+  const showToast = useToast();
 
   const initialize = async () => {
     try {
@@ -22,8 +27,18 @@ export function useAudioContext() {
 
       setIsInitialized(true);
       setIsDisabled(false);
+      setError(null);
     } catch (error) {
-      console.error("Error initializing AudioContext:", error);
+      logger.error("Error initializing AudioContext:", error);
+      reportError(error instanceof Error ? error : new Error(String(error)), {
+        context: "AudioContext initialization",
+      });
+      const msg =
+        "Failed to initialize audio engine. Please check your browser settings and try again.";
+      setError(msg);
+      showToast({ title: "Audio Error", description: msg, variant: "error" });
+      setIsInitialized(false);
+      setIsDisabled(true);
     }
   };
 
@@ -55,5 +70,6 @@ export function useAudioContext() {
     isInitialized,
     initialize,
     dispose,
+    error,
   };
 }

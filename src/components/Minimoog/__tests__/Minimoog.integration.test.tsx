@@ -15,19 +15,19 @@ vi.mock("@/hooks/useAudioContext", () => ({
 
 // Mock the Minimoog hooks
 vi.mock("../hooks", () => ({
-  useMinimoogURLSync: vi.fn(),
-  useMinimoogAudio: vi.fn(),
+  useURLSync: vi.fn(),
+  useAudio: vi.fn(),
   useFilterTracking: vi.fn(),
 }));
 
 import Minimoog from "../Minimoog";
 import { useSynthStore } from "@/store/synthStore";
 import { useAudioContext } from "@/hooks/useAudioContext";
-import { useMinimoogAudio, useFilterTracking } from "../hooks";
+import { useAudio, useFilterTracking } from "../hooks";
 
 const mockedUseSynthStore = vi.mocked(useSynthStore);
 const mockedUseAudioContext = vi.mocked(useAudioContext);
-const mockedUseMinimoogAudio = vi.mocked(useMinimoogAudio);
+const mockedUseAudio = vi.mocked(useAudio);
 const mockedUseFilterTracking = vi.mocked(useFilterTracking);
 
 describe("Minimoog - Integration Tests", () => {
@@ -143,7 +143,7 @@ describe("Minimoog - Integration Tests", () => {
     });
 
     // Mock the Minimoog audio hook
-    mockedUseMinimoogAudio.mockReturnValue({
+    mockedUseAudio.mockReturnValue({
       mixerNode: mockMixerNode,
       filterNode: mockFilterNode,
       loudnessEnvelopeGain: {} as GainNode,
@@ -153,7 +153,7 @@ describe("Minimoog - Integration Tests", () => {
       osc2: {} as Oscillator,
       osc3: {} as Oscillator,
       synthObj: mockSynthObj,
-    } as ReturnType<typeof useMinimoogAudio>);
+    } as ReturnType<typeof useAudio>);
 
     // Mock the filter tracking hook
     mockedUseFilterTracking.mockReturnValue(undefined);

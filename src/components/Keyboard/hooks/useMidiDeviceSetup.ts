@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+import logger from "@/utils/logger";
+import { reportError } from "@/utils/errorReporter";
 
 type MIDIMessageEvent = { data: Uint8Array };
 type MIDIPort = {
@@ -26,6 +28,7 @@ export function useMidiDeviceSetup(
   handleMidiMessage: (event: MIDIMessageEvent) => void
 ) {
   const setupInputs = useRef<Set<string>>(new Set());
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function setupMidi() {
@@ -46,10 +49,19 @@ export function useMidiDeviceSetup(
             }
           }
         };
+        setError(null);
       } catch (error) {
-        console.error("MIDI access error:", error);
+        logger.error("MIDI access error:", error);
+        reportError(error instanceof Error ? error : new Error(String(error)), {
+          context: "MIDI device connection",
+        });
+        setError(
+          "Failed to connect to MIDI devices. Please check your MIDI settings and try again."
+        );
       }
     }
     setupMidi();
   }, [handleMidiMessage]);
+
+  return { error };
 }

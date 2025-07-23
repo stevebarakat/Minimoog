@@ -1,7 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useSynthStore } from "@/store/synthStore";
-import { presets, getCategories, Preset } from "@/data/presets";
+import { presets, Preset, getCategories } from "@/data/presets";
 import { copyURLToClipboard, convertPresetToStoreFormat } from "@/utils";
+import logger from "@/utils/logger";
+import { reportError } from "@/utils/errorReporter";
+import { useToast } from "@/components/ToastProvider";
 
 export function usePresetsDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,22 +12,35 @@ export function usePresetsDropdown() {
   const [currentPreset, setCurrentPreset] = useState<string | null>("Fat Bass");
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const loadPreset = useSynthStore((state) => state.loadPreset);
   const synthState = useSynthStore();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const showToast = useToast();
 
-  const categories = ["All", ...getCategories()];
   const filteredPresets: Preset[] =
     selectedCategory === "All"
       ? presets
       : presets.filter((preset) => preset.category === selectedCategory);
 
   const handlePresetSelect = (preset: Preset) => {
-    const presetParameters = convertPresetToStoreFormat(preset);
-    loadPreset(presetParameters);
-    setCurrentPreset(preset.name);
-    setIsOpen(false);
-    setFocusedIndex(-1);
+    try {
+      const presetParameters = convertPresetToStoreFormat(preset);
+      loadPreset(presetParameters);
+      setCurrentPreset(preset.name);
+      setIsOpen(false);
+      setFocusedIndex(-1);
+      setError(null);
+    } catch (error) {
+      logger.error("Preset loading error:", error);
+      reportError(error instanceof Error ? error : new Error(String(error)), {
+        context: "Preset loading",
+      });
+      const msg =
+        "Failed to load preset. Please try another preset or reload the page.";
+      setError(msg);
+      showToast({ title: "Preset Error", description: msg, variant: "error" });
+    }
   };
 
   const handleCategoryChange = (category: string) => {
@@ -37,84 +53,56 @@ export function usePresetsDropdown() {
       await copyURLToClipboard(synthState);
       setShowCopiedMessage(true);
       setTimeout(() => setShowCopiedMessage(false), 2000);
+      setError(null);
     } catch (error) {
-      console.error("Failed to copy URL to clipboard:", error);
+      logger.error("Failed to copy URL to clipboard:", error);
+      reportError(error instanceof Error ? error : new Error(String(error)), {
+        context: "Copy preset URL",
+      });
+      const msg = "Failed to copy preset URL. Please try again.";
+      setError(msg);
+      showToast({ title: "Preset Error", description: msg, variant: "error" });
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (!isOpen) {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        setIsOpen(true);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!isOpen) return;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setFocusedIndex((prev) => (prev + 1) % filteredPresets.length);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setFocusedIndex((prev) =>
+        prev <= 0 ? filteredPresets.length - 1 : prev - 1
+      );
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      if (focusedIndex >= 0 && focusedIndex < filteredPresets.length) {
+        handlePresetSelect(filteredPresets[focusedIndex]);
       }
-      return;
-    }
-
-    switch (event.key) {
-      case "Escape":
-        setIsOpen(false);
-        setFocusedIndex(-1);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        setFocusedIndex((prev) =>
-          prev < filteredPresets.length - 1 ? prev + 1 : 0
-        );
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        setFocusedIndex((prev) =>
-          prev > 0 ? prev - 1 : filteredPresets.length - 1
-        );
-        break;
-      case "Enter":
-        event.preventDefault();
-        if (focusedIndex >= 0 && focusedIndex < filteredPresets.length) {
-          handlePresetSelect(filteredPresets[focusedIndex]);
-        }
-        break;
+    } else if (event.key === "Escape") {
+      setIsOpen(false);
+      setFocusedIndex(-1);
     }
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-        setFocusedIndex(-1);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("touchstart", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
-  }, [isOpen]);
 
   return {
     isOpen,
     setIsOpen,
     selectedCategory,
-    setSelectedCategory,
+    setSelectedCategory: handleCategoryChange,
     currentPreset,
     setCurrentPreset,
     focusedIndex,
     setFocusedIndex,
     showCopiedMessage,
-    handlePresetSelect,
-    handleCategoryChange,
-    handleCopyURL,
-    handleKeyDown,
-    dropdownRef,
-    categories,
+    setShowCopiedMessage,
     filteredPresets,
+    handlePresetSelect,
+    handleCopyURL,
+    dropdownRef,
+    error,
+    categories: ["All", ...getCategories()],
+    handleKeyDown,
   };
 }

@@ -9,12 +9,12 @@ function PresetsDropdown({ disabled }: { disabled: boolean }) {
     isOpen,
     setIsOpen,
     selectedCategory,
+    setSelectedCategory,
     currentPreset,
     focusedIndex,
     setFocusedIndex,
     showCopiedMessage,
     handlePresetSelect,
-    handleCategoryChange,
     handleCopyURL,
     handleKeyDown,
     dropdownRef,
@@ -103,7 +103,7 @@ function PresetsDropdown({ disabled }: { disabled: boolean }) {
           <CategoryFilter
             selectedCategory={selectedCategory}
             categories={categories}
-            onChange={handleCategoryChange}
+            onChange={setSelectedCategory}
           />
           <PresetList
             presets={filteredPresets}

@@ -3,10 +3,7 @@ import Row from "../Row";
 import Column from "../Column";
 import { useSynthStore } from "@/store/synthStore";
 import { attackDecayValueLabels } from "./constants";
-import {
-  valueToKnobPos,
-  knobPosToValue,
-} from "../Knob/utils/attackDecayMapping";
+import { valueToKnobPos, knobPosToValue } from "@/utils/knobMappingUtils";
 
 function FilterEnvelope() {
   const {

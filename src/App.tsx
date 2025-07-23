@@ -1,15 +1,19 @@
 import Minimoog from "./components/Minimoog";
 import GitHubRibbon from "./components/GitHubRibbon";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { ToastProvider } from "./components/ToastProvider";
 
 function App() {
   return (
-    <>
-      <GitHubRibbon
-        url="https://github.com/stevebarakat/minimoog"
-        text="Fork me on GitHub"
-      />
-      <Minimoog />
-    </>
+    <ToastProvider>
+      <ErrorBoundary>
+        <GitHubRibbon
+          url="https://github.com/stevebarakat/minimoog"
+          text="Fork me on GitHub"
+        />
+        <Minimoog />
+      </ErrorBoundary>
+    </ToastProvider>
   );
 }
 

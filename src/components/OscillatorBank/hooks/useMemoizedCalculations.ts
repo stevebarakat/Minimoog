@@ -1,50 +1,7 @@
 import { useMemo, useCallback } from "react";
 import { useSynthStore } from "@/store/synthStore";
-import { noteToFrequency } from "@/utils/noteToFrequency";
-
-// Memoized parameter clamping utility
-export const clampParameter = (
-  value: number,
-  min: number,
-  max: number
-): number => {
-  return Math.max(min, Math.min(max, value));
-};
-
-// Memoized frequency calculation utility
-export const calculateFrequency = (
-  note: string,
-  masterTune: number,
-  detuneSemis: number,
-  pitchWheel: number,
-  detuneCents: number
-): number => {
-  const clampedMasterTune = clampParameter(masterTune, -12, 12);
-  const clampedDetuneSemis = clampParameter(detuneSemis, -12, 12);
-  const clampedPitchWheel = clampParameter(pitchWheel, 0, 100);
-  const bendSemis = ((clampedPitchWheel - 50) / 50) * 2;
-
-  const baseFreq = noteToFrequency(note) * Math.pow(2, clampedMasterTune / 12);
-  const frequency =
-    baseFreq *
-    Math.pow(2, (clampedDetuneSemis + bendSemis + detuneCents / 100) / 12);
-
-  // Final safety check to prevent extreme frequencies
-  return clampParameter(frequency, 20, 22050);
-};
-
-// Memoized glide time calculation
-export const calculateGlideTime = (glideTime: number): number => {
-  return Math.pow(10, glideTime / 5) * 0.02;
-};
-
-// Memoized volume calculation
-export const calculateVolume = (
-  volume: number,
-  volumeBoost: number
-): number => {
-  return Math.min(1, (volume / 10) * volumeBoost);
-};
+import { clampParameter } from "@/utils/audioUtils";
+import { calculateFrequency, noteToFrequency } from "@/utils/frequencyUtils";
 
 // Memoized vibrato amount calculation
 export const calculateVibratoAmount = (
@@ -97,13 +54,13 @@ export function useOscillatorCalculations(
 
   // Memoize glide time calculation
   const mappedGlideTime = useMemo(
-    () => calculateGlideTime(glideTime),
+    () => Math.pow(10, glideTime / 5) * 0.02,
     [glideTime]
   );
 
   // Memoize volume calculation
   const boostedVolume = useMemo(
-    () => calculateVolume(mixerState.volume, volumeBoost),
+    () => Math.min(1, (mixerState.volume / 10) * volumeBoost),
     [mixerState.volume, volumeBoost]
   );
 

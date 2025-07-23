@@ -3,6 +3,7 @@ import {
   OscillatorWaveform,
   OscillatorRange,
 } from "@/store/types/synth";
+import { parseAndClamp, parseOrDefault } from "@/utils/stateConversionUtils";
 
 // Function to save synth state to URL parameters
 export function saveStateToURL(state: SynthState): string {
@@ -150,40 +151,38 @@ export function loadStateFromURL(): Partial<SynthState> | null {
 
   // Load filter settings
   if (params.has("filter_cutoff")) {
-    const loadedCutoff = parseFloat(params.get("filter_cutoff") || "0");
-    // Clamp the loaded value to -4 to 4 range to prevent out-of-range values
-    state.filterCutoff = Math.max(-4, Math.min(4, loadedCutoff));
-    state.filterEmphasis = parseFloat(params.get("filter_emphasis") || "5");
-    state.filterContourAmount = parseFloat(params.get("filter_contour") || "5");
-    state.filterAttack = parseFloat(params.get("filter_attack") || "0.5");
-    state.filterDecay = parseFloat(params.get("filter_decay") || "0");
-    state.filterSustain = parseFloat(params.get("filter_sustain") || "0");
+    state.filterCutoff = parseAndClamp(params.get("filter_cutoff"), -4, 4, 0);
+    state.filterEmphasis = parseOrDefault(params.get("filter_emphasis"), 5);
+    state.filterContourAmount = parseOrDefault(params.get("filter_contour"), 5);
+    state.filterAttack = parseOrDefault(params.get("filter_attack"), 0.5);
+    state.filterDecay = parseOrDefault(params.get("filter_decay"), 0);
+    state.filterSustain = parseOrDefault(params.get("filter_sustain"), 0);
     state.filterModulationOn = params.get("filter_mod_on") === "true";
   }
 
   // Load loudness envelope
   if (params.has("loudness_attack")) {
-    state.loudnessAttack = parseFloat(params.get("loudness_attack") || "0.5");
-    state.loudnessDecay = parseFloat(params.get("loudness_decay") || "0");
-    state.loudnessSustain = parseFloat(params.get("loudness_sustain") || "5");
+    state.loudnessAttack = parseOrDefault(params.get("loudness_attack"), 0.5);
+    state.loudnessDecay = parseOrDefault(params.get("loudness_decay"), 0);
+    state.loudnessSustain = parseOrDefault(params.get("loudness_sustain"), 5);
   }
 
   // Load modulation settings
   if (params.has("lfo_waveform")) {
     state.lfoWaveform = params.get("lfo_waveform") as "triangle" | "square";
-    state.lfoRate = parseFloat(params.get("lfo_rate") || "5");
-    state.modMix = parseFloat(params.get("mod_mix") || "0");
+    state.lfoRate = parseOrDefault(params.get("lfo_rate"), 5);
+    state.modMix = parseOrDefault(params.get("mod_mix"), 0);
     state.oscillatorModulationOn = params.get("osc_mod_on") === "true";
   }
 
   // Load other settings
   if (params.has("glide_on")) {
     state.glideOn = params.get("glide_on") === "true";
-    state.glideTime = parseFloat(params.get("glide_time") || "0.1");
+    state.glideTime = parseOrDefault(params.get("glide_time"), 0.1);
   }
 
   if (params.has("main_volume")) {
-    state.mainVolume = parseFloat(params.get("main_volume") || "2.5");
+    state.mainVolume = parseOrDefault(params.get("main_volume"), 2.5);
     state.isMainActive = params.get("main_active") === "true";
   }
 
@@ -203,9 +202,9 @@ export function loadStateFromURL(): Partial<SynthState> | null {
   }
 
   if (params.has("master_tune")) {
-    state.masterTune = parseFloat(params.get("master_tune") || "0");
-    state.pitchWheel = parseFloat(params.get("pitch_wheel") || "50");
-    state.modWheel = parseFloat(params.get("mod_wheel") || "50");
+    state.masterTune = parseOrDefault(params.get("master_tune"), 0);
+    state.pitchWheel = parseOrDefault(params.get("pitch_wheel"), 50);
+    state.modWheel = parseOrDefault(params.get("mod_wheel"), 50);
   }
 
   if (params.has("tuner_on")) {
@@ -216,7 +215,7 @@ export function loadStateFromURL(): Partial<SynthState> | null {
   if (params.has("aux_enabled")) {
     state.auxOutput = {
       enabled: params.get("aux_enabled") === "true",
-      volume: parseFloat(params.get("aux_volume") || "0"),
+      volume: parseOrDefault(params.get("aux_volume"), 0),
     };
   }
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { knobPosToValue, valueToKnobPos } from "../attackDecayMapping";
+import { knobPosToValue, valueToKnobPos } from "@/utils/knobMappingUtils";
 
 describe("attackDecayMapping", () => {
   describe("knobPosToValue", () => {

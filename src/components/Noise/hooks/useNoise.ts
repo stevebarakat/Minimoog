@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSynthStore } from "@/store/synthStore";
+import { resetGain, disconnectNode } from "@/utils/audioUtils";
 
 export function useNoise(
   audioContext: AudioContext | null,
@@ -88,19 +89,15 @@ export function useNoise(
       isConnectedRef.current = true;
     } else if (!mixer.noise.enabled && isConnectedRef.current) {
       // Disconnect from audio graph
-      gainRef.current.disconnect();
+      disconnectNode(gainRef.current);
       isConnectedRef.current = false;
     }
   }, [mixer.noise.enabled, mixerNode, audioContext]);
 
   useEffect(() => {
-    if (gainRef.current) {
+    if (gainRef.current && audioContext) {
       const newGain = mixer.noise.volume / 10;
-      // Guard against NaN and non-finite values
-      gainRef.current.gain.setValueAtTime(
-        isFinite(newGain) ? newGain : 0,
-        audioContext.currentTime
-      );
+      resetGain(gainRef.current, isFinite(newGain) ? newGain : 0, audioContext);
     }
   }, [mixer.noise.volume]);
 }

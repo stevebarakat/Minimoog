@@ -16,9 +16,11 @@
     "analyze:css": "npm run lint:css:check && echo 'CSS analysis complete'"
   },
   "dependencies": {
+    "@radix-ui/react-toast": "^1.2.14",
     "@radix-ui/react-tooltip": "^1.2.7",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.511.0",
+    "loglevel": "^1.9.2",
+    "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "zustand": "^5.0.4"
@@ -29,7 +31,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^22.15.29",
+    "@types/node": "^24.1.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
@@ -45,7 +47,7 @@
     "postcss": "^8.4.35",
     "postcss-custom-properties": "^14.0.4",
     "postcss-import": "^16.1.0",
-    "postcss-mixins": "^11.0.3",
+    "postcss-mixins": "^12.0.0",
     "postcss-nested": "^7.0.2",
     "postcss-preset-env": "^10.1.6",
     "stylelint": "^16.19.1",

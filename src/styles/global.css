@@ -14,6 +14,13 @@ body {
   font-weight: 600;
 }
 
+a {
+  color: var(--color-error-light);
+  &:hover {
+    color: var(--color-error);
+  }
+}
+
 /********************  */
 
 /* Utility classes */
@@ -32,4 +39,11 @@ body {
 
 .disabled {
   cursor: not-allowed;
+}
+
+/* Remove numbers from Radix Toast viewport <ol> */
+[role="region"][aria-label*="Notification"] > ol {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
 }

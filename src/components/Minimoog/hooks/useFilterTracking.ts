@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSynthStore } from "@/store/synthStore";
-import { mapCutoff, noteNameToMidi } from "../utils/synthUtils";
+import { mapCutoff, noteNameToMidi } from "@/utils/paramMappingUtils";
 
 export function useFilterTracking(
   audioContext: AudioContext | null,

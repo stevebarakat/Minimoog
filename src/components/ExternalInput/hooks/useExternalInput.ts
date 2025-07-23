@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useSynthStore } from "@/store/synthStore";
+import { resetGain, disconnectNode } from "@/utils/audioUtils";
 
 export function useExternalInput(
   audioContext: AudioContext | null,
@@ -121,6 +122,7 @@ export function useExternalInput(
       // Cleanup
       if (gainRef.current) {
         gainRef.current.disconnect();
+        disconnectNode(gainRef.current);
         gainRef.current = null;
       }
       if (inputRef.current) {
@@ -136,7 +138,7 @@ export function useExternalInput(
       }
       if (keepAliveRef.current) {
         keepAliveRef.current.stop();
-        keepAliveRef.current.disconnect();
+        disconnectNode(keepAliveRef.current);
         keepAliveRef.current = null;
       }
       isConnectedRef.current = false;
@@ -153,7 +155,7 @@ export function useExternalInput(
 
     // Update gain
     if (isFinite(newGain)) {
-      gainRef.current.gain.setValueAtTime(newGain, audioContext.currentTime);
+      resetGain(gainRef.current, newGain, audioContext);
     }
 
     // Handle connections
@@ -190,7 +192,7 @@ export function useExternalInput(
       // Stop the keep-alive oscillator
       if (keepAliveRef.current) {
         keepAliveRef.current.stop();
-        keepAliveRef.current.disconnect();
+        disconnectNode(keepAliveRef.current);
         keepAliveRef.current = null;
       }
     }

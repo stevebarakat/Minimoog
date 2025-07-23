@@ -15,23 +15,19 @@ import Hinge from "../Hinge";
 import SidePanel from "../SidePanel";
 import Keyboard from "@/components/Keyboard";
 import { useAudioContext } from "@/hooks/useAudioContext";
-import {
-  useMinimoogAudio,
-  useFilterTracking,
-  useMinimoogURLSync,
-} from "./hooks";
+import { useAudio, useFilterTracking, useURLSync } from "./hooks";
 import { useIsMobile, useViewType } from "@/hooks/useMediaQuery";
 import Title from "../Title";
 import { cn } from "@/utils/helpers";
 
 function Minimoog() {
   const { activeKeys, setActiveKeys } = useSynthStore();
-  useMinimoogURLSync();
+  useURLSync();
   const view = useViewType();
   const { audioContext, isInitialized, initialize, dispose } =
     useAudioContext();
   const { mixerNode, filterNode, containerRef, synthObj } =
-    useMinimoogAudio(audioContext);
+    useAudio(audioContext);
   useFilterTracking(audioContext, filterNode, activeKeys);
   const isMobile = useIsMobile();
 

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { useMinimoogAudio } from "../useMinimoogAudio";
+import { useAudio } from "../useAudio";
 
 vi.mock("../useAudioNodes", () => ({
   useAudioNodes: vi.fn(() => ({
@@ -28,9 +28,9 @@ vi.mock("@/store/synthStore", () => ({
   useSynthStore: vi.fn(() => ({ oscillatorModulationOn: true, modWheel: 50 })),
 }));
 
-describe("useMinimoogAudio", () => {
+describe("useAudio", () => {
   it("returns the expected structure and calls all setup hooks", () => {
-    const { result } = renderHook(() => useMinimoogAudio({} as AudioContext));
+    const { result } = renderHook(() => useAudio({} as AudioContext));
     expect(result.current).toEqual({
       mixerNode: {},
       filterNode: {},

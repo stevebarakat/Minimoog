@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { AudioNodes } from "../types/synthTypes";
-import { mapCutoff } from "../utils/synthUtils";
+import { mapCutoff } from "@/utils/paramMappingUtils";
+import { disconnectNode } from "@/utils/audioUtils";
 
 export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
   const [isMixerReady, setIsMixerReady] = useState(false);
@@ -66,20 +67,20 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
     return () => {
       isMounted = false;
       if (mixerNodeRef.current) {
-        mixerNodeRef.current.disconnect();
+        disconnectNode(mixerNodeRef.current);
         mixerNodeRef.current = null;
         setIsMixerReady(false);
       }
       if (filterNodeRef.current) {
-        filterNodeRef.current.disconnect();
+        disconnectNode(filterNodeRef.current);
         filterNodeRef.current = null;
       }
       if (loudnessEnvelopeGainRef.current) {
-        loudnessEnvelopeGainRef.current.disconnect();
+        disconnectNode(loudnessEnvelopeGainRef.current);
         loudnessEnvelopeGainRef.current = null;
       }
       if (masterGainRef.current) {
-        masterGainRef.current.disconnect();
+        disconnectNode(masterGainRef.current);
         masterGainRef.current = null;
       }
     };

@@ -40,7 +40,7 @@ type Osc3Waveform =
   | "pulse3";
 type Osc3Range = "32" | "16" | "8" | "4" | "2" | "lo";
 
-export function useMinimoogAudio(audioContext: AudioContext | null) {
+export function useAudio(audioContext: AudioContext | null) {
   const { mixerNode, filterNode, loudnessEnvelopeGain, masterGain } =
     useAudioNodes(audioContext);
   const containerRef = useOverflowDirection();
