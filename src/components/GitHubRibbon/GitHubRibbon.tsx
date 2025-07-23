@@ -1,13 +1,18 @@
 import "./GitHubRibbon.css";
 
-function GitHubRibbon() {
+type Props = {
+  url: string;
+  text: string;
+};
+
+function GitHubRibbon({ url, text }: Props) {
   return (
     <a
-      href="https://github.com/stevebarakat/model-d"
+      href={url}
       className="github-fork-ribbon right-top fixed"
-      data-ribbon="Fork me on GitHub"
+      data-ribbon={text}
     >
-      Fork me on GitHub
+      {text}
     </a>
   );
 }

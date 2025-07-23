@@ -4,7 +4,10 @@ import GitHubRibbon from "./components/GitHubRibbon";
 function App() {
   return (
     <>
-      <GitHubRibbon />
+      <GitHubRibbon
+        url="https://github.com/stevebarakat/minimoog"
+        text="Fork me on GitHub"
+      />
       <Minimoog />
     </>
   );
