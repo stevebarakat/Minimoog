@@ -56,10 +56,19 @@ export default function Oscillator1() {
         valueLabels={ranges.reduce((acc, r, i) => ({ ...acc, [i]: r }), {})}
         disabled={isDisabled}
       />
-      <Spacer width="28%" style={{ marginTop: "-6.75rem" }}>
+      <Spacer
+        width="28%"
+        style={{
+          marginTop: "-6.75rem",
+          left: "-0.25rem",
+        }}
+      >
         <Title
           size="md"
-          style={{ paddingTop: "0.55rem", paddingBottom: "0.75rem" }}
+          style={{
+            paddingTop: "0.55rem",
+            paddingBottom: "0.75rem",
+          }}
         >
           Oscillator - 1
         </Title>

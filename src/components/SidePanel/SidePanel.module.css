@@ -8,8 +8,8 @@
 }
 
 .sidePanel {
-  padding: var(--spacing-sm);
-  padding-left: 5px;
+  padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm)
+    var(--spacing-md);
   height: 100%;
   background: linear-gradient(
     to bottom,
@@ -23,6 +23,7 @@
     hsl(0deg 0% 10%) 100%
   );
   border-radius: 0 0 10px 10px;
+  border-right: 2px solid var(--color-off-black);
 
   &::after {
     position: absolute;

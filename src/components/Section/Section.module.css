@@ -10,5 +10,5 @@
     hsl(0deg 0% 20%) 90%,
     hsl(0deg 0% 17.5%)
   );
-  border-right: 2px solid var(--color-white-50);
+  border-right: 2px solid var(--color-synth-border);
 }

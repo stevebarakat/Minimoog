@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  --keyboard-height: 220px;
+
+  @media (width <= 768px) {
+    --keyboard-height: 120px;
+  }
 }
 
 .keyboard {
@@ -23,13 +29,9 @@
   flex: 1;
   margin: 0;
   padding: 0;
-  height: 220px;
+  height: var(--keyboard-height);
   background: linear-gradient(180deg, hsl(0deg 0% 100%), hsl(0deg 0% 80%));
   background-color: transparent;
-
-  @media (height <= 660px) {
-    height: 120px;
-  }
 
   /* Button-specific styles */
   border: none;
@@ -150,16 +152,16 @@
 .leftShadow {
   position: absolute;
   z-index: 10;
-  width: 20px;
-  height: 100%;
-  background: linear-gradient(
+  height: 94.5%;
+  top: 3.75%;
+  box-shadow: 6px 0 12px 6px hsl(0 0% 0% / 50%);
+  /* background: linear-gradient(
     270deg,
     hsl(0deg 0% 100% / 0%) 0%,
     hsl(0deg 0% 50% / 50%) 50%,
     hsl(0deg 0% 0% / 100%) 100%
   );
-  pointer-events: none;
-  filter: blur(9px);
+  filter: blur(9px); */
 }
 
 .rightShadow {

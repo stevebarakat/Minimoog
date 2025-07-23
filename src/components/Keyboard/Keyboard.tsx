@@ -24,7 +24,7 @@ export function Keyboard({
   // Remove last 12 keys for tablet view, last 24 keys for mobile view
   const keys =
     view === "mobile"
-      ? allKeys.slice(0, -24)
+      ? allKeys.slice(0, -19)
       : view === "tablet"
       ? allKeys.slice(0, -12)
       : allKeys;

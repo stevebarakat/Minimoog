@@ -42,5 +42,5 @@
 
   /* Minimoog */
   --color-synth-bg: var(--color-gray-xd);
-  --color-synth-border: var(--color-gray-xd);
+  --color-synth-border: hsl(0deg 0% 60%);
 }

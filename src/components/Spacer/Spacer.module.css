@@ -1,4 +1,5 @@
 .spacer {
+  position: relative;
   display: inline-block;
   margin-top: calc(var(--spacing-xs) * -1);
 
