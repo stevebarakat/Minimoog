@@ -8,4 +8,17 @@
   background-repeat: no-repeat;
   border-top: 3px solid hsl(24deg 41% 47% / 50%);
   border-radius: 0.3rem;
+  overflow: hidden;
+  &::after {
+    position: absolute;
+    z-index: 99999999;
+    height: 25%;
+    bottom: 2rem;
+    right: -3.5px;
+    rotate: 2deg;
+    box-shadow: 0 0 5px 5px hsl(0deg 0% 0% / 35%);
+    /* background: hsl(0 0% 0% / 0.95);
+    filter: blur(8px); */
+    content: "";
+  }
 }

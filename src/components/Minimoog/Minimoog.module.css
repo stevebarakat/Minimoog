@@ -12,7 +12,11 @@
     z-index: 1;
     width: 100%;
     height: 1.5rem;
-    background: linear-gradient(to bottom, hsl(0deg 0% 0% / 50%), transparent);
+    background: linear-gradient(
+      to bottom,
+      hsl(0deg 0% 0% / 50%) 0%,
+      transparent 50%
+    );
     content: "";
   }
 }
@@ -50,17 +54,24 @@
   &::after,
   &::before {
     position: absolute;
-    bottom: 1.6rem;
     z-index: 9;
-    width: 20px;
-    height: 220px;
-    background: linear-gradient(to right, hsl(0deg 0% 0% / 50%), transparent);
+    width: 30px;
+    height: 55%;
+    top: 66.5%;
+    /* filter: blur(8px);
+    background: hsl(0deg 0% 0% / 85%); */
+    box-shadow: 0 0 20px 15px hsl(0, 0%, 0%);
     content: "";
   }
 
+  &::before {
+    rotate: 2.5deg;
+    left: -60px;
+  }
+
   &::after {
-    right: 0;
-    background: linear-gradient(to left, hsl(0deg 0% 0% / 50%), transparent);
+    rotate: -1.5deg;
+    right: -26px;
   }
   &.mobile {
     &::after,

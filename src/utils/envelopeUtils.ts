@@ -27,6 +27,21 @@ export function scheduleEnvelopeAttack(
     now: number;
   }
 ) {
+  console.log(
+    "scheduleEnvelopeAttack: {start:",
+    start,
+    "peak:",
+    peak,
+    "sustain:",
+    sustain,
+    "attackTime:",
+    attackTime,
+    "decayTime:",
+    decayTime,
+    "now:",
+    now,
+    "}"
+  );
   param.cancelScheduledValues(now);
   param.setValueAtTime(start, now);
   param.linearRampToValueAtTime(peak, now + attackTime);
@@ -56,7 +71,17 @@ export function scheduleEnvelopeRelease(
     now: number;
   }
 ) {
-  console.log("scheduleEnvelopeRelease:", { from, to, releaseTime, now });
+  console.log(
+    "scheduleEnvelopeRelease: {from:",
+    from,
+    "to:",
+    to,
+    "releaseTime:",
+    releaseTime,
+    "now:",
+    now,
+    "}"
+  );
   param.cancelScheduledValues(now);
   param.setValueAtTime(from, now);
   param.linearRampToValueAtTime(to, now + releaseTime);

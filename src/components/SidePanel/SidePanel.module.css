@@ -11,13 +11,16 @@
   padding: var(--spacing-sm);
   padding-left: 5px;
   height: 100%;
+  border-radius: 0 0 10px 10px;
   background: linear-gradient(
     to bottom,
     hsl(0deg 0% 20%),
     hsl(0deg 0% 20%) 2.5%,
     hsl(0deg 0% 17.5%) 50%,
     hsl(0deg 0% 22.5%) 90%,
-    hsl(0deg 0% 20%) 98.5%,
+    hsl(0deg 0% 27.5%) 99%,
+    hsl(0deg 0% 0.5%) 99.25%,
+    hsl(0deg 0% 20%) 99.5%,
     hsl(0deg 0% 10%) 100%
   );
 

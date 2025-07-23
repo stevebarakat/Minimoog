@@ -103,7 +103,10 @@ export function createSynthActions(
           loudnessSustain: newSustain,
         };
       }),
-    setDecaySwitchOn: (on: boolean) => set({ decaySwitchOn: on }),
+    setDecaySwitchOn: (on: boolean) => {
+      console.log("setDecaySwitchOn called with:", on);
+      set({ decaySwitchOn: on });
+    },
     setTunerOn: (on: boolean) => set({ tunerOn: on }),
     setAuxOutput: (value) =>
       set((state: SynthState) => ({
