@@ -57,7 +57,6 @@ export function Keyboard({
     setIsReleasing,
     pressedKeys,
     setPressedKeys,
-    octaveOffset,
     setOctaveOffset,
     synth,
     activeKeys,

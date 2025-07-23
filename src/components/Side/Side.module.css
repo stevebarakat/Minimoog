@@ -18,9 +18,6 @@
     height: 25%;
     box-shadow: 0 0 5px 5px hsl(0deg 0% 0% / 35%);
     rotate: 2deg;
-
-    /* background: hsl(0 0% 0% / 0.95);
-    filter: blur(8px); */
     content: "";
   }
 }
