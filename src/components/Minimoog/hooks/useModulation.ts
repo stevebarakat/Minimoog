@@ -243,6 +243,50 @@ export function useModulation({
       } catch (error) {
         console.warn("Failed to create modulation monitor worklet:", error);
       }
+    } else if (
+      filterModulationOn &&
+      filterNode &&
+      filterNode instanceof BiquadFilterNode &&
+      modWheelGainRef.current
+    ) {
+      // For BiquadFilterNode, directly modulate the frequency
+      try {
+        const modMonitorWorklet = new AudioWorkletNode(
+          audioContext,
+          "modulation-monitor-processor",
+          {
+            numberOfInputs: 1,
+            numberOfOutputs: 1,
+            outputChannelCount: [1],
+          }
+        );
+
+        // Connect the modulation signal to the worklet
+        modWheelGainRef.current.connect(modMonitorWorklet);
+
+        // Connect worklet output to a silent gain to complete the audio graph
+        const silentGain = audioContext.createGain();
+        silentGain.gain.value = 0;
+        modMonitorWorklet.connect(silentGain);
+
+        // Listen for modulation values and apply directly to filter frequency
+        modMonitorWorklet.port.onmessage = (event) => {
+          if (event.data.modValue !== undefined && audioContext) {
+            const baseFreq = filterNode.frequency.value;
+            const modDepth = 0.5; // Modulation depth
+            const modulatedFreq =
+              baseFreq * Math.pow(2, event.data.modValue * modDepth);
+            filterNode.frequency.setValueAtTime(
+              modulatedFreq,
+              audioContext.currentTime
+            );
+          }
+        };
+
+        modMonitorWorkletRef.current = modMonitorWorklet;
+      } catch (error) {
+        console.warn("Failed to create modulation monitor worklet:", error);
+      }
     }
 
     return () => {
