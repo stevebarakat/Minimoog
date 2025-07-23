@@ -4,7 +4,6 @@ import OverloadIndicator from "../OverloadIndicator";
 import { useExternalInput } from "./hooks";
 import Row from "../Row";
 import { RockerSwitch } from "../RockerSwitch";
-import { useEffect } from "react";
 import Line from "../Line";
 
 type ExternalInputProps = {
@@ -16,15 +15,14 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
   const { mixer, setMixerExternal, isDisabled } = useSynthStore();
   const { audioLevel } = useExternalInput(audioContext, mixerNode);
 
-  // Initialize volume to minimum value if it's 0
-  useEffect(() => {
-    if (mixer.external.volume === 0) {
-      setMixerExternal({ volume: 0.001 });
+  function updateExternalInput(checked: boolean) {
+    console.log("External Input toggle clicked:", checked);
+    if (checked && mixer.external.volume === 0) {
+      // Set a default volume when enabling if volume is 0
+      setMixerExternal({ enabled: checked, volume: 0.001 });
+    } else {
+      setMixerExternal({ enabled: checked });
     }
-  }, [mixer.external.volume, setMixerExternal]);
-
-  function ubu(checked: boolean) {
-    setMixerExternal({ enabled: checked });
   }
 
   return (
@@ -33,7 +31,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
         theme="blue"
         disabled={isDisabled}
         checked={mixer.external.enabled}
-        onCheckedChange={ubu}
+        onCheckedChange={updateExternalInput}
         label="External Input"
         bottomLabelRight="On"
         style={{
@@ -52,7 +50,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
             8: "8",
             10: "10",
           }}
-          logarithmic={true}
+          logarithmic={false}
           value={mixer.external.volume}
           min={0.001}
           max={10}
