@@ -145,7 +145,7 @@ export function calculateBlackKeyPosition(
 
   // Apply offset based on group size and position within group
   let offset = 0;
-  const offsetAmount = whiteKeyWidth * 0.08; // Reduced to 8% of white key width for subtle offset
+  const offsetAmount = whiteKeyWidth * 0.12; // Reduced to 8% of white key width for subtle offset
 
   if (groupSize === 3) {
     // Group of 3 black keys: F#, G#, A#
