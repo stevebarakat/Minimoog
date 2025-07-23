@@ -1,11 +1,10 @@
-import { useSynthStore } from "@/store/synthStore";
 import { useAudioNodes } from "./useAudioNodes";
-import { SYNTH_PARAMS } from "@/config";
 import { useModulation } from "./useModulation";
 import { useEnvelopes } from "./useEnvelopes";
 import { useOverflowDirection } from "./useOverflowDirection";
 import { useNoiseAndAux } from "./useNoiseAndAux";
 import { useOscillators } from "./useOscillators";
+import { useVibratoCalculation } from "./useVibratoCalculation";
 import { useMidiHandling } from "@/components/Keyboard/hooks";
 
 export function useAudio(audioContext: AudioContext | null) {
@@ -16,15 +15,8 @@ export function useAudio(audioContext: AudioContext | null) {
   // Set up noise, tuner, and aux output
   useNoiseAndAux(audioContext, mixerNode, masterGain);
 
-  // Vibrato amount
-  const vibratoAmount = useSynthStore((state) => {
-    if (!state.oscillatorModulationOn || state.modWheel <= 0) return 0;
-    const clampedModWheel = Math.max(
-      SYNTH_PARAMS.MOD_WHEEL.MIN,
-      Math.min(SYNTH_PARAMS.MOD_WHEEL.MAX, state.modWheel)
-    );
-    return clampedModWheel / SYNTH_PARAMS.MOD_WHEEL.MAX;
-  });
+  // Get vibrato amount from focused hook
+  const vibratoAmount = useVibratoCalculation();
 
   // Use the new useOscillators hook
   const { osc1, osc2, osc3 } = useOscillators(

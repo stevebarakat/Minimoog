@@ -1,3 +1,5 @@
-export { useOscillator1 } from "./useOscillator1";
-export { useOscillator2 } from "./useOscillator2";
-export { useOscillator3 } from "./useOscillator3";
+export { useOscillatorFactory } from "./useOscillatorFactory";
+export { useOscillatorParameters } from "./useOscillatorParameters";
+export { useOscillatorCalculations } from "./useMemoizedCalculations";
+export { useAudioNodeParameters } from "./useMemoizedCalculations";
+export { useVibratoSetup } from "./useMemoizedCalculations";

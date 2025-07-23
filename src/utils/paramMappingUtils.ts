@@ -36,7 +36,6 @@ export function mapEnvelopeTime(value: number): number {
   const minTime = 0.02; // 20ms
   const maxTime = 15; // 15s
   const mapped = minTime * Math.pow(maxTime / minTime, value / 10);
-  console.log("mapEnvelopeTime:", value, "->", mapped);
   return mapped;
 }
 
