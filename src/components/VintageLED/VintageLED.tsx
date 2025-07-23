@@ -62,6 +62,7 @@ function VintageLED({
     <div className={styles.container}>
       <div className={containerClasses}>
         <input
+          id={label}
           type="checkbox"
           className={styles.vintageLedInput}
           checked={isOn}

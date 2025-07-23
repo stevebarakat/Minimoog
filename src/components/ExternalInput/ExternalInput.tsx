@@ -16,13 +16,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
   const { audioLevel } = useExternalInput(audioContext, mixerNode);
 
   function updateExternalInput(checked: boolean) {
-    console.log("External Input toggle clicked:", checked);
-    if (checked && mixer.external.volume === 0) {
-      // Set a default volume when enabling if volume is 0
-      setMixerExternal({ enabled: checked, volume: 0.001 });
-    } else {
-      setMixerExternal({ enabled: checked });
-    }
+    setMixerExternal({ enabled: checked });
   }
 
   return (

@@ -35,11 +35,11 @@ type MIDIPort = {
   state: "connected" | "disconnected";
   id: string;
   name: string;
-  onmidimessage: ((event: MIDIMessageEvent) => void) | null;
 };
 
 type MIDIInput = MIDIPort & {
   type: "input";
+  onmidimessage: ((event: MIDIMessageEvent) => void) | null;
 };
 
 type MIDIAccess = {
@@ -49,7 +49,7 @@ type MIDIAccess = {
 
 declare global {
   interface Navigator {
-    requestMIDIAccess(): Promise<MIDIAccess>;
+    requestMIDIAccess(options?: { sysex?: boolean }): Promise<MIDIAccess>;
   }
 }
 
@@ -247,7 +247,9 @@ export function useMidiHandling(synthObj: SynthObject | null) {
   useEffect(() => {
     async function setupMidi() {
       try {
-        const midiAccess = await navigator.requestMIDIAccess();
+        const midiAccess = await navigator.requestMIDIAccess({
+          sysex: false,
+        });
 
         midiAccess.inputs.forEach((input) => {
           // Only set up each input once
@@ -262,7 +264,7 @@ export function useMidiHandling(synthObj: SynthObject | null) {
           if (port && port.type === "input" && port.state === "connected") {
             // Only set up new inputs that haven't been set up before
             if (!setupInputs.current.has(port.id)) {
-              port.onmidimessage = handleMidiMessage;
+              (port as MIDIInput).onmidimessage = handleMidiMessage;
               setupInputs.current.add(port.id);
             }
           }

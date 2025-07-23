@@ -94,7 +94,7 @@ function PresetsDropdown({ disabled }: { disabled: boolean }) {
           title="Copy current settings as URL"
           aria-label="Copy current settings as URL"
         >
-          {showCopiedMessage ? "Copied!" : "Copy URL"}
+          {showCopiedMessage ? "Copied!" : "Copy Settings"}
         </button>
       </div>
 
