@@ -12,7 +12,9 @@ type ExternalInputProps = {
 };
 
 function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
-  const { mixer, setMixerExternal, isDisabled } = useSynthStore();
+  const mixerExternal = useSynthStore((state) => state.mixer.external);
+  const setMixerExternal = useSynthStore((state) => state.setMixerExternal);
+  const isDisabled = useSynthStore((state) => state.isDisabled);
   const { audioLevel } = useExternalInput(audioContext, mixerNode);
 
   function updateExternalInput(checked: boolean) {
@@ -24,7 +26,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
       <RockerSwitch
         theme="blue"
         disabled={isDisabled}
-        checked={mixer.external.enabled}
+        checked={mixerExternal.enabled}
         onCheckedChange={updateExternalInput}
         label="External Input"
         bottomLabelRight="On"
@@ -45,7 +47,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
             10: "10",
           }}
           logarithmic={false}
-          value={mixer.external.volume}
+          value={mixerExternal.volume}
           min={0.001}
           max={10}
           step={0.1}
@@ -58,8 +60,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
             </span>
           }
           onChange={(v) => {
-            // Only update if the value is different
-            if (v !== mixer.external.volume) {
+            if (v !== mixerExternal.volume) {
               setMixerExternal({ volume: v });
             }
           }}
@@ -71,8 +72,8 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
         />
         <OverloadIndicator
           label="Signal"
-          isEnabled={mixer.external.enabled}
-          volume={mixer.external.volume}
+          isEnabled={mixerExternal.enabled}
+          volume={mixerExternal.volume}
           audioLevel={audioLevel}
           size="medium"
           style={{

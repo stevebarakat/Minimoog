@@ -27,101 +27,186 @@ export function useExternalInput(
   // Audio level monitoring
   const updateAudioLevel = useCallback(() => {
     if (!analyzerRef.current) {
-      // If analyzer is not available, try to restart monitoring
       if (updateAudioLevelRef.current) {
         animationFrameRef.current = requestAnimationFrame(updateAudioLevel);
       }
       return;
     }
-
     try {
       const dataArray = new Uint8Array(analyzerRef.current.frequencyBinCount);
       analyzerRef.current.getByteFrequencyData(dataArray);
-
-      // Calculate average level
       const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
-
-      // Get the latest state from the store to avoid stale closures
       const latestState = useSynthStore.getState().mixer.external;
-
-      // Only calculate level if external input is enabled
       if (latestState.enabled) {
-        // More sensitive audio level calculation
-        // Direct mapping from raw average (0-255) to 0-1 range
-        // Scale to be more responsive to typical microphone levels
-        const normalizedLevel = Math.min(1, average / 50); // 50 is a good threshold for typical speech
-
-        // Adjust sensitivity based on volume setting
+        const normalizedLevel = Math.min(1, average / 50);
         const volumeFactor = linearToLogGain(latestState.volume);
         const adjustedLevel = normalizedLevel * (1 + volumeFactor);
-
         setAudioLevel(adjustedLevel);
       } else {
         setAudioLevel(0);
       }
-    } catch (error) {
-      // If there's an error, just set level to 0 and continue
-      console.warn("Audio level monitoring error:", error);
+    } catch {
       setAudioLevel(0);
     }
-
-    // Always schedule next update, even if there are errors
     animationFrameRef.current = requestAnimationFrame(updateAudioLevel);
-  }, []); // No dependencies to avoid stale closures
-
-  // Store the function in a ref so we can call it without dependencies
+  }, []);
   updateAudioLevelRef.current = updateAudioLevel;
 
-  // Basic audio setup - only runs once on mount
+  // Effect: Only set up microphone and nodes when enabled, and clean up on disable/unmount
   useEffect(() => {
-    if (!audioContext || audioContext.state !== "running") {
-      return;
-    }
+    if (!audioContext) return;
+    let cancelled = false;
 
-    // Create audio nodes
-    if (!gainRef.current) {
-      gainRef.current = audioContext.createGain();
-      gainRef.current.gain.setValueAtTime(0, audioContext.currentTime); // Start muted
-    }
+    async function setupExternalInput() {
+      // Helper to disconnect gain node from all outputs
+      function disconnectGain() {
+        if (gainRef.current) {
+          try {
+            gainRef.current.disconnect();
+          } catch {
+            /* ignore disconnect errors */
+          }
+        }
+        isConnectedRef.current = false;
+      }
 
-    if (!analyzerRef.current) {
-      analyzerRef.current = audioContext.createAnalyser();
-      analyzerRef.current.fftSize = 256;
-    }
+      if (!mixerExternal.enabled) {
+        // If disabled, ensure everything is cleaned up
+        disconnectGain();
+        if (gainRef.current) {
+          disconnectNode(gainRef.current);
+          gainRef.current = null;
+        }
+        if (inputRef.current) {
+          inputRef.current.disconnect();
+          inputRef.current = null;
+        }
+        if (analyzerRef.current) {
+          analyzerRef.current.disconnect();
+          analyzerRef.current = null;
+        }
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = undefined;
+        }
+        if (keepAliveRef.current) {
+          keepAliveRef.current.stop();
+          disconnectNode(keepAliveRef.current);
+          keepAliveRef.current = null;
+        }
+        setAudioLevel(0);
+        return;
+      }
 
-    // Request microphone access
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
+      // ENABLED: set up nodes and request microphone
+      try {
+        // Create gain node if needed
+        if (!gainRef.current && audioContext) {
+          gainRef.current = audioContext.createGain();
+        }
+        // Always set gain value on every volume change
+        if (gainRef.current && audioContext) {
+          const newGain = linearToLogGain(mixerExternal.volume);
+          resetGain(gainRef.current, newGain, audioContext);
+        }
+
+        // Create analyzer node if needed
+        if (!analyzerRef.current && audioContext) {
+          analyzerRef.current = audioContext.createAnalyser();
+          analyzerRef.current.fftSize = 256;
+        }
+
+        // Request microphone access if needed
+        if (
+          navigator.mediaDevices &&
+          navigator.mediaDevices.getUserMedia &&
+          !inputRef.current &&
+          audioContext
+        ) {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+          });
+          if (cancelled) return;
           inputRef.current = audioContext.createMediaStreamSource(stream);
 
-          // Create a separate gain node for the analyzer (always connected)
+          // Analyzer gain node (for level monitoring)
           const analyzerGain = audioContext.createGain();
-          analyzerGain.gain.setValueAtTime(1, audioContext.currentTime); // Always at unity gain
-
-          // Connect input to both gain nodes
+          analyzerGain.gain.setValueAtTime(1, audioContext.currentTime);
           inputRef.current.connect(gainRef.current!);
           inputRef.current.connect(analyzerGain);
-
-          // Connect analyzer gain to analyzer and then to destination
           analyzerGain.connect(analyzerRef.current!);
           analyzerRef.current!.connect(audioContext.destination);
+        }
 
-          // Start audio level monitoring using the ref
-          if (updateAudioLevelRef.current) {
-            updateAudioLevelRef.current();
+        // Keep-alive oscillator for mixer
+        if (!keepAliveRef.current && audioContext) {
+          keepAliveRef.current = audioContext.createOscillator();
+          keepAliveRef.current.frequency.setValueAtTime(
+            1,
+            audioContext.currentTime
+          );
+          keepAliveRef.current.type = "sine";
+          const silentGain = audioContext.createGain();
+          silentGain.gain.setValueAtTime(0, audioContext.currentTime);
+          keepAliveRef.current.connect(silentGain);
+          silentGain.connect(mixerNode || audioContext.destination);
+          keepAliveRef.current.start();
+        }
+
+        // Always disconnect gain node before reconnecting
+        disconnectGain();
+        // Connect gain node to only one output
+        if (gainRef.current) {
+          if (mixerNode) {
+            gainRef.current.connect(mixerNode);
+          } else if (audioContext) {
+            gainRef.current.connect(audioContext.destination);
           }
-        })
-        .catch((err) => {
-          console.error("ExternalInput: Error accessing microphone:", err);
-        });
+          isConnectedRef.current = true;
+        }
+
+        // Start audio level monitoring
+        if (updateAudioLevelRef.current) {
+          updateAudioLevelRef.current();
+        }
+      } catch {
+        // Clean up on error
+        disconnectGain();
+        if (gainRef.current) {
+          disconnectNode(gainRef.current);
+          gainRef.current = null;
+        }
+        if (inputRef.current) {
+          inputRef.current.disconnect();
+          inputRef.current = null;
+        }
+        if (analyzerRef.current) {
+          analyzerRef.current.disconnect();
+          analyzerRef.current = null;
+        }
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = undefined;
+        }
+        if (keepAliveRef.current) {
+          keepAliveRef.current.stop();
+          disconnectNode(keepAliveRef.current);
+          keepAliveRef.current = null;
+        }
+        setAudioLevel(0);
+      }
     }
 
+    setupExternalInput();
     return () => {
-      // Cleanup
+      cancelled = true;
+      // Always clean up on unmount or disable
       if (gainRef.current) {
-        gainRef.current.disconnect();
+        try {
+          gainRef.current.disconnect();
+        } catch {
+          /* ignore disconnect errors */
+        }
         disconnectNode(gainRef.current);
         gainRef.current = null;
       }
@@ -135,6 +220,7 @@ export function useExternalInput(
       }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = undefined;
       }
       if (keepAliveRef.current) {
         keepAliveRef.current.stop();
@@ -142,79 +228,9 @@ export function useExternalInput(
         keepAliveRef.current = null;
       }
       isConnectedRef.current = false;
+      setAudioLevel(0);
     };
-  }, [audioContext]); // No problematic dependencies
-
-  // Control gain and connections based on enabled state and volume
-  useEffect(() => {
-    if (!gainRef.current || !audioContext) return;
-
-    const newGain = mixerExternal.enabled
-      ? linearToLogGain(mixerExternal.volume)
-      : 0;
-
-    // Update gain
-    if (isFinite(newGain)) {
-      resetGain(gainRef.current, newGain, audioContext);
-    }
-
-    // Handle connections
-    if (mixerExternal.enabled && !isConnectedRef.current) {
-      // Create a silent oscillator to keep the mixer active
-      if (!keepAliveRef.current) {
-        keepAliveRef.current = audioContext.createOscillator();
-        keepAliveRef.current.frequency.setValueAtTime(
-          1,
-          audioContext.currentTime
-        ); // Very low frequency
-        keepAliveRef.current.type = "sine";
-
-        // Create a gain node to make it silent
-        const silentGain = audioContext.createGain();
-        silentGain.gain.setValueAtTime(0, audioContext.currentTime);
-
-        keepAliveRef.current.connect(silentGain);
-        silentGain.connect(mixerNode || audioContext.destination);
-        keepAliveRef.current.start();
-      }
-
-      // Connect external input to mixer
-      if (mixerNode) {
-        gainRef.current.connect(mixerNode);
-      } else {
-        gainRef.current.connect(audioContext.destination);
-      }
-      isConnectedRef.current = true;
-    } else if (!mixerExternal.enabled && isConnectedRef.current) {
-      gainRef.current.disconnect();
-      isConnectedRef.current = false;
-
-      // Stop the keep-alive oscillator
-      if (keepAliveRef.current) {
-        keepAliveRef.current.stop();
-        disconnectNode(keepAliveRef.current);
-        keepAliveRef.current = null;
-      }
-    }
   }, [mixerExternal.enabled, mixerExternal.volume, audioContext, mixerNode]);
-
-  // Monitor and restart audio level monitoring if it stops
-  useEffect(() => {
-    if (!mixerExternal.enabled || mixerExternal.volume === 0) return;
-
-    const checkAndRestartMonitoring = () => {
-      if (!animationFrameRef.current && updateAudioLevelRef.current) {
-        updateAudioLevelRef.current();
-      }
-    };
-
-    // Check every 100ms if monitoring is still running
-    const interval = setInterval(checkAndRestartMonitoring, 100);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [mixerExternal.enabled, mixerExternal.volume]);
 
   return { audioLevel };
 }
