@@ -99,5 +99,5 @@ export function useNoise(
       const newGain = mixer.noise.volume / 10;
       resetGain(gainRef.current, isFinite(newGain) ? newGain : 0, audioContext);
     }
-  }, [mixer.noise.volume]);
+  }, [mixer.noise.volume, audioContext]);
 }

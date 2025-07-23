@@ -39,13 +39,9 @@ export function useMidiMessageHandler({
   synthObjRef,
   pressedKeysRef,
   setActiveKeysRef,
-  setPitchWheelRef,
-  setModWheelRef,
   activeKeysRef,
   pendingMod,
   pendingPitch,
-  currentMod,
-  currentPitch,
 }) {
   return useCallback(
     (event: { data: Uint8Array }) => {
@@ -131,13 +127,9 @@ export function useMidiMessageHandler({
       synthObjRef,
       pressedKeysRef,
       setActiveKeysRef,
-      setPitchWheelRef,
-      setModWheelRef,
       activeKeysRef,
       pendingMod,
       pendingPitch,
-      currentMod,
-      currentPitch,
     ]
   );
 }

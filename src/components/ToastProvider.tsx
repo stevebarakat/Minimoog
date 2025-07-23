@@ -1,17 +1,7 @@
 import * as React from "react";
 import * as Toast from "@radix-ui/react-toast";
-
-interface ToastContextValue {
-  showToast: (opts: {
-    title: string;
-    description?: string | string[];
-    variant?: "error" | "info" | "success";
-  }) => void;
-}
-
-const ToastContext = React.createContext<ToastContextValue | undefined>(
-  undefined
-);
+import { renderDescription } from "./utils";
+import { ToastContext } from "./hooks";
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -35,29 +25,6 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     },
     []
   );
-
-  // Helper to sanitize array descriptions: only render string content, never React elements
-  function renderDescription(desc: string | string[] | undefined) {
-    if (Array.isArray(desc)) {
-      return (
-        <Toast.Description style={{ marginTop: 4 }}>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            {desc.map((item, idx) => (
-              <li key={idx} style={{ marginBottom: 4 }}>
-                {typeof item === "string" ? item : ""}
-              </li>
-            ))}
-          </ul>
-        </Toast.Description>
-      );
-    } else if (typeof desc === "string") {
-      return (
-        <Toast.Description style={{ marginTop: 4 }}>{desc}</Toast.Description>
-      );
-    } else {
-      return null;
-    }
-  }
 
   return (
     <ToastContext.Provider value={{ showToast }}>
@@ -96,8 +63,4 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export function useToast() {
-  const ctx = React.useContext(ToastContext);
-  if (!ctx) throw new Error("useToast must be used within a ToastProvider");
-  return ctx.showToast;
-}
+

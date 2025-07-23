@@ -1,4 +1,4 @@
-import { render, screen } from "@/test/testUtils";
+import { render, screen } from "@/test";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import type { Oscillator } from "../types/synthTypes";

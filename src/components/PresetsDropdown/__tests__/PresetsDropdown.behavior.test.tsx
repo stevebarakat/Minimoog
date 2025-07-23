@@ -5,7 +5,7 @@ Object.defineProperty(navigator, "clipboard", {
   configurable: true,
 });
 
-import { render, screen, waitFor } from "@/test/testUtils";
+import { render, screen, waitFor } from "@/test";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import PresetsDropdown from "../PresetsDropdown";

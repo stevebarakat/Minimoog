@@ -6,7 +6,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
   withToast?: boolean;
 }
 
-function customRender(
+export function customRender(
   ui: React.ReactElement,
   options: CustomRenderOptions = {}
 ) {
@@ -21,6 +21,3 @@ function customRender(
 
   return render(ui, { wrapper: Wrapper, ...renderOptions });
 }
-
-export * from "@testing-library/react";
-export { customRender as render };

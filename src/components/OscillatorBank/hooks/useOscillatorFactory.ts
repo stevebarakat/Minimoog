@@ -240,7 +240,6 @@ export function useOscillatorFactory(
       mappedGlideTime,
       calculateFrequencyForNote,
       setupVibrato,
-      clampedParams.masterTune,
       createOscillator,
       calculateBaseFrequency,
     ]

@@ -107,45 +107,41 @@ export const useMixerSourceConfig = (sourceKey: "osc1" | "osc2" | "osc3") =>
 
 // --- Memoized Selector Hooks ---
 export function useMemoizedSelector<T>(
-  selector: (state: ReturnType<typeof useSynthStore.getState>) => T,
-  dependencies: unknown[] = []
+  selector: (state: ReturnType<typeof useSynthStore.getState>) => T
 ): T {
   const state = useSynthStore();
-  return useMemo(() => selector(state), [state, ...dependencies]);
+  return useMemo(() => selector(state), [selector, state]);
 }
 export function useMemoizedOscillatorState(
   oscillatorKey: "oscillator1" | "oscillator2" | "oscillator3",
   includeCalculations = false
 ) {
-  return useMemoizedSelector(
-    (state) => {
-      const oscillator = state[oscillatorKey];
-      const mixer =
-        state.mixer[
-          oscillatorKey === "oscillator1"
-            ? "osc1"
-            : oscillatorKey === "oscillator2"
-            ? "osc2"
-            : "osc3"
-        ];
-      if (!includeCalculations) {
-        return { oscillator, mixer };
-      }
-      const masterTune = state.masterTune;
-      const pitchWheel = state.pitchWheel;
-      const glideOn = state.glideOn;
-      const glideTime = state.glideTime;
-      return {
-        oscillator,
-        mixer,
-        masterTune,
-        pitchWheel,
-        glideOn,
-        glideTime,
-      };
-    },
-    [oscillatorKey, includeCalculations]
-  );
+  return useMemoizedSelector((state) => {
+    const oscillator = state[oscillatorKey];
+    const mixer =
+      state.mixer[
+        oscillatorKey === "oscillator1"
+          ? "osc1"
+          : oscillatorKey === "oscillator2"
+          ? "osc2"
+          : "osc3"
+      ];
+    if (!includeCalculations) {
+      return { oscillator, mixer };
+    }
+    const masterTune = state.masterTune;
+    const pitchWheel = state.pitchWheel;
+    const glideOn = state.glideOn;
+    const glideTime = state.glideTime;
+    return {
+      oscillator,
+      mixer,
+      masterTune,
+      pitchWheel,
+      glideOn,
+      glideTime,
+    };
+  });
 }
 export function useMemoizedFilterState(includeCalculations = false) {
   return useMemoizedSelector(
@@ -173,8 +169,7 @@ export function useMemoizedFilterState(includeCalculations = false) {
         modWheel,
         lfoRate,
       };
-    },
-    [includeCalculations]
+    }
   );
 }
 export function useMemoizedModulationState(includeCalculations = false) {
@@ -199,7 +194,6 @@ export function useMemoizedModulationState(includeCalculations = false) {
         ...modulationState,
         vibratoAmount,
       };
-    },
-    [includeCalculations]
+    }
   );
 }

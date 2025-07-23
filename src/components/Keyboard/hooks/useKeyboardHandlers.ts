@@ -8,8 +8,7 @@ export type UseKeyboardHandlersProps = {
   setIsReleasing: (releasing: boolean) => void;
   pressedKeys: string[];
   setPressedKeys: (keys: string[] | ((prev: string[]) => string[])) => void;
-  octaveOffset: number;
-  setOctaveOffset: (offset: number) => void;
+  setOctaveOffset: (offset: number | ((prev: number) => number)) => void;
   synth: {
     triggerAttack: (note: string) => void;
     triggerRelease: (note: string) => void;
@@ -29,7 +28,6 @@ export function useKeyboardHandlers({
   setIsReleasing,
   pressedKeys,
   setPressedKeys,
-  octaveOffset,
   setOctaveOffset,
   synth,
   activeKeys,
@@ -166,9 +164,9 @@ export function useKeyboardHandlers({
   const handleOctaveChange = useCallback(
     (direction: "up" | "down") => {
       if (isDisabled) return;
-      setOctaveOffset(octaveOffset + (direction === "up" ? 1 : -1));
+      setOctaveOffset((prev) => prev + (direction === "up" ? 1 : -1));
     },
-    [isDisabled, setOctaveOffset, octaveOffset]
+    [isDisabled, setOctaveOffset]
   );
 
   // Keyboard event handlers for the container
@@ -190,7 +188,7 @@ export function useKeyboardHandlers({
         handleKeyPress(note);
       }
     },
-    [handleKeyPress, handleOctaveChange, isDisabled, octaveOffset]
+    [handleKeyPress, handleOctaveChange, isDisabled]
   );
 
   const handleContainerKeyUp = useCallback(
@@ -204,7 +202,7 @@ export function useKeyboardHandlers({
         handleKeyRelease(note);
       }
     },
-    [handleKeyRelease, isDisabled, octaveOffset]
+    [handleKeyRelease, isDisabled]
   );
 
   // Add global keyboard event listeners
