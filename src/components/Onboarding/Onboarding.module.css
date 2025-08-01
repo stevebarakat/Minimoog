@@ -2,18 +2,60 @@
 
 .tooltip {
   position: fixed;
-  background: var(--color-panel, #f0f0f0);
+  background: var(--color-off-black);
   border: 2px solid var(--color-black, #000);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  max-width: 400px;
-  min-width: 300px;
+  max-width: 300px;
+  min-width: 150px;
+  width: clamp(150px, 250px, 300px);
+  padding: 10px;
   pointer-events: auto;
   animation: fadeIn 0.3s ease-out;
   z-index: 10000;
 }
 
-/* Arrow pseudo-elements removed for cleaner tooltip design */
+.tooltip::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  z-index: -1;
+}
+
+/* Arrow positions */
+.arrowTop::before {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--color-black, #000);
+  border-bottom: none;
+}
+
+.arrowBottom::before {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--color-black, #000);
+  border-top: none;
+}
+
+.arrowLeft::before {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--color-black, #000);
+  border-right: none;
+}
+
+.arrowRight::before {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: var(--color-black, #000);
+  border-left: none;
+}
 
 /* Position-specific styles removed - using inline positioning */
 
@@ -25,7 +67,6 @@
   font-family: var(--font-futura, Arial);
   font-weight: bold;
   font-size: 18px;
-  color: var(--color-black, #000);
   margin: 0 0 12px 0;
   text-align: center;
 }
@@ -33,7 +74,6 @@
 .description {
   font-family: var(--font-futura, Arial);
   font-size: 14px;
-  color: var(--color-black, #000);
   line-height: 1.4;
   margin: 0 0 20px 0;
   text-align: center;
@@ -55,17 +95,18 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--color-black-25);
+  background: var(--color-off-black);
+  border: 1px solid var(--color-text-primary);
   transition: all 0.2s ease;
 }
 
 .dot.active {
-  background: var(--color-black);
+  background: var(--color-text-primary);
   transform: scale(1.2);
 }
 
 .dot.completed {
-  background: var(--color-black-50);
+  background: var(--color-text-primary);
 }
 
 .buttons {
@@ -80,9 +121,9 @@
   font-size: 12px;
   font-weight: bold;
   padding: 8px 16px;
-  border: 2px solid var(--color-black);
-  background: var(--color-panel);
-  color: var(--color-black);
+  border: 2px solid var(--color-text-primary);
+  background: var(--color-off-black);
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: uppercase;
@@ -90,18 +131,18 @@
 }
 
 .button:hover {
-  background: var(--color-black);
-  color: var(--color-panel);
+  background: var(--color-text-primary);
+  color: var(--color-off-black);
 }
 
 .button.primary {
-  background: var(--color-black);
-  color: var(--color-panel);
+  background: var(--color-text-primary);
+  color: var(--color-off-black);
 }
 
 .button.primary:hover {
-  background: var(--color-panel);
-  color: var(--color-black);
+  background: var(--color-off-black);
+  color: var(--color-text-primary);
 }
 
 .button.skip {

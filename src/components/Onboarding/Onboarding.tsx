@@ -98,8 +98,6 @@ export function Onboarding() {
     null
   );
 
-  if (!isVisible) return null;
-
   const step = ONBOARDING_STEPS[currentStep];
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === ONBOARDING_STEPS.length - 1;
@@ -143,6 +141,9 @@ export function Onboarding() {
 
     findTarget();
   }, [step.target, currentStep]);
+
+  // Early return after all hooks have been called
+  if (!isVisible) return null;
 
   // Don't render if we're looking for a target element but haven't found it yet
   if (step.target && !targetElement) {
@@ -233,8 +234,17 @@ export function Onboarding() {
 
   const tooltipStyle = getTooltipPosition();
 
+  // Determine arrow class based on position
+  const getArrowClass = () => {
+    if (!targetElement) return "";
+    const position = step.position || "bottom";
+    return styles[
+      `arrow${position.charAt(0).toUpperCase() + position.slice(1)}`
+    ];
+  };
+
   return (
-    <div className={styles.tooltip} style={tooltipStyle}>
+    <div className={cn(styles.tooltip, getArrowClass())} style={tooltipStyle}>
       <div className={styles.content}>
         <h3 className={styles.title}>{step.title}</h3>
         <p className={styles.description}>{step.description}</p>

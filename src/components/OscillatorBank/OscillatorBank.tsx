@@ -10,20 +10,6 @@ import Column from "../Column";
 function OscillatorBank() {
   return (
     <Section data-onboarding="oscillators">
-      {/* Debug element */}
-      <div
-        style={{
-          position: "absolute",
-          top: "0",
-          left: "0",
-          background: "yellow",
-          padding: "2px",
-          fontSize: "10px",
-          zIndex: 1000,
-        }}
-      >
-        OSCILLATORS DEBUG
-      </div>
       <Column>
         <OscillatorModulation />
         <Oscillator1 />
