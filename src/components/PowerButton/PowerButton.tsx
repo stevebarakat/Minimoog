@@ -37,7 +37,11 @@ function PowerButton({ isOn, onPowerOn, onPowerOff }: PowerButtonProps) {
   );
 
   return (
-    <Column gap="1.5rem" style={{ paddingTop: "5.5rem" }}>
+    <Column
+      gap="1.5rem"
+      style={{ paddingTop: "5.5rem" }}
+      data-onboarding="power"
+    >
       <VintageLED
         size="medium"
         label="Power"

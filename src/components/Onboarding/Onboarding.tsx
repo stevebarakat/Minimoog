@@ -20,6 +20,14 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     position: "bottom",
   },
   {
+    id: "power",
+    title: "Start by turning on the power",
+    description:
+      "The Minimoog needs to be powered on before you can create any sounds. Flip the power switch to get started.",
+    target: "[data-onboarding='power']",
+    position: "bottom",
+  },
+  {
     id: "oscillators",
     title: "Oscillators",
     description:
@@ -115,7 +123,20 @@ export function Onboarding() {
     const findTarget = () => {
       const element = document.querySelector(step.target!);
       if (element) {
-        setTargetElement(element);
+        // Special handling for power button - scroll it into view first
+        if (step.id === "power") {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+          });
+          // Small delay to ensure scroll completes before setting target
+          setTimeout(() => {
+            setTargetElement(element);
+          }, 500);
+        } else {
+          setTargetElement(element);
+        }
       } else if (retryCount < maxRetries) {
         retryCount++;
         setTimeout(findTarget, 100);
@@ -164,10 +185,24 @@ export function Onboarding() {
     const rect = targetElement.getBoundingClientRect();
     const position = step.position || "bottom";
 
+    // Debug: log the target element position
+    console.log(`Onboarding: Target element for step ${step.id}:`, {
+      rect: {
+        top: rect.top,
+        left: rect.left,
+        bottom: rect.bottom,
+        right: rect.right,
+        width: rect.width,
+        height: rect.height,
+      },
+      position,
+      isVisible: rect.top >= 0 && rect.bottom <= window.innerHeight,
+    });
+
     // Ensure the tooltip stays within viewport bounds
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const tooltipWidth = 350; // Approximate tooltip width
+    const tooltipWidth = 300; // Updated to match CSS
     const tooltipHeight = 200; // Approximate tooltip height
 
     let top, left, transform;
