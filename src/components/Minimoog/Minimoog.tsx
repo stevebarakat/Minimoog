@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useRef, useState, useEffect } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { useKeyboardState } from "@/store/selectors";
 import styles from "./Minimoog.module.css";
@@ -32,7 +32,7 @@ const Minimoog = React.memo(function Minimoog() {
 
   // UI state management
   // ----------------------------
-  const { containerRef, isMobile, view } = useUIState();
+  const { isMobile, view } = useUIState();
 
   // Audio context management
   // ----------------------------
@@ -51,6 +51,90 @@ const Minimoog = React.memo(function Minimoog() {
   // ----------------------------
   useFilterTracking(audioContext, filterNode, activeKeys);
 
+  // Scroll arrow functionality
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
+
+  const checkScrollPosition = () => {
+    if (!scrollRef.current) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    const shouldShowLeft = scrollLeft > 0;
+    const shouldShowRight = scrollLeft < scrollWidth - clientWidth - 1;
+
+    setShowLeftArrow(shouldShowLeft);
+    setShowRightArrow(shouldShowRight);
+  };
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (!scrollRef.current) return;
+
+    switch (event.key) {
+      case "ArrowLeft":
+        event.preventDefault();
+        scrollLeft();
+        break;
+      case "ArrowRight":
+        event.preventDefault();
+        scrollRight();
+        break;
+      case "Home":
+        event.preventDefault();
+        scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        break;
+      case "End":
+        event.preventDefault();
+        scrollRef.current.scrollTo({
+          left: scrollRef.current.scrollWidth,
+          behavior: "smooth",
+        });
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(checkScrollPosition, 100);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    checkScrollPosition();
+  }, []);
+
+  // Scroll to the right end on initial load to show the PowerButton
+  useEffect(() => {
+    if (scrollRef.current) {
+      // Wait a bit for the content to render, then scroll to the end
+      const timer = setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTo({
+            left: scrollRef.current.scrollWidth,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <>
       <Suspense fallback={<div>Loading controls...</div>}>
@@ -63,35 +147,72 @@ const Minimoog = React.memo(function Minimoog() {
         <Side />
         <div className={styles.synth}>
           <BackPanel />
-          <div ref={containerRef} className={styles.controlsPanel}>
-            <Controllers />
-            {isMobile && (
+          <div className={styles.controlsContainer}>
+            {showLeftArrow && (
+              <button
+                className={`${styles.scrollArrow} ${styles.scrollArrowLeft}`}
+                onClick={scrollLeft}
+                aria-label="Scroll controls left"
+                aria-describedby="scroll-instructions"
+                title="Scroll controls left"
+              >
+                ‹
+              </button>
+            )}
+            <div
+              ref={scrollRef}
+              className={styles.controlsPanel}
+              onScroll={checkScrollPosition}
+              onKeyDown={handleKeyDown}
+              role="region"
+              aria-label="Synthesizer controls"
+              tabIndex={0}
+            >
+              <Controllers />
+              {isMobile && (
+                <Section
+                  style={{
+                    paddingTop: "3.15rem",
+                  }}
+                >
+                  <SidePanel />
+                  <Title>Modulation</Title>
+                </Section>
+              )}
+              <OscillatorBank />
+              <Mixer audioContext={audioContext!} mixerNode={mixerNode!} />
+              <Modifiers />
+              <Output />
               <Section
+                justify="center"
                 style={{
-                  paddingTop: "3.15rem",
+                  borderRadius: "0 0 10px 0",
+                  marginRight: "var(--spacing-md)",
                 }}
               >
-                <SidePanel />
-                <Title>Modulation</Title>
+                <PowerButton
+                  isOn={isInitialized}
+                  onPowerOn={initialize}
+                  onPowerOff={dispose}
+                />
               </Section>
+            </div>
+            {showRightArrow && (
+              <button
+                className={`${styles.scrollArrow} ${styles.scrollArrowRight}`}
+                onClick={scrollRight}
+                aria-label="Scroll controls right"
+                aria-describedby="scroll-instructions"
+                title="Scroll controls right"
+              >
+                ›
+              </button>
             )}
-            <OscillatorBank />
-            <Mixer audioContext={audioContext!} mixerNode={mixerNode!} />
-            <Modifiers />
-            <Output />
-            <Section
-              justify="center"
-              style={{
-                borderRadius: "0 0 10px 0",
-                marginRight: "var(--spacing-md)",
-              }}
-            >
-              <PowerButton
-                isOn={isInitialized}
-                onPowerOn={initialize}
-                onPowerOff={dispose}
-              />
-            </Section>
+            {/* Screen reader instructions */}
+            <div id="scroll-instructions" className="sr-only">
+              Use the arrow buttons to scroll through synthesizer controls when
+              they extend beyond the visible area.
+            </div>
           </div>
           <Hinge />
           <MidPanel />
