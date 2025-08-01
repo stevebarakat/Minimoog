@@ -1,4 +1,6 @@
 import React from "react";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { createPortal } from "react-dom";
 import styles from "./Onboarding.module.css";
 import { cn } from "@/utils";
 import { useOnboarding } from "./hooks/useOnboarding";
@@ -123,20 +125,11 @@ export function Onboarding() {
     const findTarget = () => {
       const element = document.querySelector(step.target!);
       if (element) {
-        // Special handling for power button - scroll it into view first
-        if (step.id === "power") {
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-            inline: "center",
-          });
-          // Small delay to ensure scroll completes before setting target
-          setTimeout(() => {
-            setTargetElement(element);
-          }, 500);
-        } else {
-          setTargetElement(element);
-        }
+        console.log(
+          `Onboarding: Found target element for step ${step.id}:`,
+          element
+        );
+        setTargetElement(element);
       } else if (retryCount < maxRetries) {
         retryCount++;
         setTimeout(findTarget, 100);
@@ -154,6 +147,7 @@ export function Onboarding() {
             selector: el.getAttribute("data-onboarding"),
             tagName: el.tagName,
             className: el.className,
+            rect: el.getBoundingClientRect(),
           }))
         );
         setTargetElement(null);
@@ -171,167 +165,100 @@ export function Onboarding() {
     return null;
   }
 
-  // Calculate position relative to target element
-  const getTooltipPosition = () => {
-    if (!targetElement) {
-      // For welcome step or when target not found, position in center
-      return {
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-      };
-    }
+  const renderTooltip = () => (
+    <Tooltip.Provider>
+      <Tooltip.Root open={true} defaultOpen={true}>
+        <Tooltip.Trigger asChild>
+          <div
+            style={{
+              position: "fixed",
+              top: targetElement
+                ? targetElement.getBoundingClientRect().top
+                : "50%",
+              left: targetElement
+                ? targetElement.getBoundingClientRect().left
+                : "50%",
+              width: targetElement
+                ? targetElement.getBoundingClientRect().width
+                : "1px",
+              height: targetElement
+                ? targetElement.getBoundingClientRect().height
+                : "1px",
+              opacity: 0,
+              pointerEvents: "none",
+            }}
+          />
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            className={styles.tooltip}
+            side={step.position || "bottom"}
+            sideOffset={10}
+            align="center"
+            alignOffset={0}
+            avoidCollisions={true}
+            collisionBoundary={document.body}
+            collisionPadding={10}
+          >
+            <div className={styles.content}>
+              <h3 className={styles.title}>{step.title}</h3>
+              <p className={styles.description}>{step.description}</p>
 
-    const rect = targetElement.getBoundingClientRect();
-    const position = step.position || "bottom";
+              <div className={styles.navigation}>
+                <div className={styles.progress}>
+                  {ONBOARDING_STEPS.map((_, index) => (
+                    <div
+                      key={index}
+                      className={cn(
+                        styles.dot,
+                        index === currentStep && styles.active,
+                        index < currentStep && styles.completed
+                      )}
+                    />
+                  ))}
+                </div>
 
-    // Debug: log the target element position
-    console.log(`Onboarding: Target element for step ${step.id}:`, {
-      rect: {
-        top: rect.top,
-        left: rect.left,
-        bottom: rect.bottom,
-        right: rect.right,
-        width: rect.width,
-        height: rect.height,
-      },
-      position,
-      isVisible: rect.top >= 0 && rect.bottom <= window.innerHeight,
-    });
+                <div className={styles.buttons}>
+                  {!isFirstStep && (
+                    <button className={styles.button} onClick={previousStep}>
+                      Previous
+                    </button>
+                  )}
 
-    // Ensure the tooltip stays within viewport bounds
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const tooltipWidth = 300; // Updated to match CSS
-    const tooltipHeight = 200; // Approximate tooltip height
+                  {isLastStep ? (
+                    <button
+                      className={cn(styles.button, styles.primary)}
+                      onClick={completeOnboarding}
+                    >
+                      Get Started
+                    </button>
+                  ) : (
+                    <button
+                      className={cn(styles.button, styles.primary)}
+                      onClick={nextStep}
+                    >
+                      Next
+                    </button>
+                  )}
 
-    let top, left, transform;
-
-    switch (position) {
-      case "top":
-        top = Math.max(10, rect.top - 20);
-        left = Math.max(
-          10,
-          Math.min(
-            viewportWidth - tooltipWidth - 10,
-            rect.left + rect.width / 2
-          )
-        );
-        transform = "translateX(-50%)";
-        break;
-      case "bottom":
-        top = Math.min(viewportHeight - tooltipHeight - 10, rect.bottom + 20);
-        left = Math.max(
-          10,
-          Math.min(
-            viewportWidth - tooltipWidth - 10,
-            rect.left + rect.width / 2
-          )
-        );
-        transform = "translateX(-50%)";
-        break;
-      case "left":
-        top = Math.max(
-          10,
-          Math.min(
-            viewportHeight - tooltipHeight - 10,
-            rect.top + rect.height / 2
-          )
-        );
-        left = Math.max(10, rect.left - 20);
-        transform = "translateY(-50%)";
-        break;
-      case "right":
-        top = Math.max(
-          10,
-          Math.min(
-            viewportHeight - tooltipHeight - 10,
-            rect.top + rect.height / 2
-          )
-        );
-        left = Math.min(viewportWidth - tooltipWidth - 10, rect.right + 20);
-        transform = "translateY(-50%)";
-        break;
-      default:
-        top = Math.min(viewportHeight - tooltipHeight - 10, rect.bottom + 20);
-        left = Math.max(
-          10,
-          Math.min(
-            viewportWidth - tooltipWidth - 10,
-            rect.left + rect.width / 2
-          )
-        );
-        transform = "translateX(-50%)";
-    }
-
-    return { top: `${top}px`, left: `${left}px`, transform };
-  };
-
-  const tooltipStyle = getTooltipPosition();
-
-  // Determine arrow class based on position
-  const getArrowClass = () => {
-    if (!targetElement) return "";
-    const position = step.position || "bottom";
-    return styles[
-      `arrow${position.charAt(0).toUpperCase() + position.slice(1)}`
-    ];
-  };
-
-  return (
-    <div className={cn(styles.tooltip, getArrowClass())} style={tooltipStyle}>
-      <div className={styles.content}>
-        <h3 className={styles.title}>{step.title}</h3>
-        <p className={styles.description}>{step.description}</p>
-
-        <div className={styles.navigation}>
-          <div className={styles.progress}>
-            {ONBOARDING_STEPS.map((_, index) => (
-              <div
-                key={index}
-                className={cn(
-                  styles.dot,
-                  index === currentStep && styles.active,
-                  index < currentStep && styles.completed
-                )}
-              />
-            ))}
-          </div>
-
-          <div className={styles.buttons}>
-            {!isFirstStep && (
-              <button className={styles.button} onClick={previousStep}>
-                Previous
-              </button>
-            )}
-
-            {isLastStep ? (
-              <button
-                className={cn(styles.button, styles.primary)}
-                onClick={completeOnboarding}
-              >
-                Get Started
-              </button>
-            ) : (
-              <button
-                className={cn(styles.button, styles.primary)}
-                onClick={nextStep}
-              >
-                Next
-              </button>
-            )}
-
-            <button
-              className={cn(styles.button, styles.skip)}
-              onClick={skipOnboarding}
-            >
-              Skip
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+                  <button
+                    className={cn(styles.button, styles.skip)}
+                    onClick={skipOnboarding}
+                  >
+                    Skip
+                  </button>
+                </div>
+              </div>
+            </div>
+            <Tooltip.Arrow className={styles.arrow} />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
   );
+
+  // Render tooltip in a portal to ensure proper positioning
+  return createPortal(renderTooltip(), document.body);
 }
 
 export default Onboarding;

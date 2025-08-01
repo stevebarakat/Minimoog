@@ -1,7 +1,6 @@
 /* Removed overlay and backdrop - tooltips are now standalone */
 
 .tooltip {
-  position: fixed;
   background: var(--color-off-black);
   border: 2px solid var(--color-black, #000);
   border-radius: 8px;
@@ -16,49 +15,13 @@
   font-family: var(--font-primary);
 }
 
-.tooltip::before {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border: 8px solid transparent;
-  z-index: -1;
-}
+/* Pseudo-element arrow removed - using Radix Tooltip.Arrow */
 
-/* Arrow positions */
-.arrowTop::before {
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-top-color: var(--color-black, #000);
-  border-bottom: none;
-}
+/* Arrow positions removed - using Radix Tooltip.Arrow */
 
-.arrowBottom::before {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-bottom-color: var(--color-black, #000);
-  border-top: none;
+.arrow {
+  fill: var(--color-black, #000);
 }
-
-.arrowLeft::before {
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  border-left-color: var(--color-black, #000);
-  border-right: none;
-}
-
-.arrowRight::before {
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  border-right-color: var(--color-black, #000);
-  border-left: none;
-}
-
-/* Position-specific styles removed - using inline positioning */
 
 .content {
   padding: 20px;

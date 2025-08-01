@@ -18,14 +18,13 @@ The Onboarding component is automatically integrated into the main App component
 ### Basic Integration
 
 ```tsx
-import Onboarding, { OnboardingTrigger } from "./components/Onboarding";
+import Onboarding from "./components/Onboarding";
 
 function App() {
   return (
     <div>
       <Minimoog />
       <Onboarding />
-      <OnboardingTrigger />
     </div>
   );
 }
