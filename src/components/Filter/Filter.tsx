@@ -20,7 +20,7 @@ export default function Filter({ audioContext, filterNode }: FilterProps) {
   } = useSynthStore();
 
   return (
-    <Column style={{ left: "-0.375rem" }}>
+    <Column style={{ left: "-0.375rem" }} data-onboarding="filter">
       <Title size="lg">Filter</Title>
       <Row gap="var(--spacing-xl)">
         <Knob

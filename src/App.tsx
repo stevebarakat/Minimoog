@@ -2,6 +2,7 @@ import Minimoog from "./components/Minimoog";
 import GitHubRibbon from "./components/GitHubRibbon";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ToastProvider } from "./components/Toast/ToastProvider";
+import Onboarding, { OnboardingTrigger } from "./components/Onboarding";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
           text="Fork me on GitHub"
         />
         <Minimoog />
+        <Onboarding />
+        <OnboardingTrigger />
       </ErrorBoundary>
     </ToastProvider>
   );

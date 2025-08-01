@@ -17,7 +17,11 @@ function PresetsDropdown({ disabled }: { disabled: boolean }) {
   } = usePresetsDropdown();
 
   return (
-    <div style={{ opacity: disabled ? 0.5 : 1 }} className={styles.container}>
+    <div
+      style={{ opacity: disabled ? 0.5 : 1 }}
+      className={styles.container}
+      data-onboarding="presets"
+    >
       <Dropdown.Root
         isOpen={isOpen}
         onToggle={() => setIsOpen(!isOpen)}

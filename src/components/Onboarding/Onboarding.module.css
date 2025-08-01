@@ -1,0 +1,157 @@
+/* Removed overlay and backdrop - tooltips are now standalone */
+
+.tooltip {
+  position: fixed;
+  background: var(--color-panel, #f0f0f0);
+  border: 2px solid var(--color-black, #000);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  min-width: 300px;
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease-out;
+  z-index: 10000;
+}
+
+/* Arrow pseudo-elements removed for cleaner tooltip design */
+
+/* Position-specific styles removed - using inline positioning */
+
+.content {
+  padding: 20px;
+}
+
+.title {
+  font-family: var(--font-futura, Arial);
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--color-black, #000);
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+.description {
+  font-family: var(--font-futura, Arial);
+  font-size: 14px;
+  color: var(--color-black, #000);
+  line-height: 1.4;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.progress {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-black-25);
+  transition: all 0.2s ease;
+}
+
+.dot.active {
+  background: var(--color-black);
+  transform: scale(1.2);
+}
+
+.dot.completed {
+  background: var(--color-black-50);
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.button {
+  font-family: var(--font-futura);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border: 2px solid var(--color-black);
+  background: var(--color-panel);
+  color: var(--color-black);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.button:hover {
+  background: var(--color-black);
+  color: var(--color-panel);
+}
+
+.button.primary {
+  background: var(--color-black);
+  color: var(--color-panel);
+}
+
+.button.primary:hover {
+  background: var(--color-panel);
+  color: var(--color-black);
+}
+
+.button.skip {
+  font-size: 10px;
+  padding: 6px 12px;
+  opacity: 0.7;
+}
+
+.button.skip:hover {
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tooltip {
+    max-width: 90vw;
+    min-width: 280px;
+    margin: 0 16px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button {
+    width: 100%;
+    max-width: 200px;
+  }
+}

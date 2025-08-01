@@ -14,6 +14,7 @@ type ColumnProps = {
   gap?: string;
   style?: React.CSSProperties;
   className?: string;
+  "data-onboarding"?: string;
 };
 
 function Column({
@@ -23,6 +24,7 @@ function Column({
   justify = "flex-start",
   gap = "0",
   style,
+  "data-onboarding": dataOnboarding,
 }: ColumnProps) {
   return (
     <div
@@ -33,6 +35,7 @@ function Column({
         gap: gap,
         ...style,
       }}
+      data-onboarding={dataOnboarding}
     >
       {children}
     </div>

@@ -34,7 +34,7 @@ export default function Mixer({ audioContext, mixerNode }: MixerProps) {
   const { setMixerSource, isDisabled } = useSynthStore();
 
   return (
-    <Section>
+    <Section data-onboarding="mixer">
       <Row style={{ padding: "0 var(--spacing-md)" }}>
         <Column gap={COLUMN_GAP}>
           <Row>

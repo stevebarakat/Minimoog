@@ -8,6 +8,7 @@ type SectionProps = {
   justify?: "flex-start" | "center" | "flex-end" | "space-between";
   align?: "flex-start" | "center" | "flex-end" | "space-between";
   className?: string;
+  "data-onboarding"?: string;
 };
 
 function Section({
@@ -16,6 +17,7 @@ function Section({
   justify = "flex-end",
   align = "center",
   className,
+  "data-onboarding": dataOnboarding,
 }: SectionProps) {
   return (
     <div
@@ -25,6 +27,7 @@ function Section({
         justifyContent: justify,
         alignItems: align,
       }}
+      data-onboarding={dataOnboarding}
     >
       {children}
     </div>

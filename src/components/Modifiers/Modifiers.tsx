@@ -10,7 +10,7 @@ import styles from "./Modifiers.module.css";
 
 const Modifiers = React.memo(function Modifiers() {
   return (
-    <Section>
+    <Section data-onboarding="envelopes">
       <div className={styles.filterSwitches}>
         <ModulationSwitch />
         <KeyboardControl />

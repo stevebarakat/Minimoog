@@ -148,6 +148,7 @@ export function Keyboard({
       ref={containerRef}
       className={styles.keyboard}
       data-testid="keyboard-container"
+      data-onboarding="keyboard"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
