@@ -138,66 +138,152 @@ src/
   components/               # React UI components organized by feature
     OscillatorBank/         # Three-oscillator bank with modulation
       audio/                # Audio processing modules
+        baseOscillator.ts   # Base oscillator implementation
+        oscillator1.ts      # Oscillator 1 specific logic
+        oscillator2.ts      # Oscillator 2 specific logic
+        oscillator3.ts      # Oscillator 3 specific logic
       components/           # Oscillator sub-components
+        Oscillator1.tsx     # Oscillator 1 controls
+        Oscillator2.tsx     # Oscillator 2 controls
+        Oscillator3.tsx     # Oscillator 3 controls
+        WaveformSelector.tsx # Waveform selection component
       hooks/                # Oscillator-specific hooks
+        useOscillator1.ts   # Oscillator 1 hook
+        useOscillator2.ts   # Oscillator 2 hook
+        useOscillator3.ts   # Oscillator 3 hook
+        useOscillatorBank.ts # Main oscillator bank hook
+        useOscillatorModulation.ts # Modulation controls
       icons/                # Waveform icons
-      types.ts              # Oscillator type definitions
+        waveformIcons.ts    # Icon definitions
+        WaveformIcon.tsx    # Icon component
+      oscillatorRegistry.ts # Oscillator registration system
     Mixer/                  # Audio mixer with individual controls
+      __tests__/            # Integration tests
     Filter/                 # 4-pole ladder filter and envelope controls
+      __tests__/            # Integration tests
       KeyboardControl.tsx   # Filter keyboard tracking
       ModulationSwitch.tsx  # Filter modulation controls
     Envelopes/              # Filter and loudness envelope controls
+      __tests__/            # Integration tests
+        FilterEnvelope.integration.test.tsx
+        LoudnessEnvelope.integration.test.tsx
       constants.ts          # Envelope timing constants
+      FilterEnvelope.tsx    # Filter envelope component
+      LoudnessEnvelope.tsx  # Loudness envelope component
     Controllers/            # Modulation and performance controls
       __tests__/            # Integration tests
     Keyboard/               # Virtual keyboard with MIDI support
-      __tests__/            # Behavior tests
-      components/           # Key components (BlackKey, WhiteKey)
+      __tests__/            # Behavior and integration tests
+        Keyboard.behavior.test.tsx
+        Keyboard.integration.test.tsx
+      components/           # Key components
+        BlackKey.tsx        # Black key component
+        WhiteKey.tsx        # White key component
       hooks/                # MIDI handling hooks
+        useKeyboardHandlers.ts # Keyboard event handlers
+        useKeyboardState.ts # Keyboard state management
+        useMidiInput.ts     # MIDI input handling
+        useNoteTracking.ts  # Note tracking logic
+        useOctaveShift.ts   # Octave shifting
+        usePitchBend.ts     # Pitch bend handling
+        useVelocity.ts      # Velocity sensitivity
       types.ts              # Keyboard type definitions
-      utils.ts              # Keyboard utilities
+      utils/                # Keyboard utilities
+        keyboardMapping.ts  # Key mapping utilities
     Knob/                   # Reusable knob component with linear/log scaling
       __tests__/            # Behavior and keyboard tests
-      components/           # Knob sub-components (Labels, Ring, Ticks)
+        Knob.behavior.test.tsx
+      components/           # Knob sub-components
+        KnobLabels.tsx      # Knob label component
+        KnobRing.tsx        # Knob ring component
+        KnobTicks.tsx       # Knob tick marks
       hooks/                # Knob interaction hooks
+        useKnob.ts          # Main knob hook
+        useKnobInteraction.ts # Interaction handling
       images/               # Knob visual assets
+        arrow-knob.svg      # Arrow knob design
+        radial-knob.svg     # Radial knob design
       utils/                # Knob calculation utilities
         __tests__/          # Calculation tests
-      types.ts              # Knob type definitions
+        attackDecayMapping.ts # Attack/decay mapping
+        knobCalculations.ts # Knob calculation logic
     RockerSwitch/           # Authentic rocker switch component
+      __tests__/            # Behavior tests
       hooks/                # Keyboard interaction hooks
+        useRockerSwitch.ts  # Rocker switch hook
+        useRockerSwitchKeyboard.ts # Keyboard handling
       images/               # Switch visual assets
+        rocker-off.svg      # Off state
+        rocker-on.svg       # On state
+        rocker-middle.svg   # Middle state
+        rocker-base.svg     # Base component
     PresetsDropdown/        # Preset selection with URL sharing
       __tests__/            # Behavior tests
+      components/           # Preset components
+        PresetItem.tsx      # Individual preset item
+        PresetList.tsx      # Preset list component
+        PresetSearch.tsx    # Preset search functionality
+      hooks/                # Preset management hooks
+        usePresets.ts       # Preset loading and management
+        usePresetSearch.ts  # Preset search functionality
     Output/                 # Main output and headphone controls
       __tests__/            # Aux output tests
       hooks/                # Aux output hooks
+        useAuxOutput.ts     # Aux output functionality
+        useMainOutput.ts    # Main output functionality
       AuxOut.tsx            # Auxiliary output component
       MainOutput.tsx        # Main output component
     Minimoog/               # Main synthesizer container
       __tests__/            # Integration tests
+        Minimoog.integration.test.tsx
+      components/           # Minimoog sub-components
       hooks/                # Audio node and envelope hooks
+        __tests__/          # Hook tests
+        useAudio.ts         # Main audio hook
+        useAudioContextManagement.ts # Context management
+        useAudioNodes.ts    # Audio node creation
+        useEnvelopeNodes.ts # Envelope node management
+        useFilterNodes.ts   # Filter node management
+        useLfoNodes.ts      # LFO node management
+        useMixerNodes.ts    # Mixer node management
+        useModulationNodes.ts # Modulation node management
+        useNoiseNodes.ts    # Noise node management
+        useOscillatorNodes.ts # Oscillator node management
+        useOutputNodes.ts   # Output node management
+        usePerformanceNodes.ts # Performance node management
+        usePresetNodes.ts   # Preset node management
+        useSynthState.ts    # Synth state management
       types/                # Synth type definitions
+        synthTypes.ts       # Main synth types
       utils/                # Synth utilities
+        synthUtils.ts       # Synth utility functions
     Tuner/                  # Built-in tuner for pitch calibration
       __tests__/            # Tuner tests
       hooks/                # Tuner functionality hooks
+        useTuner.ts         # Tuner functionality
+        useTunerAudio.ts    # Tuner audio generation
     OverloadIndicator/      # Visual signal clipping indicators
     ExternalInput/          # External audio input controls
+      __tests__/            # External input tests
       hooks/                # External input hooks
+        useExternalInput.ts # External input functionality
     ModulationWheel/        # Modulation wheel component
     PitchBender/            # Pitch bend controls
     Glide/                  # Glide/portamento controls
       GlideSwitch.tsx       # Glide on/off switch
     Noise/                  # Noise generator controls
       hooks/                # Noise generation hooks
+        useNoise.ts         # Noise generation functionality
     Modifiers/              # Audio modification controls
+      __tests__/            # Integration tests
       hooks/                # Audio processing hooks
+        filter-sum-processor.js # Filter sum processor
     ModulationMix/          # Modulation mixing controls
     LfoRate/                # LFO rate controls
     LfoWaveformSwitch/      # LFO waveform selection
     DecaySwitch/            # Decay switch controls
     PowerButton/            # Power on/off controls
+      __tests__/            # Power button tests
     VintageLED/             # Vintage-style LED indicators
     Title/                  # Component title displays
     Section/                # Section container components
@@ -207,33 +293,74 @@ src/
     Spacer/                 # Spacing components
     Hinge/                  # Hinge component for folding panels
       images/               # Hinge visual assets
+        hinge.svg           # Hinge design
     Side/                   # Side panel components
       images/               # Side panel textures
+        side-panel.png      # Side panel texture
     SidePanel/              # Side panel container
       components/           # Side panel sub-components
+        SidePanelContent.tsx # Side panel content
+        SidePanelHeader.tsx # Side panel header
+        SidePanelSection.tsx # Side panel sections
+        SidePanelToggle.tsx # Side panel toggle
+        SidePanelWrapper.tsx # Side panel wrapper
     Panels/                 # Panel components (Front, Back, Mid, Side)
       components/           # Panel sub-components
+        BackPanel.tsx       # Back panel component
+        FrontPanel.tsx      # Front panel component
+        MidPanel.tsx        # Mid panel component
+        SidePanel.tsx       # Side panel component
       images/               # Panel textures and assets
+        back-panel.png      # Back panel texture
+        front-panel.png     # Front panel texture
+        mid-panel.png       # Mid panel texture
+        side-panel.png      # Side panel texture
     Screw/                  # Screw component for authentic details
     Container/              # Main container component
     Logo/                   # Minimoog logo component
     Tune/                   # Tuning controls
     Wheel/                  # Wheel component for various controls
     GitHubRibbon/           # GitHub corner ribbon
+    CopySettings/           # Copy settings functionality
+      __tests__/            # Copy settings tests
+      hooks/                # Copy settings hooks
+        useCopySettings.ts  # Copy settings functionality
+    ErrorBoundary/          # Error boundary component
+    Toast/                  # Toast notification system
+      __tests__/            # Toast tests
+      hooks/                # Toast hooks
+        useToast.ts         # Toast functionality
+      ToastProvider.tsx     # Toast provider component
+    Dropdown/               # Dropdown component
+      __tests__/            # Dropdown tests
+      DropdownTrigger.tsx   # Dropdown trigger component
   hooks/                    # Custom React hooks
     useAudioContext.ts      # Web Audio API context management
+    useMediaQuery.ts        # Media query hook
     useURLSync.ts           # URL state synchronization
-    index.ts                # Hook exports
-  store/                    # Zustand state management
+    useWindowSize.ts        # Window size hook
+    useLocalStorage.ts      # Local storage hook
+  store/                    # State management
     actions/                # State update actions
+      __tests__/            # Action tests
+      synthActions.ts       # Synth state actions
+    selectors.ts            # State selectors
     state/                  # Initial state configuration
+      initialState.ts       # Initial state definition
     types/                  # TypeScript type definitions
+      synth.ts              # Synth type definitions
     synthStore.ts           # Main store implementation
   utils/                    # Utility functions
     __tests__/              # Utility tests
+      presetConversion.test.ts # Preset conversion tests
+      urlState.test.ts      # URL state tests
+    audioUtils.ts           # Audio utility functions
+    cssUtils.tsx            # CSS utility components
+    envelopeUtils.ts        # Envelope utility functions
+    knobMappingUtils.ts     # Knob mapping utilities
+    noteToFrequency.ts      # Musical note utilities
     presetConversion.ts     # Preset format conversion
     urlState.ts             # URL parameter handling
-    noteToFrequency.ts      # Musical note utilities
     generatePresetURLs.ts   # Preset URL generation utilities
     cssPerformance.ts       # CSS performance optimization utilities
     helpers.tsx             # React helper components
@@ -242,47 +369,62 @@ src/
     presets.ts              # Preset definitions
   styles/                   # Global CSS and design tokens
     fonts/                  # Custom font files
+      futura-black.woff     # Futura Black font
+      futura-bold.woff      # Futura Bold font
+      futura-extra-black.woff # Futura Extra Black font
+      futura-light.woff     # Futura Light font
+      futura-medium.woff    # Futura Medium font
     fonts.css               # Font declarations
     global.css              # Global styles
     reset.css               # CSS reset
     tokens.css              # Design tokens
   test/                     # Test configuration
     setup.ts                # Vitest setup file
+    testHelpers.tsx         # Test helper components
+    index.ts                # Test utilities
   types/                    # TypeScript type definitions
     css-modules.d.ts        # CSS Modules declarations
-  types.ts                  # Global type definitions
-  images/                   # UI reference images
+    index.ts                # Global type definitions
+  config/                   # Configuration files
+    __tests__/              # Config tests
+    constants.ts            # Application constants
+    index.ts                # Config exports
   App.tsx                   # Main application component
   main.tsx                  # Application entry point
   vite-env.d.ts             # Vite environment types
 
 public/                     # Static assets
   images/                   # UI reference images
+    minimoog-logo.webp      # Minimoog logo
+    Minimoog-new.webp       # New Minimoog image
+    minimoog-real.png       # Real Minimoog image
+    minimoog-screenshot.png # Screenshot of the emulator
+    minimoog-real.webp      # Real Minimoog webp
+    minimoog-signalflow.png # Signal flow diagram
+    minimoog-full.png       # Full Minimoog reference
   moog-filters/             # Moog filter implementations
     moog-authentic-processor.js
     moog-zdf-processor.js
     moog-hybrid-processor.js
+    README.md               # Filter documentation
   noise-processors/         # Noise generation processors
     white-noise-processor.js
     pink-noise-processor.js
-
-    delay-processor.js
-    reverb-processor.js
-    distortion-processor.js
+    README.md               # Noise processor documentation
   audio-processors/         # System audio processors
     modulation-monitor-processor.js
     overload-meter-processor.js
+    README.md               # Audio processor documentation
 
 resources/                  # Documentation and reference materials
+  docs/                     # Additional documentation
+    aux-output.md           # Aux output feature documentation
+    css-modules-best-practices.md # CSS Modules guidelines
+    authentic-minimoog-filter-improvements.md # Filter implementation notes
   minimoog-description.txt  # Detailed synthesizer documentation
   minimoog-signalflow.png   # Signal flow diagram
   web-audio-performance.txt # Performance optimization notes
   minimoog-full.png         # Full synthesizer reference image
-
-docs/                       # Additional documentation
-  aux-output.md            # Aux output feature documentation
-  css-modules-best-practices.md # CSS Modules guidelines
-  authentic-minimoog-filter-improvements.md # Filter implementation notes
 ```
 
 ---
