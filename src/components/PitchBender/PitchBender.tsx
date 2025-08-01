@@ -1,8 +1,10 @@
 import Wheel from "../Wheel";
 import { useSynthStore } from "@/store/synthStore";
+import { useMasterControlsState } from "@/store/selectors";
 
-function PitchBender() {
-  const { pitchWheel, setPitchWheel, isDisabled } = useSynthStore();
+export default function PitchBender() {
+  const { pitchWheel } = useMasterControlsState();
+  const { setPitchWheel, isDisabled } = useSynthStore();
 
   const handleChange = (value: number) => {
     setPitchWheel(value);
@@ -25,5 +27,3 @@ function PitchBender() {
     />
   );
 }
-
-export default PitchBender;

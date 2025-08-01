@@ -1,5 +1,6 @@
 import { useNoise } from "./hooks/useNoise";
 import { useSynthStore } from "@/store/synthStore";
+import { useMixerNoiseState } from "@/store/selectors";
 import { RockerSwitch } from "../RockerSwitch";
 import Column from "../Column";
 import Row from "../Row";
@@ -11,8 +12,9 @@ type NoiseProps = {
   mixerNode: AudioNode;
 };
 
-function Noise({ audioContext, mixerNode }: NoiseProps) {
-  const { mixer, setMixerNoise, isDisabled } = useSynthStore();
+export default function Noise({ audioContext, mixerNode }: NoiseProps) {
+  const mixerNoise = useMixerNoiseState();
+  const { setMixerNoise, isDisabled } = useSynthStore();
   useNoise(audioContext, mixerNode);
 
   return (
@@ -20,7 +22,7 @@ function Noise({ audioContext, mixerNode }: NoiseProps) {
       <Row>
         <RockerSwitch
           theme="blue"
-          checked={mixer.noise.enabled}
+          checked={mixerNoise.enabled}
           onCheckedChange={(checked) => setMixerNoise({ enabled: checked })}
           label="Noise"
           bottomLabelRight="On"
@@ -42,7 +44,7 @@ function Noise({ audioContext, mixerNode }: NoiseProps) {
               8: "8",
               10: "10",
             }}
-            value={Number.isFinite(mixer.noise.volume) ? mixer.noise.volume : 0}
+            value={Number.isFinite(mixerNoise.volume) ? mixerNoise.volume : 0}
             logarithmic={true}
             min={0}
             max={10}
@@ -61,7 +63,7 @@ function Noise({ audioContext, mixerNode }: NoiseProps) {
           <RockerSwitch
             orientation="vertical"
             theme="blue"
-            checked={mixer.noise.noiseType === "white"}
+            checked={mixerNoise.noiseType === "white"}
             onCheckedChange={(checked) =>
               setMixerNoise({ noiseType: checked ? "white" : "pink" })
             }
@@ -80,5 +82,3 @@ function Noise({ audioContext, mixerNode }: NoiseProps) {
     </Column>
   );
 }
-
-export default Noise;

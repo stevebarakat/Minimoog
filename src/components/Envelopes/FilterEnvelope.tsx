@@ -2,17 +2,13 @@ import Knob from "../Knob";
 import Row from "../Row";
 import Column from "../Column";
 import { useSynthStore } from "@/store/synthStore";
+import { useFilterEnvelopeState } from "@/store/selectors";
 import { attackDecayValueLabels } from "./constants";
 import { valueToKnobPos, knobPosToValue } from "@/utils";
 
-function FilterEnvelope() {
-  const {
-    filterAttack,
-    filterDecay,
-    filterSustain,
-    isDisabled,
-    setFilterEnvelope,
-  } = useSynthStore();
+export default function FilterEnvelope() {
+  const filterEnvelope = useFilterEnvelopeState();
+  const { setFilterEnvelope, isDisabled } = useSynthStore();
 
   return (
     <Column
@@ -26,7 +22,7 @@ function FilterEnvelope() {
           <Knob
             type="attackDecay"
             valueLabels={attackDecayValueLabels}
-            value={valueToKnobPos(filterAttack)}
+            value={valueToKnobPos(filterEnvelope.filterAttack)}
             showMidTicks={true}
             min={0}
             max={10000}
@@ -42,7 +38,7 @@ function FilterEnvelope() {
           <Knob
             type="attackDecay"
             valueLabels={attackDecayValueLabels}
-            value={valueToKnobPos(filterDecay)}
+            value={valueToKnobPos(filterEnvelope.filterDecay)}
             showMidTicks={true}
             min={0}
             max={10000}
@@ -66,7 +62,7 @@ function FilterEnvelope() {
               8: "8",
               10: "10",
             }}
-            value={filterSustain}
+            value={filterEnvelope.filterSustain}
             min={0}
             max={10}
             step={1}
@@ -79,5 +75,3 @@ function FilterEnvelope() {
     </Column>
   );
 }
-
-export default FilterEnvelope;

@@ -1,4 +1,5 @@
 import { useSynthStore } from "@/store/synthStore";
+import { useOscillator2State } from "@/store/selectors";
 import OscillatorPanel from "./OscillatorPanel";
 import Knob from "@/components/Knob/Knob";
 import {
@@ -31,7 +32,8 @@ const waveformIcons = [
 const ranges: OscillatorRange[] = ["lo", "32", "16", "8", "4", "2"];
 
 export default function Oscillator2() {
-  const { oscillator2, setOscillator2, isDisabled } = useSynthStore();
+  const oscillator2 = useOscillator2State();
+  const { setOscillator2, isDisabled } = useSynthStore();
 
   function handleWaveformChange(value: number) {
     setOscillator2({ waveform: waveforms[Math.round(value)] });

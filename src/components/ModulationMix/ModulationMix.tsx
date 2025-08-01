@@ -1,8 +1,10 @@
 import Knob from "../Knob";
 import { useSynthStore } from "@/store/synthStore";
+import { useModulationState } from "@/store/selectors";
 
-function ModulationMix() {
-  const { modMix, setModMix, isDisabled } = useSynthStore();
+export default function ModulationMix() {
+  const { modMix } = useModulationState();
+  const { setModMix, isDisabled } = useSynthStore();
 
   return (
     <Knob
@@ -37,5 +39,3 @@ function ModulationMix() {
     />
   );
 }
-
-export default ModulationMix;

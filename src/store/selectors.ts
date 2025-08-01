@@ -20,69 +20,168 @@ export const useMixerExternalState = () =>
   useSynthStore((state) => state.mixer.external);
 
 // --- Grouped/Derived Selectors ---
-export const useFilterState = () =>
-  useSynthStore((state) => ({
-    filterCutoff: state.filterCutoff,
-    filterEmphasis: state.filterEmphasis,
-    filterContourAmount: state.filterContourAmount,
-    filterAttack: state.filterAttack,
-    filterDecay: state.filterDecay,
-    filterSustain: state.filterSustain,
-    filterModulationOn: state.filterModulationOn,
-    keyboardControl1: state.keyboardControl1,
-    keyboardControl2: state.keyboardControl2,
-  }));
-export const useFilterEnvelopeState = () =>
-  useSynthStore((state) => ({
-    filterAttack: state.filterAttack,
-    filterDecay: state.filterDecay,
-    filterSustain: state.filterSustain,
-    filterContourAmount: state.filterContourAmount,
-  }));
-export const useLoudnessEnvelopeState = () =>
-  useSynthStore((state) => ({
-    loudnessAttack: state.loudnessAttack,
-    loudnessDecay: state.loudnessDecay,
-    loudnessSustain: state.loudnessSustain,
-    decaySwitchOn: state.decaySwitchOn,
-  }));
-export const useModulationState = () =>
-  useSynthStore((state) => ({
-    lfoRate: state.lfoRate,
-    lfoWaveform: state.lfoWaveform,
-    modWheel: state.modWheel,
-    modMix: state.modMix,
-    oscillatorModulationOn: state.oscillatorModulationOn,
-    filterModulationOn: state.filterModulationOn,
-  }));
-export const useGlideState = () =>
-  useSynthStore((state) => ({
-    glideOn: state.glideOn,
-    glideTime: state.glideTime,
-  }));
-export const useMasterControlsState = () =>
-  useSynthStore((state) => ({
-    masterTune: state.masterTune,
-    pitchWheel: state.pitchWheel,
-    mainVolume: state.mainVolume,
-    isMainActive: state.isMainActive,
-  }));
-export const useKeyboardState = () =>
-  useSynthStore((state) => ({
-    activeKeys: state.activeKeys,
-    isDisabled: state.isDisabled,
-  }));
-export const useOscillator3ControlsState = () =>
-  useSynthStore((state) => ({
-    osc3Control: state.osc3Control,
-    osc3FilterEgSwitch: state.osc3FilterEgSwitch,
-    noiseLfoSwitch: state.noiseLfoSwitch,
-  }));
-export const useOutputState = () =>
-  useSynthStore((state) => ({
-    auxOutput: state.auxOutput,
-    tunerOn: state.tunerOn,
-  }));
+export const useFilterState = () => {
+  const filterCutoff = useSynthStore((state) => state.filterCutoff);
+  const filterEmphasis = useSynthStore((state) => state.filterEmphasis);
+  const filterContourAmount = useSynthStore((state) => state.filterContourAmount);
+  const filterAttack = useSynthStore((state) => state.filterAttack);
+  const filterDecay = useSynthStore((state) => state.filterDecay);
+  const filterSustain = useSynthStore((state) => state.filterSustain);
+  const filterModulationOn = useSynthStore((state) => state.filterModulationOn);
+  const keyboardControl1 = useSynthStore((state) => state.keyboardControl1);
+  const keyboardControl2 = useSynthStore((state) => state.keyboardControl2);
+
+  return useMemo(
+    () => ({
+      filterCutoff,
+      filterEmphasis,
+      filterContourAmount,
+      filterAttack,
+      filterDecay,
+      filterSustain,
+      filterModulationOn,
+      keyboardControl1,
+      keyboardControl2,
+    }),
+    [
+      filterCutoff,
+      filterEmphasis,
+      filterContourAmount,
+      filterAttack,
+      filterDecay,
+      filterSustain,
+      filterModulationOn,
+      keyboardControl1,
+      keyboardControl2,
+    ]
+  );
+};
+
+export const useFilterEnvelopeState = () => {
+  const filterAttack = useSynthStore((state) => state.filterAttack);
+  const filterDecay = useSynthStore((state) => state.filterDecay);
+  const filterSustain = useSynthStore((state) => state.filterSustain);
+  const filterContourAmount = useSynthStore((state) => state.filterContourAmount);
+
+  return useMemo(
+    () => ({
+      filterAttack,
+      filterDecay,
+      filterSustain,
+      filterContourAmount,
+    }),
+    [filterAttack, filterDecay, filterSustain, filterContourAmount]
+  );
+};
+
+export const useLoudnessEnvelopeState = () => {
+  const loudnessAttack = useSynthStore((state) => state.loudnessAttack);
+  const loudnessDecay = useSynthStore((state) => state.loudnessDecay);
+  const loudnessSustain = useSynthStore((state) => state.loudnessSustain);
+  const decaySwitchOn = useSynthStore((state) => state.decaySwitchOn);
+
+  return useMemo(
+    () => ({
+      loudnessAttack,
+      loudnessDecay,
+      loudnessSustain,
+      decaySwitchOn,
+    }),
+    [loudnessAttack, loudnessDecay, loudnessSustain, decaySwitchOn]
+  );
+};
+
+export const useModulationState = () => {
+  const lfoRate = useSynthStore((state) => state.lfoRate);
+  const lfoWaveform = useSynthStore((state) => state.lfoWaveform);
+  const modWheel = useSynthStore((state) => state.modWheel);
+  const modMix = useSynthStore((state) => state.modMix);
+  const oscillatorModulationOn = useSynthStore((state) => state.oscillatorModulationOn);
+  const filterModulationOn = useSynthStore((state) => state.filterModulationOn);
+
+  return useMemo(
+    () => ({
+      lfoRate,
+      lfoWaveform,
+      modWheel,
+      modMix,
+      oscillatorModulationOn,
+      filterModulationOn,
+    }),
+    [lfoRate, lfoWaveform, modWheel, modMix, oscillatorModulationOn, filterModulationOn]
+  );
+};
+
+export const useGlideState = () => {
+  const glideOn = useSynthStore((state) => state.glideOn);
+  const glideTime = useSynthStore((state) => state.glideTime);
+
+  return useMemo(
+    () => ({
+      glideOn,
+      glideTime,
+    }),
+    [glideOn, glideTime]
+  );
+};
+
+export const useMasterControlsState = () => {
+  const masterTune = useSynthStore((state) => state.masterTune);
+  const pitchWheel = useSynthStore((state) => state.pitchWheel);
+  const mainVolume = useSynthStore((state) => state.mainVolume);
+  const isMainActive = useSynthStore((state) => state.isMainActive);
+
+  return useMemo(
+    () => ({
+      masterTune,
+      pitchWheel,
+      mainVolume,
+      isMainActive,
+    }),
+    [masterTune, pitchWheel, mainVolume, isMainActive]
+  );
+};
+
+export const useKeyboardState = () => {
+  const activeKeys = useSynthStore((state) => state.activeKeys);
+  const isDisabled = useSynthStore((state) => state.isDisabled);
+
+  return useMemo(
+    () => ({
+      activeKeys,
+      isDisabled,
+    }),
+    [activeKeys, isDisabled]
+  );
+};
+
+export const useOscillator3ControlsState = () => {
+  const osc3Control = useSynthStore((state) => state.osc3Control);
+  const osc3FilterEgSwitch = useSynthStore((state) => state.osc3FilterEgSwitch);
+  const noiseLfoSwitch = useSynthStore((state) => state.noiseLfoSwitch);
+
+  return useMemo(
+    () => ({
+      osc3Control,
+      osc3FilterEgSwitch,
+      noiseLfoSwitch,
+    }),
+    [osc3Control, osc3FilterEgSwitch, noiseLfoSwitch]
+  );
+};
+
+export const useOutputState = () => {
+  const auxOutput = useSynthStore((state) => state.auxOutput);
+  const tunerOn = useSynthStore((state) => state.tunerOn);
+
+  return useMemo(
+    () => ({
+      auxOutput,
+      tunerOn,
+    }),
+    [auxOutput, tunerOn]
+  );
+};
 
 // --- Complex/Memoized Selectors ---
 export const useVibratoAmount = () =>

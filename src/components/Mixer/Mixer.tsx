@@ -1,4 +1,11 @@
 import { useSynthStore } from "@/store/synthStore";
+import {
+  useMixerOsc1State,
+  useMixerOsc2State,
+  useMixerOsc3State,
+  useMixerNoiseState,
+  useMixerExternalState,
+} from "@/store/selectors";
 import Knob from "../Knob";
 import Title from "../Title";
 import Noise from "../Noise";
@@ -18,8 +25,13 @@ const ROCKER_SWITCH_POSITION = { left: "1.65rem" } as const;
 const KNOB_POSITION = { top: "-0.4rem" } as const;
 const COLUMN_GAP = "1.25rem" as const;
 
-function Mixer({ audioContext, mixerNode }: MixerProps) {
-  const { mixer, setMixerSource, isDisabled } = useSynthStore();
+export default function Mixer({ audioContext, mixerNode }: MixerProps) {
+  const mixerOsc1 = useMixerOsc1State();
+  const mixerOsc2 = useMixerOsc2State();
+  const mixerOsc3 = useMixerOsc3State();
+  const mixerNoise = useMixerNoiseState();
+  const mixerExternal = useMixerExternalState();
+  const { setMixerSource, isDisabled } = useSynthStore();
 
   return (
     <Section>
@@ -36,7 +48,7 @@ function Mixer({ audioContext, mixerNode }: MixerProps) {
                 10: "10",
               }}
               logarithmic={true}
-              value={mixer.osc1.volume}
+              value={mixerOsc1.volume}
               min={0}
               max={10}
               step={1}
@@ -53,7 +65,7 @@ function Mixer({ audioContext, mixerNode }: MixerProps) {
             <RockerSwitch
               style={ROCKER_SWITCH_POSITION}
               theme="blue"
-              checked={mixer.osc1.enabled}
+              checked={mixerOsc1.enabled}
               onCheckedChange={(checked) => {
                 setMixerSource("osc1", { enabled: checked });
               }}
@@ -73,7 +85,7 @@ function Mixer({ audioContext, mixerNode }: MixerProps) {
                 10: "10",
               }}
               logarithmic={true}
-              value={mixer.osc2.volume}
+              value={mixerOsc2.volume}
               min={0}
               max={10}
               step={1}
@@ -90,7 +102,7 @@ function Mixer({ audioContext, mixerNode }: MixerProps) {
             <RockerSwitch
               style={ROCKER_SWITCH_POSITION}
               theme="blue"
-              checked={mixer.osc2.enabled}
+              checked={mixerOsc2.enabled}
               onCheckedChange={(checked) => {
                 setMixerSource("osc2", { enabled: checked });
               }}
@@ -110,7 +122,7 @@ function Mixer({ audioContext, mixerNode }: MixerProps) {
                 10: "10",
               }}
               logarithmic={true}
-              value={mixer.osc3.volume}
+              value={mixerOsc3.volume}
               min={0}
               max={10}
               step={1}
@@ -127,7 +139,7 @@ function Mixer({ audioContext, mixerNode }: MixerProps) {
             <RockerSwitch
               style={ROCKER_SWITCH_POSITION}
               theme="blue"
-              checked={mixer.osc3.enabled}
+              checked={mixerOsc3.enabled}
               onCheckedChange={(checked) => {
                 setMixerSource("osc3", { enabled: checked });
               }}
@@ -150,5 +162,3 @@ function Mixer({ audioContext, mixerNode }: MixerProps) {
     </Section>
   );
 }
-
-export default Mixer;

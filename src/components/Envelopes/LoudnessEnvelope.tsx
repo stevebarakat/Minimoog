@@ -3,17 +3,13 @@ import Row from "../Row";
 import Title from "../Title";
 import Column from "../Column";
 import { useSynthStore } from "@/store/synthStore";
+import { useLoudnessEnvelopeState } from "@/store/selectors";
 import { attackDecayValueLabels } from "./constants";
 import { valueToKnobPos, knobPosToValue } from "@/utils";
 
-function LoudnessEnvelope() {
-  const {
-    loudnessAttack,
-    loudnessDecay,
-    loudnessSustain,
-    isDisabled,
-    setLoudnessEnvelope,
-  } = useSynthStore();
+export default function LoudnessEnvelope() {
+  const loudnessEnvelope = useLoudnessEnvelopeState();
+  const { setLoudnessEnvelope, isDisabled } = useSynthStore();
 
   return (
     <Column
@@ -28,7 +24,7 @@ function LoudnessEnvelope() {
           <Knob
             type="attackDecay"
             valueLabels={attackDecayValueLabels}
-            value={valueToKnobPos(loudnessAttack)}
+            value={valueToKnobPos(loudnessEnvelope.loudnessAttack)}
             showMidTicks={true}
             min={0}
             max={10000}
@@ -44,7 +40,7 @@ function LoudnessEnvelope() {
           <Knob
             type="attackDecay"
             valueLabels={attackDecayValueLabels}
-            value={valueToKnobPos(loudnessDecay)}
+            value={valueToKnobPos(loudnessEnvelope.loudnessDecay)}
             showMidTicks={true}
             min={0}
             max={10000}
@@ -68,7 +64,7 @@ function LoudnessEnvelope() {
               8: "8",
               10: "10",
             }}
-            value={loudnessSustain}
+            value={loudnessEnvelope.loudnessSustain}
             min={0}
             max={10}
             step={1}
@@ -81,5 +77,3 @@ function LoudnessEnvelope() {
     </Column>
   );
 }
-
-export default LoudnessEnvelope;

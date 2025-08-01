@@ -1,5 +1,6 @@
 import Knob from "../Knob";
 import { useSynthStore } from "@/store/synthStore";
+import { useModulationState } from "@/store/selectors";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { useCallback } from "react";
 
@@ -12,9 +13,9 @@ const tooltipStyles = {
   zIndex: 9,
 };
 
-function LFORate() {
-  const { lfoWaveform, setLfoWaveform, lfoRate, setLfoRate } = useSynthStore();
-  const isDisabled = useSynthStore((s) => s.isDisabled);
+export default function LfoRate() {
+  const { lfoRate, lfoWaveform } = useModulationState();
+  const { setLfoRate, setLfoWaveform, isDisabled } = useSynthStore();
   const handleDoubleClick = useCallback(() => {
     setLfoWaveform(lfoWaveform === "triangle" ? "square" : "triangle");
   }, [lfoWaveform, setLfoWaveform]);
@@ -59,5 +60,3 @@ function LFORate() {
     </div>
   );
 }
-
-export default LFORate;

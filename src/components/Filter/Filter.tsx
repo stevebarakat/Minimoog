@@ -3,16 +3,20 @@ import Row from "../Row";
 import Title from "../Title";
 import { useSynthStore } from "@/store/synthStore";
 import Column from "../Column";
+import { useFilterState } from "@/store/selectors";
 
-function Filter() {
+interface FilterProps {
+  audioContext: AudioContext;
+  filterNode: AudioNode;
+}
+
+export default function Filter({ audioContext, filterNode }: FilterProps) {
+  const filterState = useFilterState();
   const {
-    filterCutoff,
-    filterEmphasis,
-    filterContourAmount,
-    isDisabled,
     setFilterCutoff,
     setFilterEmphasis,
     setFilterContourAmount,
+    isDisabled,
   } = useSynthStore();
 
   return (
@@ -27,7 +31,7 @@ function Filter() {
             2: "2",
             3.9: "3.9",
           }}
-          value={filterCutoff}
+          value={filterState.filterCutoff}
           min={-4}
           max={3.9}
           step={0.1}
@@ -45,7 +49,7 @@ function Filter() {
             8: "8",
             10: "10",
           }}
-          value={filterEmphasis}
+          value={filterState.filterEmphasis}
           min={0}
           max={10}
           step={1}
@@ -63,7 +67,7 @@ function Filter() {
             8: "8",
             10: "10",
           }}
-          value={filterContourAmount}
+          value={filterState.filterContourAmount}
           min={0}
           max={10}
           step={1}
@@ -82,5 +86,3 @@ function Filter() {
     </Column>
   );
 }
-
-export default Filter;

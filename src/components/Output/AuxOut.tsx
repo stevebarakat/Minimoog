@@ -1,12 +1,14 @@
 import { useSynthStore } from "@/store/synthStore";
+import { useOutputState } from "@/store/selectors";
 import Row from "../Row";
 import { RockerSwitch } from "../RockerSwitch";
 import Knob from "../Knob";
 import Column from "../Column";
 import Title from "../Title";
 
-function AuxOut() {
-  const { auxOutput, setAuxOutput, isDisabled } = useSynthStore();
+export default function AuxOut() {
+  const { auxOutput } = useOutputState();
+  const { setAuxOutput, isDisabled } = useSynthStore();
 
   return (
     <Row gap="var(--spacing-md)" style={{ padding: "0.5rem 0" }}>
@@ -45,5 +47,3 @@ function AuxOut() {
     </Row>
   );
 }
-
-export default AuxOut;

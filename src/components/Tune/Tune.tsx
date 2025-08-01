@@ -1,8 +1,10 @@
 import { useSynthStore } from "@/store/synthStore";
+import { useMasterControlsState } from "@/store/selectors";
 import Knob from "../Knob";
 
-function Tune() {
-  const { masterTune, setMasterTune, isDisabled } = useSynthStore();
+export default function Tune() {
+  const { masterTune } = useMasterControlsState();
+  const { setMasterTune, isDisabled } = useSynthStore();
 
   return (
     <Knob
@@ -23,5 +25,3 @@ function Tune() {
     />
   );
 }
-
-export default Tune;

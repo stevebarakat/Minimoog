@@ -1,8 +1,10 @@
 import { RockerSwitch } from "../RockerSwitch";
 import { useSynthStore } from "@/store/synthStore";
+import { useOutputState } from "@/store/selectors";
 
-function Tuner() {
-  const { isDisabled, tunerOn, setTunerOn } = useSynthStore();
+export default function Tuner() {
+  const { tunerOn } = useOutputState();
+  const { isDisabled, setTunerOn } = useSynthStore();
 
   return (
     <RockerSwitch
@@ -16,5 +18,3 @@ function Tuner() {
     />
   );
 }
-
-export default Tuner;

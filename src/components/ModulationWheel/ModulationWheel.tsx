@@ -1,8 +1,10 @@
 import Wheel from "../Wheel";
 import { useSynthStore } from "@/store/synthStore";
+import { useModulationState } from "@/store/selectors";
 
-function ModulationWheel() {
-  const { modWheel, setModWheel, isDisabled } = useSynthStore();
+export default function ModulationWheel() {
+  const { modWheel } = useModulationState();
+  const { setModWheel, isDisabled } = useSynthStore();
   return (
     <Wheel
       value={modWheel}
@@ -14,5 +16,3 @@ function ModulationWheel() {
     />
   );
 }
-
-export default ModulationWheel;

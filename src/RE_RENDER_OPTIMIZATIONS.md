@@ -28,7 +28,7 @@ This document outlines the performance optimizations implemented to reduce unnec
 
 ### 1. **Optimized Zustand Selectors**
 
-Created `src/store/optimizedSelectors.ts` with granular state selectors:
+Created `src/store/selectors.ts` with granular state selectors:
 
 ```typescript
 // Before: Subscribing to entire state
@@ -45,6 +45,7 @@ const filterState = useFilterState();
 - ✅ Components only re-render when their specific state changes
 - ✅ Prevents cascade re-renders from unrelated state updates
 - ✅ Better performance with many UI controls
+- ✅ Proper memoization prevents infinite loops
 
 ### 2. **React.memo for Pure Components**
 
@@ -67,6 +68,7 @@ const Knob = React.memo(function Knob({ value, onChange, ... }) {
 - ✅ `Knob` - Pure UI component with stable props
 - ✅ `VintageLED` - LED indicator with simple state
 - ✅ `Wheel` - Modulation wheel with stable behavior
+- ✅ `BlackKey`, `WhiteKey` - Keyboard components with stable props
 
 **Benefits**:
 
@@ -101,18 +103,18 @@ const vibratoAmount = useVibratoAmount();
 - ✅ Prevents redundant mathematical operations
 - ✅ Improves real-time audio performance
 
-### 4. **Granular State Access**
+### 4. **Granular State Access with Proper Memoization**
 
-Replaced broad state subscriptions with specific selectors:
+Replaced broad state subscriptions with specific selectors and proper memoization:
 
 ```typescript
 // Before: Broad state access
 const { oscillator1, oscillator2, oscillator3, mixer, filterCutoff, ... } = useSynthStore();
 
-// After: Specific state slices
+// After: Specific state slices with memoization
 const oscillator1 = useOscillator1State();
 const mixerOsc1 = useMixerOsc1State();
-const filterState = useFilterState();
+const filterState = useFilterState(); // Properly memoized
 ```
 
 **Benefits**:
@@ -120,6 +122,7 @@ const filterState = useFilterState();
 - ✅ Components only re-render when their specific state changes
 - ✅ Prevents unnecessary re-renders from unrelated updates
 - ✅ Better performance isolation between components
+- ✅ Prevents infinite loops with proper memoization
 
 ## 📊 Performance Impact
 
@@ -146,11 +149,13 @@ const filterState = useFilterState();
 
 ## 🔄 Implementation Strategy
 
-### Phase 1: Core Optimizations (Complete)
+### Phase 1: Core Optimizations (Complete) ✅
 
 - ✅ Optimized Zustand selectors
 - ✅ React.memo for pure components
 - ✅ Memoized selector hooks
+- ✅ Component migration to optimized selectors
+- ✅ Granular state access implementation
 
 ### Phase 2: Advanced Optimizations (Planned)
 
@@ -232,11 +237,11 @@ Use React DevTools Profiler to monitor:
 
 ## 🚨 Performance Checklist
 
-- [ ] Components use specific state selectors
-- [ ] Pure components wrapped with React.memo
-- [ ] Expensive calculations memoized with useMemo
-- [ ] Event handlers memoized with useCallback
-- [ ] Dependencies properly specified in all hooks
-- [ ] Performance tested with React DevTools Profiler
-- [ ] No unnecessary re-renders during parameter changes
-- [ ] CPU usage acceptable during real-time audio processing
+- ✅ Components use specific state selectors
+- ✅ Pure components wrapped with React.memo
+- ✅ Expensive calculations memoized with useMemo
+- ✅ Event handlers memoized with useCallback
+- ✅ Dependencies properly specified in all hooks
+- 🔄 Performance tested with React DevTools Profiler
+- 🔄 No unnecessary re-renders during parameter changes
+- 🔄 CPU usage acceptable during real-time audio processing

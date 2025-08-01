@@ -1,4 +1,5 @@
 import { useSynthStore } from "@/store/synthStore";
+import { useMixerExternalState } from "@/store/selectors";
 import Knob from "../Knob";
 import OverloadIndicator from "../OverloadIndicator";
 import { useExternalInput } from "./hooks";
@@ -12,13 +13,16 @@ type ExternalInputProps = {
   mixerNode: AudioNode;
 };
 
-function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
+export default function ExternalInput({
+  audioContext,
+  mixerNode,
+}: ExternalInputProps) {
+  const mixerExternal = useMixerExternalState();
+  const { setMixerExternal, isDisabled } = useSynthStore();
   const { audioLevel, isOverloaded } = useExternalInput(
     audioContext,
     mixerNode
   );
-  const { mixer, setMixerExternal, isDisabled } = useSynthStore();
-  const externalMixer = mixer.external;
 
   function updateExternalInput(checked: boolean) {
     setMixerExternal({ enabled: checked });
@@ -29,7 +33,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
       <RockerSwitch
         theme="blue"
         disabled={isDisabled}
-        checked={externalMixer.enabled}
+        checked={mixerExternal.enabled}
         onCheckedChange={updateExternalInput}
         label="External Input"
         bottomLabelRight="On"
@@ -50,7 +54,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
             10: "10",
           }}
           logarithmic={false}
-          value={externalMixer.volume}
+          value={mixerExternal.volume}
           min={SYNTH_PARAMS.EXTERNAL_INPUT.VOLUME.MIN}
           max={SYNTH_PARAMS.EXTERNAL_INPUT.VOLUME.MAX}
           step={0.1}
@@ -63,7 +67,7 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
             </span>
           }
           onChange={(v) => {
-            if (v !== externalMixer.volume) {
+            if (v !== mixerExternal.volume) {
               setMixerExternal({ volume: v });
             }
           }}
@@ -75,8 +79,8 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
         />
         <OverloadIndicator
           label="Overload"
-          isEnabled={externalMixer.enabled}
-          volume={externalMixer.volume}
+          isEnabled={mixerExternal.enabled}
+          volume={mixerExternal.volume}
           audioLevel={audioLevel}
           isOverloaded={isOverloaded}
           size="medium"
@@ -85,5 +89,3 @@ function ExternalInput({ audioContext, mixerNode }: ExternalInputProps) {
     </Row>
   );
 }
-
-export default ExternalInput;

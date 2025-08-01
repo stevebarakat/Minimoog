@@ -1,8 +1,10 @@
 import { useSynthStore } from "@/store/synthStore";
+import { useGlideState } from "@/store/selectors";
 import { RockerSwitch } from "../RockerSwitch";
 
-function GlideSwitch() {
-  const { glideOn, setGlideOn, isDisabled } = useSynthStore();
+export default function GlideSwitch() {
+  const { glideOn } = useGlideState();
+  const { setGlideOn, isDisabled } = useSynthStore();
   return (
     <RockerSwitch
       theme="white"
@@ -15,5 +17,3 @@ function GlideSwitch() {
     />
   );
 }
-
-export default GlideSwitch;

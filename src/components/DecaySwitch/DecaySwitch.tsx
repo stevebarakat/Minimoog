@@ -1,8 +1,10 @@
 import { RockerSwitch } from "../RockerSwitch";
 import { useSynthStore } from "@/store/synthStore";
+import { useLoudnessEnvelopeState } from "@/store/selectors";
 
-function DecaySwitch() {
-  const { decaySwitchOn, setDecaySwitchOn, isDisabled } = useSynthStore();
+export default function DecaySwitch() {
+  const { decaySwitchOn } = useLoudnessEnvelopeState();
+  const { setDecaySwitchOn, isDisabled } = useSynthStore();
 
   const handleDecaySwitchChange = (checked: boolean) => {
     setDecaySwitchOn(checked);
@@ -20,5 +22,3 @@ function DecaySwitch() {
     />
   );
 }
-
-export default DecaySwitch;
