@@ -1,0 +1,44 @@
+/* Design Tokens - Centralized CSS Variables */
+
+:root {
+  /* Colors */
+  --color-background: hsl(0deg 0% 10%);
+  --color-off-black: hsl(0deg 0% 6.25%);
+  --color-gray-xd: hsl(0deg 0% 15%);
+  --color-gray-d: hsl(0deg 0% 25%);
+  --color-gray: hsl(0deg 0% 50%);
+  --color-gray-l: hsl(0deg 0% 75%);
+  --color-white-75: hsl(0deg 0% 100% / 75%);
+  --color-white-50: hsl(0deg 0% 100% / 50%);
+  --color-white-25: hsl(0deg 0% 100% / 25%);
+  --color-black-25: hsl(0deg 0% 0% / 25%);
+  --color-error: hsl(0deg 100% 37%);
+  --color-error-light: hsl(0deg 100% 92%);
+  --color-text-primary: hsl(0deg 0% 75%);
+
+  /* Typography */
+  --font-primary: "Futura", sans-serif;
+  --font-size-xxs: 0.4rem;
+  --font-size-xs: 0.4375rem;
+  --font-size-sm: 0.4875rem;
+  --font-size-md: 0.582rem;
+  --font-size-lg: 0.775rem;
+  --font-size-xl: 1.2rem;
+
+  /* Spacing */
+  --spacing-sm: 0.25rem;
+  --spacing-md: 0.5rem;
+  --spacing-lg: 0.75rem;
+  --spacing-xl: 1rem;
+
+  /* Transitions */
+  --transition-fast: 0.1s ease-out;
+  --transition-slow: 0.3s ease-in-out;
+
+  /* Border Radius */
+  --radius-full: 50%;
+
+  /* Minimoog */
+  --color-synth-bg: var(--color-gray-xd);
+  --color-synth-border: hsl(0deg 0% 60%);
+}

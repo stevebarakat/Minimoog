@@ -1,0 +1,17 @@
+.hingeContainer {
+  position: relative;
+  padding: 0 10px;
+  width: 100%;
+  height: 10px;
+  background-color: var(--color-off-black);
+}
+
+.hinge {
+  position: relative;
+  padding: 0 10px;
+  width: 100%;
+  height: 10px;
+  background: url("./images/hinge.svg") repeat-x left center;
+  background-size: 30px auto;
+  filter: drop-shadow(0 1px 2px hsl(0deg 0% 0% / 75%));
+}

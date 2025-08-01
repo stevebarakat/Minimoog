@@ -1,0 +1,26 @@
+.powerButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background: hsl(120deg 45% 45%); /* #43a047 equivalent */
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 8px hsl(120deg 45% 45%);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.powerButton[aria-pressed="true"] {
+  background: hsl(4deg 78% 55%); /* #e53935 equivalent */
+  box-shadow: 0 0 8px hsl(4deg 78% 55%);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+}

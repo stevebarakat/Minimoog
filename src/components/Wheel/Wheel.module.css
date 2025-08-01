@@ -1,0 +1,68 @@
+.wheel {
+  position: relative;
+  cursor: pointer;
+
+  --wheel-width: 14px;
+}
+
+.track {
+  --base-texture: linear-gradient(
+    180deg,
+    hsl(217deg 5% 40%),
+    hsl(0deg 0% 100%) 28%,
+    hsl(217deg 5% 20%)
+  );
+
+  width: var(--wheel-width);
+  height: 100px;
+  background: linear-gradient(180deg, hsl(217deg 30% 20%), hsl(217deg 40% 25%));
+  background: var(--base-texture);
+  border-top: 3px solid hsl(0deg 0% 0%);
+  border-right: 3px solid hsl(0deg 0% 0%);
+  border-bottom: 1px solid hsl(0deg 0% 0%);
+  border-left: 1px solid hsl(0deg 0% 0%);
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 2px hsl(217deg 40% 3% / 95%),
+    0 2px 4px hsl(217deg 40% 3% / 95%);
+  cursor: pointer;
+}
+
+.thumb {
+  position: absolute;
+  top: calc(100% - var(--thumb-position));
+  width: var(--wheel-width);
+  height: 9px;
+  background: linear-gradient(
+    180deg,
+    hsl(0deg 0% 25%) 0%,
+    hsl(0deg 0% 75%) 37.5%,
+    hsl(0deg 0% 85%) 62.5%,
+    hsl(0deg 0% 25%) 100%
+  );
+  border-top: 1px solid hsl(0deg 0% 0%);
+  border-right: 3px solid hsl(0deg 0% 0%);
+  border-bottom: 1px solid hsl(0deg 0% 0%);
+  border-left: 1px solid hsl(0deg 0% 0%);
+}
+
+.label {
+  position: relative;
+  top: 0.75rem;
+  left: -25%;
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.shadow {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  width: 50%;
+  height: 100%;
+  background: hsl(0deg 0% 0% / 25%);
+  border-radius: 25%;
+  filter: blur(4px);
+}

@@ -1,0 +1,50 @@
+@import url("./fonts.css");
+
+/********************  */
+
+/* Global styles */
+
+/********************  */
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+a {
+  color: var(--color-error-light);
+
+  &:hover {
+    color: var(--color-error);
+  }
+}
+
+/********************  */
+
+/* Utility classes */
+
+/********************  */
+
+.sr-only:not(:focus, :active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+/* Remove numbers from Radix Toast viewport <ol> */
+[role="region"][aria-label*="Notification"] > ol {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  list-style: none !important;
+}

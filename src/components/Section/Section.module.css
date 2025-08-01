@@ -1,0 +1,14 @@
+.section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0 1.25rem;
+  background: linear-gradient(
+    to bottom,
+    hsl(0deg 0% 25%),
+    hsl(0deg 0% 17.5%) 50%,
+    hsl(0deg 0% 20%) 90%,
+    hsl(0deg 0% 17.5%)
+  );
+  border-right: 2px solid var(--color-synth-border);
+}

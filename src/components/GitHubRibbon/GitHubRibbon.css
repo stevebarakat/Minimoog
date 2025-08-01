@@ -1,0 +1,132 @@
+/*!
+ * "Fork me on GitHub" CSS ribbon v0.2.3 | MIT License
+ * https://github.com/simonwhitaker/github-fork-ribbon-css
+*/
+
+.github-fork-ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  width: 12.1em;
+  height: 12.1em;
+  overflow: hidden;
+  font-size: 13px;
+  text-decoration: none;
+  pointer-events: none;
+  text-indent: -999999px;
+}
+
+.github-fork-ribbon.fixed {
+  position: fixed;
+}
+
+.github-fork-ribbon:hover,
+.github-fork-ribbon:active {
+  background-color: rgb(0 0 0 / 0%);
+}
+
+.github-fork-ribbon::before,
+.github-fork-ribbon::after {
+  /* The right and left classes determine the side we attach our banner to */
+  position: absolute;
+  top: 3.23em;
+  right: -3.23em;
+  display: block;
+  width: 15.38em;
+  height: 1.54em;
+  transform: rotate(45deg);
+  box-sizing: content-box;
+}
+
+.github-fork-ribbon::before {
+  /* Add a bit of padding to give some substance outside the "stitching" */
+  padding: 0.38em 0;
+
+  /* Set the base colour */
+  background-color: #a00;
+
+  /* Set a gradient: transparent black at the top to almost-transparent black at the bottom */
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgb(0 0 0 / 0%)),
+    to(rgb(0 0 0 / 15%))
+  );
+  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), rgb(0 0 0 / 15%));
+  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), rgb(0 0 0 / 15%));
+  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), rgb(0 0 0 / 15%));
+  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), rgb(0 0 0 / 15%));
+  background-image: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0%),
+    rgb(0 0 0 / 15%)
+  );
+
+  /* Add a drop shadow */
+  box-shadow: 0 0.15em 0.23em 0 rgb(0 0 0 / 50%);
+  color: #fff;
+  content: "Fork me on GitHub";
+  pointer-events: auto;
+}
+
+.github-fork-ribbon::after {
+  margin: 0.15em 0;
+
+  /* Set the layout properties */
+  padding: 0.15em 0;
+  border-color: #fff;
+  border-color: rgb(255 255 255 / 70%);
+  border-style: dotted;
+
+  /* Add "stitching" effect */
+  border-width: 0.08em 0;
+
+  /* Set the text properties */
+  color: #fff;
+  font: 700 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.54em;
+  text-align: center;
+  text-decoration: none;
+
+  /* Set the text from the data-ribbon attribute */
+  content: attr(data-ribbon);
+  text-shadow: 0 -0.08em rgb(0 0 0 / 50%);
+  text-indent: 0;
+}
+
+.github-fork-ribbon.left-top,
+.github-fork-ribbon.left-bottom {
+  right: auto;
+  left: 0;
+}
+
+.github-fork-ribbon.left-bottom,
+.github-fork-ribbon.right-bottom {
+  top: auto;
+  bottom: 0;
+}
+
+.github-fork-ribbon.left-top::before,
+.github-fork-ribbon.left-top::after,
+.github-fork-ribbon.left-bottom::before,
+.github-fork-ribbon.left-bottom::after {
+  right: auto;
+  left: -3.23em;
+}
+
+.github-fork-ribbon.left-bottom::before,
+.github-fork-ribbon.left-bottom::after,
+.github-fork-ribbon.right-bottom::before,
+.github-fork-ribbon.right-bottom::after {
+  top: auto;
+  bottom: 3.23em;
+}
+
+.github-fork-ribbon.left-top::before,
+.github-fork-ribbon.left-top::after,
+.github-fork-ribbon.right-bottom::before,
+.github-fork-ribbon.right-bottom::after {
+  transform: rotate(-45deg);
+}
