@@ -15,7 +15,9 @@ A composable dropdown component that provides common dropdown functionality incl
 import { Dropdown } from "@/components/Dropdown";
 
 function MyComponent() {
-  const [isOpen, setIsOpen] = useState(false);
+  // Using Zustand for state management
+  const isOpen = useSynthStore((state) => state.dropdownOpen);
+  const setIsOpen = useSynthStore((state) => state.setDropdownOpen);
 
   return (
     <Dropdown.Root isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)}>
@@ -188,3 +190,4 @@ Label for groups or sections.
 - **Type-safe**: Full TypeScript support
 - **Responsive**: Works on mobile and desktop
 - **Touch-friendly**: Optimized for touch devices
+- **State Management**: Integrates with Zustand store for consistent state management

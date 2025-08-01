@@ -60,9 +60,9 @@ import config from "@/config";
 
 ```typescript
 // Instead of hard-coded values
-const sampleRate = 44100;
-const fftSize = 256;
-const a4Frequency = 440;
+const sampleRate = AUDIO.DEFAULT_SAMPLE_RATE;
+const fftSize = AUDIO.DEFAULT_FFT_SIZE;
+const a4Frequency = MIDI.A4_FREQUENCY;
 
 // Use configuration
 const sampleRate = AUDIO.DEFAULT_SAMPLE_RATE;
@@ -93,8 +93,8 @@ Audio-related parameters including sample rates, buffer sizes, and processor set
 
 ```typescript
 AUDIO = {
-  DEFAULT_SAMPLE_RATE: 44100,
-  DEFAULT_FFT_SIZE: 256,
+  DEFAULT_SAMPLE_RATE: 44100, // Use AUDIO.DEFAULT_SAMPLE_RATE
+  DEFAULT_FFT_SIZE: 256, // Use AUDIO.DEFAULT_FFT_SIZE
   DEFAULT_FREQUENCY_BIN_COUNT: 128,
   TEST_FFT_SIZE: 2048,
   TEST_FREQUENCY_BIN_COUNT: 1024,
@@ -116,7 +116,7 @@ MIDI and frequency-related constants.
 
 ```typescript
 MIDI = {
-  A4_FREQUENCY: 440,
+  A4_FREQUENCY: 440, // Use MIDI.A4_FREQUENCY
   A4_MIDI_NOTE: 69,
   NOTE_NAMES: ["C", "C#", "D", ...],
   OCTAVE_RANGES: { "32": 32, "16": 16, ... },
@@ -346,7 +346,7 @@ const AUDIO_CONSTANTS = {
 
 ```typescript
 // ❌ Don't use hard-coded values
-const sampleRate = 44100;
+const sampleRate = 44100; // Use AUDIO.DEFAULT_SAMPLE_RATE instead
 
 // ✅ Use configuration constants
 const sampleRate = AUDIO.DEFAULT_SAMPLE_RATE;

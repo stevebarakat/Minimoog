@@ -27,7 +27,7 @@ import * as styles from "./Component.module.css";
 
 ```typescript
 // ✅ Good - Using the cn utility
-import { cn } from "@/utils/helpers";
+import { cn } from "@/utils";
 
 const className = cn(
   styles.button,
@@ -36,7 +36,7 @@ const className = cn(
 );
 
 // ✅ Good - Using cssModule utility for conditional CSS modules
-import { cssModule } from "@/utils/helpers";
+import { cssModule } from "@/utils";
 
 const className = cssModule(
   styles,
@@ -65,7 +65,7 @@ const className = cssModule(
 
 ```typescript
 // Button.tsx
-import { cn } from "@/utils/helpers";
+import { cn } from "@/utils";
 import styles from "./Button.module.css";
 
 type ButtonProps = {

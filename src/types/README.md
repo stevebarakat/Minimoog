@@ -55,8 +55,8 @@ import { SynthState } from "@/store/types/synth";
 ### Importing Utility Types
 
 ```typescript
-// Import utility types directly
-import { AudioError } from "@/utils/audioUtils";
+// Import utility types from main utils
+import { AudioError } from "@/utils";
 
 // Or from global index if commonly used
 import { AudioError } from "@/types";

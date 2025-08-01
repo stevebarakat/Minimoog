@@ -766,7 +766,7 @@ import {
   createMockAudioContextWithSpies,
   setupAllMocksWithSpies,
   expectAudioNodeToBeConnected,
-} from "@/utils/vitestUtils";
+} from "@/utils";
 
 describe("Audio Tests", () => {
   beforeEach(() => {
