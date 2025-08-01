@@ -70,10 +70,11 @@
   font-size: var(--font-size-xl);
   font-weight: bold;
   cursor: pointer;
-  transition: var(--transition-fast);
   box-shadow: 0 2px 4px var(--color-black-25);
   top: 50%;
   transform: translateY(-50%);
+  opacity: 1;
+  transition: all var(--transition-fast), opacity var(--transition-slow);
 
   &:hover {
     background: var(--color-white-50);
@@ -96,6 +97,11 @@
 
 .scrollArrowRight {
   right: var(--spacing-md);
+}
+
+.scrollArrowHidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .sr-only {

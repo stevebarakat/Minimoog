@@ -55,6 +55,8 @@ const Minimoog = React.memo(function Minimoog() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
+  const [showArrows, setShowArrows] = useState(false);
+  const mouseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const checkScrollPosition = () => {
     if (!scrollRef.current) return;
@@ -67,6 +69,27 @@ const Minimoog = React.memo(function Minimoog() {
     setShowRightArrow(shouldShowRight);
   };
 
+  const handleMouseMove = () => {
+    setShowArrows(true);
+
+    // Clear existing timeout
+    if (mouseTimeoutRef.current) {
+      clearTimeout(mouseTimeoutRef.current);
+    }
+
+    // Hide arrows after 2 seconds of no mouse movement
+    mouseTimeoutRef.current = setTimeout(() => {
+      setShowArrows(false);
+    }, 2000);
+  };
+
+  const handleMouseLeave = () => {
+    setShowArrows(false);
+    if (mouseTimeoutRef.current) {
+      clearTimeout(mouseTimeoutRef.current);
+    }
+  };
+
   const scrollLeft = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
@@ -76,6 +99,30 @@ const Minimoog = React.memo(function Minimoog() {
   const scrollRight = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
+
+  const handleLeftArrowBlur = () => {
+    if (showRightArrow) {
+      // Focus the right arrow when left arrow loses focus
+      const rightArrow = document.querySelector(
+        `.${styles.scrollArrowRight}`
+      ) as HTMLButtonElement;
+      if (rightArrow) {
+        rightArrow.focus();
+      }
+    }
+  };
+
+  const handleRightArrowBlur = () => {
+    if (showLeftArrow) {
+      // Focus the left arrow when right arrow loses focus
+      const leftArrow = document.querySelector(
+        `.${styles.scrollArrowLeft}`
+      ) as HTMLButtonElement;
+      if (leftArrow) {
+        leftArrow.focus();
+      }
     }
   };
 
@@ -118,6 +165,20 @@ const Minimoog = React.memo(function Minimoog() {
     checkScrollPosition();
   }, []);
 
+  // Add mouse movement listeners
+  useEffect(() => {
+    const container = scrollRef.current?.parentElement;
+    if (container) {
+      container.addEventListener("mousemove", handleMouseMove);
+      container.addEventListener("mouseleave", handleMouseLeave);
+
+      return () => {
+        container.removeEventListener("mousemove", handleMouseMove);
+        container.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    }
+  }, []);
+
   // Scroll to the right end on initial load to show the PowerButton
   useEffect(() => {
     if (scrollRef.current) {
@@ -150,11 +211,14 @@ const Minimoog = React.memo(function Minimoog() {
           <div className={styles.controlsContainer}>
             {showLeftArrow && (
               <button
-                className={`${styles.scrollArrow} ${styles.scrollArrowLeft}`}
+                className={`${styles.scrollArrow} ${styles.scrollArrowLeft} ${
+                  !showArrows ? styles.scrollArrowHidden : ""
+                }`}
                 onClick={scrollLeft}
                 aria-label="Scroll controls left"
                 aria-describedby="scroll-instructions"
                 title="Scroll controls left"
+                onBlur={handleLeftArrowBlur}
               >
                 ‹
               </button>
@@ -199,11 +263,14 @@ const Minimoog = React.memo(function Minimoog() {
             </div>
             {showRightArrow && (
               <button
-                className={`${styles.scrollArrow} ${styles.scrollArrowRight}`}
+                className={`${styles.scrollArrow} ${styles.scrollArrowRight} ${
+                  !showArrows ? styles.scrollArrowHidden : ""
+                }`}
                 onClick={scrollRight}
                 aria-label="Scroll controls right"
                 aria-describedby="scroll-instructions"
                 title="Scroll controls right"
+                onBlur={handleRightArrowBlur}
               >
                 ›
               </button>
