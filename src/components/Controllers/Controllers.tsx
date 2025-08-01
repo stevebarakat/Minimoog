@@ -1,3 +1,4 @@
+import React from "react";
 import { RockerSwitch } from "../RockerSwitch";
 import Title from "../Title";
 import Tune from "../Tune";
@@ -7,15 +8,13 @@ import Section from "../Section";
 import Column from "../Column";
 import Row from "../Row";
 import { useSynthStore } from "@/store/synthStore";
+import { useOscillator3ControlsState } from "@/store/selectors";
 
-function Controllers() {
-  const {
-    osc3FilterEgSwitch,
-    setOsc3FilterEgSwitch,
-    noiseLfoSwitch,
-    setNoiseLfoSwitch,
-    isDisabled,
-  } = useSynthStore();
+const Controllers = React.memo(function Controllers() {
+  const { osc3Control, osc3FilterEgSwitch, noiseLfoSwitch } =
+    useOscillator3ControlsState();
+  const { setOsc3FilterEgSwitch, setNoiseLfoSwitch, isDisabled } =
+    useSynthStore();
 
   return (
     <Section
@@ -56,6 +55,6 @@ function Controllers() {
       <Title>Controllers</Title>
     </Section>
   );
-}
+});
 
 export default Controllers;

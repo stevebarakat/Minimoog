@@ -1,3 +1,4 @@
+import React from "react";
 import { LoudnessEnvelope, FilterEnvelope } from "@/components/Envelopes";
 import Title from "@/components/Title";
 import Filter from "@/components/Filter";
@@ -7,7 +8,7 @@ import ModulationSwitch from "../Filter/ModulationSwitch";
 import KeyboardControl from "../Filter/KeyboardControl";
 import styles from "./Modifiers.module.css";
 
-function Modifiers() {
+const Modifiers = React.memo(function Modifiers() {
   return (
     <Section>
       <div className={styles.filterSwitches}>
@@ -35,6 +36,6 @@ function Modifiers() {
       <Title>Modifiers</Title>
     </Section>
   );
-}
+});
 
 export default Modifiers;

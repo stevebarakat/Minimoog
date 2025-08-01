@@ -1,7 +1,7 @@
+import React, { lazy, Suspense } from "react";
 import { useSynthStore } from "@/store/synthStore";
+import { useKeyboardState } from "@/store/selectors";
 import styles from "./Minimoog.module.css";
-import PresetsDropdown from "../PresetsDropdown";
-import CopySettings from "../CopySettings";
 import Container from "../Container";
 import Side from "../Side";
 import { BackPanel, MidPanel, FrontPanel } from "../Panels";
@@ -20,15 +20,19 @@ import { useUIState } from "./hooks/useUIState";
 import { useAudioContextManagement } from "./hooks/useAudioContextManagement";
 import Title from "../Title";
 import { cn } from "@/utils";
-
 import Row from "../Row";
 
-function Minimoog() {
-  const { activeKeys, setActiveKeys } = useSynthStore();
+// Lazy load non-critical components
+const LazyPresetsDropdown = lazy(() => import("../PresetsDropdown"));
+const LazyCopySettings = lazy(() => import("../CopySettings"));
+
+const Minimoog = React.memo(function Minimoog() {
+  const { activeKeys } = useKeyboardState();
+  const { setActiveKeys } = useSynthStore();
 
   // UI state management
   // ----------------------------
-  const { containerRef, isMobile, view } = useUIState();
+  const { containerRef, isMobile } = useUIState();
 
   // Audio context management
   // ----------------------------
@@ -41,8 +45,7 @@ function Minimoog() {
 
   // Audio processing
   // ----------------------------
-  const { mixerNode, filterNode, masterGain, loudnessEnvelopeGain, synthObj } =
-    useAudio(audioContext);
+  const { mixerNode, filterNode, synthObj } = useAudio(audioContext);
 
   // Filter tracking
   // ----------------------------
@@ -50,10 +53,12 @@ function Minimoog() {
 
   return (
     <>
-      <Row justify="center" gap="var(--spacing-md)">
-        <PresetsDropdown disabled={!isInitialized} />
-        <CopySettings disabled={!isInitialized} />
-      </Row>
+      <Suspense fallback={<div>Loading controls...</div>}>
+        <Row justify="center" gap="var(--spacing-md)">
+          <LazyPresetsDropdown disabled={!isInitialized} />
+          <LazyCopySettings disabled={!isInitialized} />
+        </Row>
+      </Suspense>
       <Container>
         <Side />
         <div className={styles.synth}>
@@ -99,7 +104,6 @@ function Minimoog() {
               onKeyDown={setActiveKeys}
               onKeyUp={() => setActiveKeys(null)}
               synth={synthObj}
-              view={view}
             />
           </div>
           <FrontPanel />
@@ -108,6 +112,6 @@ function Minimoog() {
       </Container>
     </>
   );
-}
+});
 
 export default Minimoog;

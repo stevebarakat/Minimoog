@@ -23,7 +23,9 @@ export const useMixerExternalState = () =>
 export const useFilterState = () => {
   const filterCutoff = useSynthStore((state) => state.filterCutoff);
   const filterEmphasis = useSynthStore((state) => state.filterEmphasis);
-  const filterContourAmount = useSynthStore((state) => state.filterContourAmount);
+  const filterContourAmount = useSynthStore(
+    (state) => state.filterContourAmount
+  );
   const filterAttack = useSynthStore((state) => state.filterAttack);
   const filterDecay = useSynthStore((state) => state.filterDecay);
   const filterSustain = useSynthStore((state) => state.filterSustain);
@@ -61,7 +63,9 @@ export const useFilterEnvelopeState = () => {
   const filterAttack = useSynthStore((state) => state.filterAttack);
   const filterDecay = useSynthStore((state) => state.filterDecay);
   const filterSustain = useSynthStore((state) => state.filterSustain);
-  const filterContourAmount = useSynthStore((state) => state.filterContourAmount);
+  const filterContourAmount = useSynthStore(
+    (state) => state.filterContourAmount
+  );
 
   return useMemo(
     () => ({
@@ -96,7 +100,9 @@ export const useModulationState = () => {
   const lfoWaveform = useSynthStore((state) => state.lfoWaveform);
   const modWheel = useSynthStore((state) => state.modWheel);
   const modMix = useSynthStore((state) => state.modMix);
-  const oscillatorModulationOn = useSynthStore((state) => state.oscillatorModulationOn);
+  const oscillatorModulationOn = useSynthStore(
+    (state) => state.oscillatorModulationOn
+  );
   const filterModulationOn = useSynthStore((state) => state.filterModulationOn);
 
   return useMemo(
@@ -108,7 +114,14 @@ export const useModulationState = () => {
       oscillatorModulationOn,
       filterModulationOn,
     }),
-    [lfoRate, lfoWaveform, modWheel, modMix, oscillatorModulationOn, filterModulationOn]
+    [
+      lfoRate,
+      lfoWaveform,
+      modWheel,
+      modMix,
+      oscillatorModulationOn,
+      filterModulationOn,
+    ]
   );
 };
 

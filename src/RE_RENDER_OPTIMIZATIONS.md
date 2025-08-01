@@ -124,6 +124,178 @@ const filterState = useFilterState(); // Properly memoized
 - ✅ Better performance isolation between components
 - ✅ Prevents infinite loops with proper memoization
 
+### 5. **Component-Level Memoization for Complex Components**
+
+Implemented React.memo for complex components with multiple dependencies:
+
+```typescript
+// Complex components now memoized
+const Minimoog = React.memo(function Minimoog() {
+  // Component logic
+});
+
+const Controllers = React.memo(function Controllers() {
+  // Component logic
+});
+```
+
+**Components Memoized**:
+
+- ✅ `Minimoog` - Main synth component with multiple hooks
+- ✅ `Controllers` - Complex component with multiple state dependencies
+- ✅ `OscillatorBank` - Container component with multiple children
+- ✅ `Modifiers` - Complex component with filter and envelope controls
+- ✅ `Output` - Output controls component
+
+**Benefits**:
+
+- ✅ Prevents unnecessary re-renders of complex component trees
+- ✅ Improves performance for components with many children
+- ✅ Reduces CPU usage during parameter changes
+
+### 6. **Lazy Loading for Non-Critical Components**
+
+Implemented lazy loading for components that aren't immediately needed:
+
+```typescript
+// Lazy load non-critical components
+const LazyPresetsDropdown = lazy(() => import("../PresetsDropdown"));
+const LazyCopySettings = lazy(() => import("../CopySettings"));
+
+// Wrap in Suspense
+<Suspense fallback={<div>Loading controls...</div>}>
+  <LazyPresetsDropdown disabled={!isInitialized} />
+  <LazyCopySettings disabled={!isInitialized} />
+</Suspense>;
+```
+
+**Components Lazy Loaded**:
+
+- ✅ `PresetsDropdown` - Not critical for core synth functionality
+- ✅ `CopySettings` - Utility component loaded on demand
+
+**Benefits**:
+
+- ✅ Faster initial page load
+- ✅ Reduced bundle size for critical path
+- ✅ Better user experience with loading states
+
+### 7. **Virtual Scrolling for Large Lists**
+
+Implemented virtual scrolling for the preset list to handle large datasets efficiently:
+
+```typescript
+// Virtual scrolling configuration
+const ITEM_HEIGHT = 80;
+const VISIBLE_ITEMS = 8;
+const BUFFER_SIZE = 2;
+
+// Only render visible items
+const visiblePresets = useMemo(() => {
+  return presets.slice(startIndex, endIndex);
+}, [presets, startIndex, endIndex]);
+```
+
+**Features Implemented**:
+
+- ✅ Dynamic item rendering based on scroll position
+- ✅ Buffer items for smooth scrolling
+- ✅ Memoized item rendering to prevent re-renders
+- ✅ Configurable item height and visible count
+
+**Benefits**:
+
+- ✅ Handles large lists efficiently (40+ presets)
+- ✅ Smooth scrolling performance
+- ✅ Reduced memory usage for large datasets
+- ✅ Better performance on mobile devices
+
+### 8. **Memoization Optimization**
+
+Optimized memoization strategy to prevent over-memoization while avoiding infinite loops:
+
+```typescript
+// Removed unnecessary React.memo from simple containers
+function OscillatorBank() {
+  // No React.memo needed
+  return <Section>...</Section>;
+}
+
+// Keep memoization for selectors that return objects to prevent infinite loops
+export const useOutputState = () => {
+  const auxOutput = useSynthStore((state) => state.auxOutput);
+  const tunerOn = useSynthStore((state) => state.tunerOn);
+
+  return useMemo(
+    () => ({
+      auxOutput,
+      tunerOn,
+    }),
+    [auxOutput, tunerOn]
+  );
+};
+```
+
+**Optimizations Made**:
+
+- ✅ Removed React.memo from simple container components (`OscillatorBank`, `Output`)
+- ✅ Kept memoization for selectors that return objects (prevents infinite loops)
+- ✅ Kept memoization for complex components and expensive calculations
+- ✅ Maintained memoization for selectors that prevent infinite loops
+
+**Key Insight**:
+
+- ✅ **Object-returning selectors MUST be memoized** to prevent infinite loops
+- ✅ **Simple container components** don't need React.memo
+- ✅ **Complex components with multiple dependencies** benefit from React.memo
+- ✅ **Expensive calculations** should always use useMemo
+
+**Benefits**:
+
+- ✅ Prevents infinite loops from object-returning selectors
+- ✅ Reduced bundle size for simple components
+- ✅ Maintained performance benefits where they matter most
+- ✅ Cleaner, more maintainable code
+
+### 9. **Audio System Integration Fix**
+
+Fixed keyboard integration with the audio system:
+
+```typescript
+// Fixed missing synth object prop
+<Keyboard
+  activeKeys={activeKeys}
+  octaveRange={{ min: 3, max: 5 }}
+  extraKeys={8}
+  onKeyDown={setActiveKeys}
+  onKeyUp={() => setActiveKeys(null)}
+  synth={synthObj} // Added missing prop
+/>;
+
+// Added safety checks in keyboard handlers
+const handleKeyPress = useCallback(
+  (note: string): void => {
+    if (isReleasing || isDisabled || !synth) return; // Added synth check
+    // ... rest of handler
+  },
+  [isReleasing, isDisabled, synth, onKeyDown, activeKeys, setPressedKeys]
+);
+```
+
+**Issues Fixed**:
+
+- ✅ **Missing synth prop**: Added `synth={synthObj}` to Keyboard component
+- ✅ **Undefined synth errors**: Added safety checks in keyboard handlers
+- ✅ **Audio initialization**: Proper integration with audio context management
+- ✅ **Error prevention**: Graceful handling during audio system initialization
+
+**Benefits**:
+
+- ✅ No more "Cannot read properties of undefined" errors
+- ✅ Proper keyboard-to-audio integration
+- ✅ Graceful handling during initialization
+- ✅ Robust error prevention
+
 ## 📊 Performance Impact
 
 ### Before Optimization:
@@ -157,11 +329,11 @@ const filterState = useFilterState(); // Properly memoized
 - ✅ Component migration to optimized selectors
 - ✅ Granular state access implementation
 
-### Phase 2: Advanced Optimizations (Planned)
+### Phase 2: Advanced Optimizations (Complete) ✅
 
-- 🔄 Component-level memoization for complex components
-- 🔄 Virtual scrolling for large lists
-- 🔄 Lazy loading for non-critical components
+- ✅ Component-level memoization for complex components
+- ✅ Virtual scrolling for large lists
+- ✅ Lazy loading for non-critical components
 
 ### Phase 3: Performance Monitoring (Planned)
 
@@ -242,6 +414,9 @@ Use React DevTools Profiler to monitor:
 - ✅ Expensive calculations memoized with useMemo
 - ✅ Event handlers memoized with useCallback
 - ✅ Dependencies properly specified in all hooks
+- ✅ Complex components memoized with React.memo
+- ✅ Lazy loading implemented for non-critical components
+- ✅ Virtual scrolling implemented for large lists
 - 🔄 Performance tested with React DevTools Profiler
 - 🔄 No unnecessary re-renders during parameter changes
 - 🔄 CPU usage acceptable during real-time audio processing

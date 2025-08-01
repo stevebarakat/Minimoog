@@ -18,7 +18,7 @@ export function useKeyboardHandlers({
 }: UseKeyboardHandlersProps) {
   const handleKeyPress = useCallback(
     (note: string): void => {
-      if (isReleasing || isDisabled) return;
+      if (isReleasing || isDisabled || !synth) return;
       setPressedKeys((prev) => {
         const newPressedKeys = prev.includes(note) ? prev : [...prev, note];
         return newPressedKeys;
@@ -36,7 +36,7 @@ export function useKeyboardHandlers({
 
   const handleKeyRelease = useCallback(
     (note: string): void => {
-      if (isReleasing || isDisabled) return;
+      if (isReleasing || isDisabled || !synth) return;
       setPressedKeys((prev) => {
         const newPressedKeys = prev.filter((key) => key !== note);
         return newPressedKeys;

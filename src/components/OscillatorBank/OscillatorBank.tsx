@@ -1,3 +1,4 @@
+import React from "react";
 import OscillatorModulation from "./components/OscillatorModulation";
 import Oscillator1 from "./components/Oscillator1";
 import Oscillator2 from "./components/Oscillator2";
