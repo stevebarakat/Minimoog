@@ -32,7 +32,7 @@ const Minimoog = React.memo(function Minimoog() {
 
   // UI state management
   // ----------------------------
-  const { containerRef, isMobile } = useUIState();
+  const { containerRef, isMobile, view } = useUIState();
 
   // Audio context management
   // ----------------------------
@@ -104,6 +104,7 @@ const Minimoog = React.memo(function Minimoog() {
               onKeyDown={setActiveKeys}
               onKeyUp={() => setActiveKeys(null)}
               synth={synthObj}
+              view={view}
             />
           </div>
           <FrontPanel />

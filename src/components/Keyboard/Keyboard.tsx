@@ -29,7 +29,7 @@ export function Keyboard({
   const allKeys = generateKeyboardKeys(octaveRange, extraKeys);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Remove last 12 keys for tablet view, last 24 keys for mobile view
+  // Remove last 12 keys for tablet view, last 19 keys for mobile view
   const keys =
     view === "mobile"
       ? allKeys.slice(0, -19)
