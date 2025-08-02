@@ -18,6 +18,7 @@ function SidePanel({ style }: { style?: React.CSSProperties }) {
       <Column
         className={isMobile ? styles.mobileSidePanel : styles.sidePanel}
         style={style}
+        data-onboarding="modulation"
       >
         <Row gap="var(--spacing-md)">
           <LfoRate />

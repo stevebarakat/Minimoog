@@ -17,7 +17,7 @@ const Controllers = React.memo(function Controllers() {
 
   return (
     <Section
-      data-onboarding="modulation"
+      data-onboarding="controllers"
       style={{
         marginLeft: "var(--spacing-md)",
         paddingLeft: "var(--spacing-md)",

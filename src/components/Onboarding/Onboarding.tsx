@@ -62,6 +62,14 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     position: "bottom",
   },
   {
+    id: "controllers",
+    title: "Controllers",
+    description:
+      "Fine-tune your sound with the controllers. Tune adjusts the overall pitch, Glide creates smooth transitions between notes, and Modulation Mix controls the intensity of modulation effects.",
+    target: "[data-onboarding='controllers']",
+    position: "bottom",
+  },
+  {
     id: "modulation",
     title: "Modulation",
     description:
@@ -83,6 +91,14 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     description:
       "Save and load your favorite patches. The Minimoog comes with classic presets to get you started.",
     target: "[data-onboarding='presets']",
+    position: "bottom",
+  },
+  {
+    id: "copy-settings",
+    title: "Copy Settings",
+    description:
+      "Share your patches with others! Click 'Copy Settings' to generate a URL with your current settings. Anyone with the link can load your exact patch.",
+    target: "[data-onboarding='copy-settings']",
     position: "bottom",
   },
   {

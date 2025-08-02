@@ -17,6 +17,7 @@ function CopySettings({ disabled }: CopySettingsProps) {
       disabled={disabled}
       title="Copy current settings as URL and update browser address"
       aria-label="Copy current settings as URL and update browser address"
+      data-onboarding="copy-settings"
     >
       {showCopiedMessage ? "Copied!" : "Copy Settings"}
     </button>
