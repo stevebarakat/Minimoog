@@ -345,7 +345,7 @@ export function Onboarding() {
                 </div>
               </div>
             </div>
-            <Tooltip.Arrow className={styles.arrow} />
+            {!isFirstStep && <Tooltip.Arrow className={styles.arrow} />}
           </Tooltip.Content>
         </Tooltip.Portal>
       </Tooltip.Root>

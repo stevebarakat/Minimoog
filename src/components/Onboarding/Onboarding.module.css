@@ -1,5 +1,3 @@
-/* Removed overlay and backdrop - tooltips are now standalone */
-
 .tooltip {
   z-index: 10000;
   padding: 10px;
@@ -15,12 +13,9 @@
   pointer-events: auto;
 }
 
-/* Pseudo-element arrow removed - using Radix Tooltip.Arrow */
-
-/* Arrow positions removed - using Radix Tooltip.Arrow */
-
 .arrow {
   fill: var(--color-black, #000);
+  transform: scale(3);
 }
 
 .content {
