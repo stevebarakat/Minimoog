@@ -179,7 +179,7 @@ export function Onboarding() {
     };
 
     findTarget();
-  }, [step.target, currentStep, viewportSize]);
+  }, [step.target, currentStep, viewportSize, step.id]);
 
   // Listen for scroll events to update positioning
   React.useEffect(() => {

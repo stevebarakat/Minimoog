@@ -5,12 +5,7 @@ import { useSynthStore } from "@/store/synthStore";
 import Column from "../Column";
 import { useFilterState } from "@/store/selectors";
 
-interface FilterProps {
-  audioContext: AudioContext;
-  filterNode: AudioNode;
-}
-
-export default function Filter({ audioContext, filterNode }: FilterProps) {
+export default function Filter() {
   const filterState = useFilterState();
   const {
     setFilterCutoff,

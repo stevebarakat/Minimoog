@@ -11,8 +11,7 @@ import { useSynthStore } from "@/store/synthStore";
 import { useOscillator3ControlsState } from "@/store/selectors";
 
 const Controllers = React.memo(function Controllers() {
-  const { osc3Control, osc3FilterEgSwitch, noiseLfoSwitch } =
-    useOscillator3ControlsState();
+  const { osc3FilterEgSwitch, noiseLfoSwitch } = useOscillator3ControlsState();
   const { setOsc3FilterEgSwitch, setNoiseLfoSwitch, isDisabled } =
     useSynthStore();
 

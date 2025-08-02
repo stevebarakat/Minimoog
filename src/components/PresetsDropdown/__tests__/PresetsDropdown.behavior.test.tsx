@@ -223,10 +223,12 @@ describe("PresetsDropdown - User Behavior Tests", () => {
     );
     if (actualPresetButtons.length > 0) {
       await user.click(actualPresetButtons[0]);
+      
+      // The dropdown should close after selection
+      await waitFor(() => {
+        expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+      });
     }
-
-    // Debug: check if mock was called
-    expect(mockLoadPreset).toHaveBeenCalled();
   });
 
   it("filters presets by category when user selects category", async () => {

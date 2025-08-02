@@ -40,9 +40,6 @@ export function PresetList({
     return presets.slice(startIndex, endIndex);
   }, [presets, startIndex, endIndex]);
 
-  // Calculate offset for virtual positioning
-  const offsetY = startIndex * ITEM_HEIGHT;
-
   // Handle scroll events
   const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(event.currentTarget.scrollTop);

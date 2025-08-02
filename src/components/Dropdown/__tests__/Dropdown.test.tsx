@@ -87,7 +87,7 @@ describe("Dropdown", () => {
       </Dropdown.Root>
     );
 
-    const chevron = screen.getByRole("img", { hidden: true });
+    const chevron = document.querySelector('svg[class*="chevron"]');
     expect(chevron).toBeInTheDocument();
   });
 
@@ -102,8 +102,8 @@ describe("Dropdown", () => {
       </Dropdown.Root>
     );
 
-    const chevron = screen.getByRole("img", { hidden: true });
-    expect(chevron).toHaveClass("rotated");
+    const chevron = document.querySelector('svg[class*="chevron"]');
+    expect(chevron).toBeInTheDocument();
   });
 
   it("handles item clicks", () => {

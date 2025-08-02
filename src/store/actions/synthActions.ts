@@ -279,7 +279,13 @@ export function createSynthActions(
       })),
     loadPreset: (preset: Partial<SynthState>) => {
       set((state: SynthState) => {
-        const newState = { ...state, ...preset };
+        // Completely replace state with preset values, preserving only essential non-preset properties
+        const newState = {
+          ...preset,
+          // Preserve essential non-preset properties
+          isDisabled: state.isDisabled,
+          activeKeys: state.activeKeys,
+        };
         return newState;
       });
     },

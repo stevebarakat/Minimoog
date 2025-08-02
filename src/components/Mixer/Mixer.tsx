@@ -3,8 +3,6 @@ import {
   useMixerOsc1State,
   useMixerOsc2State,
   useMixerOsc3State,
-  useMixerNoiseState,
-  useMixerExternalState,
 } from "@/store/selectors";
 import Knob from "../Knob";
 import Title from "../Title";
@@ -29,8 +27,6 @@ export default function Mixer({ audioContext, mixerNode }: MixerProps) {
   const mixerOsc1 = useMixerOsc1State();
   const mixerOsc2 = useMixerOsc2State();
   const mixerOsc3 = useMixerOsc3State();
-  const mixerNoise = useMixerNoiseState();
-  const mixerExternal = useMixerExternalState();
   const { setMixerSource, isDisabled } = useSynthStore();
 
   return (

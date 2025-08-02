@@ -184,7 +184,7 @@ const Minimoog = React.memo(function Minimoog() {
     if (scrollRef.current) {
       // Wait a bit for the content to render, then scroll to the end
       const timer = setTimeout(() => {
-        if (scrollRef.current) {
+        if (scrollRef.current && scrollRef.current.scrollTo) {
           scrollRef.current.scrollTo({
             left: scrollRef.current.scrollWidth,
             behavior: "smooth",
