@@ -25,7 +25,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     id: "power",
     title: "Start by turning on the power",
     description:
-      "The Minimoog needs to be powered on before you can create any sounds. Flip the power switch to get started.",
+      "The Minimoog needs to be powered on before you can use it. Flip the power switch to get started.",
     target: "[data-onboarding='power']",
     position: "bottom",
   },
@@ -54,11 +54,19 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     position: "bottom",
   },
   {
-    id: "envelopes",
-    title: "Envelopes",
+    id: "filter-envelope",
+    title: "Filter Envelope",
     description:
-      "Envelopes control how your sound changes over time. The filter envelope shapes the filter, while the loudness envelope controls volume.",
-    target: "[data-onboarding='envelopes']",
+      "Shape your filter over time. The Filter Envelope controls how the filter cutoff changes when you press a key. Adjust Attack, Decay, Sustain, and Release to create dynamic filter sweeps.",
+    target: "[data-onboarding='filter-envelope']",
+    position: "bottom",
+  },
+  {
+    id: "loudness-envelope",
+    title: "Loudness Envelope",
+    description:
+      "Control the volume shape of your sound. The Loudness Envelope determines how the overall volume changes over time. Use this to create percussive or sustained sounds.",
+    target: "[data-onboarding='loudness-envelope']",
     position: "bottom",
   },
   {
@@ -312,6 +320,28 @@ export function Onboarding() {
             collisionBoundary={document.body}
             collisionPadding={10}
           >
+            <button
+              className={styles.closeButton}
+              onClick={skipOnboarding}
+              aria-label="Skip onboarding"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 4L4 12M4 4L12 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
             <div className={styles.content}>
               <h3 className={styles.title}>{step.title}</h3>
               <p className={styles.description}>{step.description}</p>
@@ -344,7 +374,23 @@ export function Onboarding() {
                 <div className={styles.buttons}>
                   {!isFirstStep && (
                     <button className={styles.button} onClick={previousStep}>
-                      Previous
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M10 3L5 8L10 13"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span className="sr-only">Previous</span>
                     </button>
                   )}
 
@@ -360,16 +406,25 @@ export function Onboarding() {
                       className={cn(styles.button, styles.primary)}
                       onClick={nextStep}
                     >
-                      Next
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M6 3L11 8L6 13"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span className="sr-only">Next</span>
                     </button>
                   )}
-
-                  <button
-                    className={cn(styles.button, styles.skip)}
-                    onClick={skipOnboarding}
-                  >
-                    Skip
-                  </button>
                 </div>
               </div>
             </div>

@@ -20,7 +20,9 @@ const Modifiers = React.memo(function Modifiers() {
         gap="0.5rem"
       >
         <Filter />
-        <FilterEnvelope />
+        <div data-onboarding="filter-envelope">
+          <FilterEnvelope />
+        </div>
       </Column>
       <Column
         style={{
@@ -30,6 +32,7 @@ const Modifiers = React.memo(function Modifiers() {
           paddingBottom: "0.5rem",
           width: "101%",
         }}
+        data-onboarding="loudness-envelope"
       >
         <LoudnessEnvelope />
       </Column>

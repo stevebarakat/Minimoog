@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useOnboarding(totalSteps: number = 12) {
+export function useOnboarding(totalSteps: number = 13) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(true); // Start visible by default
 

@@ -14,6 +14,34 @@
   pointer-events: auto;
 }
 
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.closeButton:focus {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
 .arrow {
   fill: var(--color-black, #000);
   transform: scale(3);
@@ -143,6 +171,13 @@
     margin: 0 16px;
     min-width: 280px;
     max-width: 90vw;
+  }
+
+  .closeButton {
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
   }
 
   .content {
