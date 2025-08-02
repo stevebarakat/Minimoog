@@ -226,6 +226,7 @@ const Minimoog = React.memo(function Minimoog() {
             <div
               ref={scrollRef}
               className={styles.controlsPanel}
+              data-onboarding="controls-panel"
               onScroll={checkScrollPosition}
               onKeyDown={handleKeyDown}
               role="region"

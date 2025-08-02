@@ -173,8 +173,8 @@ export function Onboarding() {
       if (element) {
         setTargetElement(element);
 
-        // Scroll the element into view with a small delay to ensure positioning
-        setTimeout(() => scrollToElement(element), 100);
+        // Scroll the element into view with a longer delay to ensure positioning
+        setTimeout(() => scrollToElement(element), 300);
       } else if (retryCount < maxRetries) {
         retryCount++;
         setTimeout(findTarget, 100);
@@ -193,8 +193,27 @@ export function Onboarding() {
 
   // Listen for scroll events to update positioning
   React.useEffect(() => {
-    const controlsPanel = document.querySelector('[class*="controlsPanel"]');
-    if (!controlsPanel) return;
+    const findControlsPanel = () => {
+      return document.querySelector('[data-onboarding="controls-panel"]');
+    };
+
+    const controlsPanel = findControlsPanel();
+    if (!controlsPanel) {
+      // If not found immediately, try again after a short delay
+      const timeoutId = setTimeout(() => {
+        const panel = findControlsPanel();
+        if (!panel) return;
+
+        const handleScroll = () => {
+          // Force a re-render by updating viewport size
+          setViewportSize((prev) => ({ ...prev }));
+        };
+
+        panel.addEventListener("scroll", handleScroll);
+        return () => panel.removeEventListener("scroll", handleScroll);
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
 
     const handleScroll = () => {
       // Force a re-render by updating viewport size
@@ -208,23 +227,28 @@ export function Onboarding() {
   // Function to scroll target element into view
   const scrollToElement = (element: Element) => {
     // Find the scrollable container (controls panel)
-    const controlsPanel = document.querySelector('[class*="controlsPanel"]');
+    const controlsPanel = document.querySelector(
+      '[data-onboarding="controls-panel"]'
+    );
     if (controlsPanel && controlsPanel instanceof HTMLElement) {
-      // Calculate the scroll position to center the element
-      const containerRect = controlsPanel.getBoundingClientRect();
-      const elementRect = element.getBoundingClientRect();
+      // Wait a bit for any layout changes to settle
+      requestAnimationFrame(() => {
+        // Calculate the scroll position to center the element
+        const containerRect = controlsPanel.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
 
-      // Calculate the scroll offset to center the element
-      const scrollLeft =
-        elementRect.left +
-        elementRect.width / 2 -
-        containerRect.left -
-        containerRect.width / 2;
+        // Calculate the scroll offset to center the element
+        const scrollLeft =
+          elementRect.left +
+          elementRect.width / 2 -
+          containerRect.left -
+          containerRect.width / 2;
 
-      // Smooth scroll to the element
-      controlsPanel.scrollTo({
-        left: controlsPanel.scrollLeft + scrollLeft,
-        behavior: "smooth",
+        // Smooth scroll to the element
+        controlsPanel.scrollTo({
+          left: controlsPanel.scrollLeft + scrollLeft,
+          behavior: "smooth",
+        });
       });
     }
   };
