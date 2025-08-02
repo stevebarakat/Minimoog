@@ -1,4 +1,5 @@
 .tooltip {
+  position: relative;
   z-index: 10000;
   padding: 10px;
   width: clamp(150px, 250px, 300px);
@@ -16,6 +17,8 @@
 .arrow {
   fill: var(--color-black, #000);
   transform: scale(3);
+  position: absolute;
+  pointer-events: none;
 }
 
 .content {
