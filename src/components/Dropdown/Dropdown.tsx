@@ -257,11 +257,6 @@ function DropdownListbox({
     }
   }, [focusedIndex, isOpen]);
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    // Keyboard navigation is now handled by individual items
-    // This is just a fallback for any events that might bubble up
-  };
-
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     // Check if the new focus target is within the dropdown
     const relatedTarget = event.relatedTarget as HTMLElement;

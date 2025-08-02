@@ -21,12 +21,17 @@
   }
 }
 
+.container {
+  background-color: var(--color-background);
+  border-radius: 8px;
+}
+
 .controlsContainer {
-  max-height: 50vh;
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
+  max-height: 50vh;
   overflow-y: auto;
 }
 

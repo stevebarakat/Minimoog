@@ -5,6 +5,7 @@
   padding-left: 3px;
   width: 100%;
   background: var(--color-off-black);
+
   --keyboard-height: 220px;
 }
 
@@ -153,12 +154,12 @@
 
 .rightShadow {
   position: absolute;
-  right: -4px;
   top: 8px;
+  right: -4px;
   z-index: 10;
   height: 70%;
-  rotate: -3deg;
   box-shadow: 0 0 10px 10px hsl(0deg 0% 0% / 50%);
+  rotate: -3deg;
 }
 
 .octaveIndicator {

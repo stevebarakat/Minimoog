@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useRef, useState, useEffect } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { useKeyboardState } from "@/store/selectors";
-import styles from "./Minimoog.module.css";
 import Container from "../Container";
 import Side from "../Side";
 import { BackPanel, MidPanel, FrontPanel } from "../Panels";
@@ -19,8 +18,9 @@ import { useAudio, useFilterTracking, useURLSync } from "./hooks";
 import { useUIState } from "./hooks/useUIState";
 import { useAudioContextManagement } from "./hooks/useAudioContextManagement";
 import Title from "../Title";
-import { cn } from "@/utils";
 import Row from "../Row";
+import { cn } from "@/utils";
+import styles from "./Minimoog.module.css";
 
 // Lazy load non-critical components
 const LazyPresetsDropdown = lazy(() => import("../PresetsDropdown"));
@@ -204,7 +204,7 @@ const Minimoog = React.memo(function Minimoog() {
           <LazyCopySettings disabled={!isInitialized} />
         </Row>
       </Suspense>
-      <Container>
+      <Container className={styles.container}>
         <Side />
         <div className={styles.synth}>
           <BackPanel />

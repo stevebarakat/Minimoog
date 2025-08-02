@@ -5,6 +5,7 @@
   width: clamp(150px, 250px, 300px);
   min-width: 150px;
   max-width: 300px;
+  max-height: var(--radix-tooltip-content-available-height);
   background: var(--color-off-black);
   border: 2px solid var(--color-black, #000);
   border-radius: 8px;
@@ -12,7 +13,6 @@
   font-family: var(--font-primary);
   animation: fade-in 0.3s ease-out;
   pointer-events: auto;
-  max-height: var(--radix-tooltip-content-available-height);
   scrollbar-width: thin;
   scrollbar-color: var(--color-text-primary) var(--color-off-black);
 }
@@ -23,20 +23,20 @@
   right: 8px;
   z-index: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 24px;
   height: 24px;
   background: transparent;
   border: none;
+  border-radius: 4px;
   color: var(--color-text-primary);
   cursor: pointer;
-  border-radius: 4px;
   transition: all 0.2s ease;
 }
 
 .closeButton:hover {
-  background: hsl(0 0% 100% / 10%);
+  background: hsl(0deg 0% 100% / 10%);
   transform: scale(1.1);
 }
 
@@ -46,11 +46,11 @@
 }
 
 .arrow {
-  fill: var(--color-black, #000);
-  transform: scale(2.5);
   position: absolute;
-  pointer-events: none;
   z-index: 1;
+  transform: scale(2.5);
+  fill: var(--color-black, #000);
+  pointer-events: none;
 }
 
 .content {
