@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useOnboarding() {
+export function useOnboarding(totalSteps: number = 12) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(true); // Start visible by default
 
@@ -34,6 +34,10 @@ export function useOnboarding() {
     setIsVisible(true);
   };
 
+  const goToStep = (stepIndex: number) => {
+    setCurrentStep(Math.max(0, Math.min(stepIndex, totalSteps - 1)));
+  };
+
   return {
     isVisible,
     currentStep,
@@ -42,6 +46,7 @@ export function useOnboarding() {
     skipOnboarding,
     completeOnboarding,
     resetOnboarding,
+    goToStep,
     hasCompletedOnboarding: false, // Always false since we don't persist
   };
 }

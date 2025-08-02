@@ -70,6 +70,16 @@
   background: var(--color-text-primary);
 }
 
+.dot:focus {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
 .buttons {
   display: flex;
   flex-wrap: wrap;

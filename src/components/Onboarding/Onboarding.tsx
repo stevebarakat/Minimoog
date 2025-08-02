@@ -89,7 +89,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     id: "presets",
     title: "Presets",
     description:
-      "Save and load your favorite patches. The Minimoog comes with classic presets to get you started.",
+      "Load classic Minimoog presets to get you started. Choose from a variety of iconic sounds that showcase the synthesizer's capabilities.",
     target: "[data-onboarding='presets']",
     position: "bottom",
   },
@@ -118,7 +118,8 @@ export function Onboarding() {
     previousStep,
     skipOnboarding,
     completeOnboarding,
-  } = useOnboarding();
+    goToStep,
+  } = useOnboarding(ONBOARDING_STEPS.length);
 
   const [targetElement, setTargetElement] = React.useState<Element | null>(
     null
@@ -325,6 +326,17 @@ export function Onboarding() {
                         index === currentStep && styles.active,
                         index < currentStep && styles.completed
                       )}
+                      onClick={() => goToStep(index)}
+                      style={{ cursor: "pointer" }}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Go to step ${index + 1}`}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          goToStep(index);
+                        }
+                      }}
                     />
                   ))}
                 </div>
