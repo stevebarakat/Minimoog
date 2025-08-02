@@ -169,15 +169,49 @@ export function useOscillatorFactory(
     }
   }, []);
 
+  // Create oscillators when audio context is available
+  useEffect(() => {
+    if (audioContext && mixerNode && !oscRef.current) {
+      oscRef.current = createOscillator(
+        {
+          audioContext,
+          waveform: oscillatorState.waveform,
+          frequency: oscillatorState.frequency,
+          range: oscillatorState.range,
+        },
+        mixerNode
+      );
+    }
+  }, [
+    audioContext,
+    mixerNode,
+    createOscillator,
+    oscillatorState.waveform,
+    oscillatorState.frequency,
+    oscillatorState.range,
+  ]);
+
   // Volume control effect - memoized to prevent unnecessary updates
   useEffect(() => {
+    console.log(`${oscillatorKey} volume effect triggered:`, {
+      hasOscRef: !!oscRef.current,
+      hasAudioContext: !!audioContext,
+      mixerState,
+      boostedVolume,
+    });
+
     if (oscRef.current && audioContext) {
+      const newVolume = mixerState.enabled ? boostedVolume : 0;
+      console.log(`${oscillatorKey} volume calculation:`, {
+        mixerVolume: mixerState.volume,
+        volumeBoost,
+        boostedVolume,
+        enabled: mixerState.enabled,
+        finalVolume: newVolume,
+      });
       oscRef.current
         .getGainNode()
-        .gain.setValueAtTime(
-          mixerState.enabled ? boostedVolume : 0,
-          audioContext.currentTime
-        );
+        .gain.setValueAtTime(newVolume, audioContext.currentTime);
     }
   }, [mixerState.enabled, boostedVolume, audioContext]);
 
@@ -197,16 +231,10 @@ export function useOscillatorFactory(
     (note: string) => {
       if (!audioContext || !mixerNode) return;
 
+      // Oscillator should already be created by the effect above
       if (!oscRef.current) {
-        oscRef.current = createOscillator(
-          {
-            audioContext,
-            waveform: oscillatorState.waveform,
-            frequency: oscillatorState.frequency,
-            range: oscillatorState.range,
-          },
-          mixerNode
-        );
+        console.warn(`${oscillatorKey} oscillator not created yet`);
+        return;
       }
 
       lastNoteRef.current = note;
@@ -250,7 +278,8 @@ export function useOscillatorFactory(
   const triggerRelease = useCallback(() => {
     if (oscRef.current) {
       oscRef.current.stop();
-      oscRef.current = null;
+      // Don't destroy the oscillator - just stop it from playing
+      // oscRef.current = null;
     }
     cleanupVibrato();
     lastFrequencyRef.current = null;

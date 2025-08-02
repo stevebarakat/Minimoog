@@ -257,6 +257,12 @@ function DropdownListbox({
     }
   }, [focusedIndex, isOpen]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Escape") {
+      onToggle();
+    }
+  };
+
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     // Check if the new focus target is within the dropdown
     const relatedTarget = event.relatedTarget as HTMLElement;

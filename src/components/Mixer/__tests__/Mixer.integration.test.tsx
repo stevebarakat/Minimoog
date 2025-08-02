@@ -24,7 +24,7 @@ describe("Mixer - Integration Tests", () => {
     osc2: { volume: 3, enabled: false },
     osc3: { volume: 7, enabled: true },
     noise: { volume: 0, enabled: false, noiseType: "white" },
-            external: { volume: 0, enabled: false },
+    external: { volume: 0, enabled: false },
   };
 
   beforeEach(() => {
@@ -239,7 +239,7 @@ describe("Mixer - Integration Tests", () => {
       osc2: { volume: 1, enabled: true },
       osc3: { volume: 9, enabled: false },
       noise: { volume: 2, enabled: true, noiseType: "pink" },
-              external: { volume: 3, enabled: true },
+      external: { volume: 3, enabled: true },
     };
 
     mockedUseSynthStore.mockReturnValue({

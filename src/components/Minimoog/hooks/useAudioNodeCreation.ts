@@ -32,12 +32,12 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
 
         // Load filter module
         await audioContext.audioWorklet.addModule(
-          "/moog-filters/moog-hybrid-processor.js"
+          "/moog-filters/moog-authentic-processor.js"
         );
 
         const moogFilter = new AudioWorkletNode(
           audioContext,
-          "moog-hybrid-processor",
+          "moog-authentic-processor",
           {
             numberOfInputs: 1,
             numberOfOutputs: 1,
@@ -55,7 +55,7 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
           masterGain.connect(audioContext.destination);
         }
       } catch (error) {
-        console.error("Failed to initialize Moog Hybrid filter:", error);
+        console.error("Failed to initialize Moog Authentic filter:", error);
         return;
       }
     })();

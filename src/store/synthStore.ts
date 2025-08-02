@@ -16,6 +16,7 @@ export const useSynthStore = create<SynthState & SynthActions>()(
         modWheel: state.modWheel,
         mainVolume: state.mainVolume,
         isMainActive: state.isMainActive,
+        mixer: state.mixer,
       }),
     }
   )

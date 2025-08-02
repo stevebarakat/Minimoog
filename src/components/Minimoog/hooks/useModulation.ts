@@ -225,6 +225,12 @@ export function useModulation({
 
     // Route to destinations
     if (oscillatorModulationOn && audioContext && modWheelGainRef.current) {
+      console.log(
+        "🔧 Modulation ON - osc3Control:",
+        osc3Control,
+        "modWheel:",
+        modWheel
+      );
       [osc1, osc2, osc3].forEach((osc, index) => {
         const node = osc?.getNode?.();
         if (node && node.context === audioContext) {
@@ -235,15 +241,26 @@ export function useModulation({
           else if (index === 2) modOsc3GainRef.current = modGain;
 
           const baseFreq = node.frequency.value || MIDI.A4_FREQUENCY;
-          modGain.gain.setValueAtTime(
-            baseFreq * 0.0595 * (modWheel / SYNTH_PARAMS.MOD_WHEEL.MAX),
-            audioContext.currentTime
+          const modDepth =
+            baseFreq * 0.2 * (modWheel / SYNTH_PARAMS.MOD_WHEEL.MAX);
+          console.log(
+            `🔧 Osc ${
+              index + 1
+            } modulation - baseFreq: ${baseFreq}Hz, modDepth: ${modDepth}Hz`
           );
+          modGain.gain.setValueAtTime(modDepth, audioContext.currentTime);
 
           modWheelGainRef.current?.connect(modGain);
           modGain.connect(node.frequency);
         }
       });
+    } else {
+      console.log(
+        "🔧 Modulation OFF - oscillatorModulationOn:",
+        oscillatorModulationOn,
+        "modWheel:",
+        modWheel
+      );
     }
 
     // --- MODIFIED: Sample modulation output and send to filter worklet ---
