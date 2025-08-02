@@ -20,6 +20,14 @@ const isDevelopment = import.meta.env.DEV;
 const isTest = import.meta.env.MODE === "test";
 
 /**
+ * Check if the application is running in development mode
+ * @returns {boolean} True if in development mode, false otherwise
+ */
+export function isDevMode(): boolean {
+  return isDevelopment;
+}
+
+/**
  * Get environment-specific configuration
  * @returns {Object} Environment configuration object containing audio, MIDI, and other settings
  */

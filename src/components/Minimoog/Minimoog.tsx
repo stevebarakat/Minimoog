@@ -10,6 +10,7 @@ import Mixer from "../Mixer";
 import Modifiers from "../Modifiers";
 import Output from "../Output";
 import Section from "../Section";
+import SavePreset from "../SavePreset";
 import PowerButton from "../PowerButton";
 import Hinge from "../Hinge";
 import SidePanel from "../SidePanel";
@@ -19,6 +20,7 @@ import { useUIState } from "./hooks/useUIState";
 import { useAudioContextManagement } from "./hooks/useAudioContextManagement";
 import Title from "../Title";
 import Row from "../Row";
+import { isDevMode } from "@/config";
 import { cn } from "@/utils";
 import styles from "./Minimoog.module.css";
 
@@ -200,6 +202,7 @@ const Minimoog = React.memo(function Minimoog() {
     <>
       <Suspense fallback={<div>Loading controls...</div>}>
         <Row justify="center" gap="var(--spacing-md)">
+          {isDevMode() && <SavePreset disabled={!isInitialized} />}
           <LazyPresetsDropdown disabled={!isInitialized} />
           <LazyCopySettings disabled={!isInitialized} />
         </Row>
