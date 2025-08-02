@@ -107,10 +107,31 @@ export function Onboarding() {
   const [targetElement, setTargetElement] = React.useState<Element | null>(
     null
   );
+  const [viewportSize, setViewportSize] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   const step = ONBOARDING_STEPS[currentStep];
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === ONBOARDING_STEPS.length - 1;
+
+  // Handle viewport resize and initial load
+  React.useEffect(() => {
+    const updateViewportSize = () => {
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    // Update on initial load
+    updateViewportSize();
+
+    // Update on resize
+    window.addEventListener("resize", updateViewportSize);
+    return () => window.removeEventListener("resize", updateViewportSize);
+  }, []);
 
   // Find the target element for the current step with retry mechanism
   React.useEffect(() => {
@@ -130,6 +151,9 @@ export function Onboarding() {
           element
         );
         setTargetElement(element);
+
+        // Scroll the element into view with a small delay to ensure positioning
+        setTimeout(() => scrollToElement(element), 100);
       } else if (retryCount < maxRetries) {
         retryCount++;
         setTimeout(findTarget, 100);
@@ -155,7 +179,45 @@ export function Onboarding() {
     };
 
     findTarget();
-  }, [step.target, currentStep]);
+  }, [step.target, currentStep, viewportSize]);
+
+  // Listen for scroll events to update positioning
+  React.useEffect(() => {
+    const controlsPanel = document.querySelector('[class*="controlsPanel"]');
+    if (!controlsPanel) return;
+
+    const handleScroll = () => {
+      // Force a re-render by updating viewport size
+      setViewportSize((prev) => ({ ...prev }));
+    };
+
+    controlsPanel.addEventListener("scroll", handleScroll);
+    return () => controlsPanel.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Function to scroll target element into view
+  const scrollToElement = (element: Element) => {
+    // Find the scrollable container (controls panel)
+    const controlsPanel = document.querySelector('[class*="controlsPanel"]');
+    if (controlsPanel && controlsPanel instanceof HTMLElement) {
+      // Calculate the scroll position to center the element
+      const containerRect = controlsPanel.getBoundingClientRect();
+      const elementRect = element.getBoundingClientRect();
+
+      // Calculate the scroll offset to center the element
+      const scrollLeft =
+        elementRect.left +
+        elementRect.width / 2 -
+        containerRect.left -
+        containerRect.width / 2;
+
+      // Smooth scroll to the element
+      controlsPanel.scrollTo({
+        left: controlsPanel.scrollLeft + scrollLeft,
+        behavior: "smooth",
+      });
+    }
+  };
 
   // Early return after all hooks have been called
   if (!isVisible) return null;
@@ -165,6 +227,47 @@ export function Onboarding() {
     return null;
   }
 
+  // Calculate responsive positioning based on viewport size
+  const getTooltipPosition = () => {
+    if (!targetElement) {
+      return {
+        top: "50%",
+        left: "50%",
+        width: "1px",
+        height: "1px",
+      };
+    }
+
+    const rect = targetElement.getBoundingClientRect();
+    const isMobile = viewportSize.width < 768;
+
+    // Adjust positioning based on screen size
+    let top = rect.top;
+    let left = rect.left;
+    const width = rect.width;
+    const height = rect.height;
+
+    // On mobile, ensure elements are visible
+    if (isMobile) {
+      // Ensure element is within viewport bounds
+      if (rect.left < 0) left = 10;
+      if (rect.right > viewportSize.width)
+        left = viewportSize.width - width - 10;
+      if (rect.top < 0) top = 10;
+      if (rect.bottom > viewportSize.height)
+        top = viewportSize.height - height - 10;
+    }
+
+    return {
+      top: `${top}px`,
+      left: `${left}px`,
+      width: `${width}px`,
+      height: `${height}px`,
+    };
+  };
+
+  const tooltipPosition = getTooltipPosition();
+
   const renderTooltip = () => (
     <Tooltip.Provider>
       <Tooltip.Root open={true} defaultOpen={true}>
@@ -172,18 +275,10 @@ export function Onboarding() {
           <div
             style={{
               position: "fixed",
-              top: targetElement
-                ? targetElement.getBoundingClientRect().top
-                : "50%",
-              left: targetElement
-                ? targetElement.getBoundingClientRect().left
-                : "50%",
-              width: targetElement
-                ? targetElement.getBoundingClientRect().width
-                : "1px",
-              height: targetElement
-                ? targetElement.getBoundingClientRect().height
-                : "1px",
+              top: tooltipPosition.top,
+              left: tooltipPosition.left,
+              width: tooltipPosition.width,
+              height: tooltipPosition.height,
               opacity: 0,
               pointerEvents: "none",
             }}
