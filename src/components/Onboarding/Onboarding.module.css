@@ -13,6 +13,9 @@
   animation: fade-in 0.3s ease-out;
   pointer-events: auto;
   max-height: var(--radix-tooltip-content-available-height);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-primary) var(--color-off-black);
 }
 
 .closeButton {
@@ -34,7 +37,7 @@
 }
 
 .closeButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: hsl(0 0% 100% / 10%);
   transform: scale(1.1);
 }
 

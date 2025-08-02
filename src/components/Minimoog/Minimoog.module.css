@@ -4,6 +4,7 @@
   flex-direction: column;
   margin: 4px 1px;
   overflow: hidden;
+  max-height: 100vh;
 
   &::before {
     position: absolute;
