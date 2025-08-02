@@ -155,7 +155,6 @@ function DropdownTrigger({ children, className }: DropdownTriggerProps) {
 
     // Focus is moving outside the dropdown, close it
     if (isOpen) {
-      console.log("Trigger blur: closing dropdown");
       onToggle();
     }
   };
@@ -234,7 +233,6 @@ function DropdownListbox({
       }
     }
 
-    console.log("Listbox setting optionCount to:", count);
     setOptionCount(count);
   }, [actualOptionCount, setOptionCount]);
 
@@ -262,7 +260,6 @@ function DropdownListbox({
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     // Keyboard navigation is now handled by individual items
     // This is just a fallback for any events that might bubble up
-    console.log("Listbox keydown (fallback):", event.key);
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
@@ -278,7 +275,6 @@ function DropdownListbox({
     }
 
     // Focus is moving outside the dropdown, close it
-    console.log("Listbox blur: closing dropdown");
     onToggle();
   };
 
@@ -391,51 +387,32 @@ function DropdownItemButton({
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (disabled) return;
 
-    console.log(
-      "ItemButton keydown:",
-      event.key,
-      "focusedIndex:",
-      focusedIndex,
-      "optionCount:",
-      optionCount
-    ); // Debug log
-
     switch (event.key) {
       case "ArrowDown": {
         event.preventDefault();
         const newIndex = Math.min(focusedIndex + 1, optionCount - 1);
-        console.log(
-          "ItemButton ArrowDown: setting focusedIndex to",
-          newIndex,
-          "max:",
-          optionCount - 1
-        );
         setFocusedIndex(newIndex);
         break;
       }
       case "ArrowUp": {
         event.preventDefault();
         const newIndex = Math.max(focusedIndex - 1, 0);
-        console.log("ItemButton ArrowUp: setting focusedIndex to", newIndex);
         setFocusedIndex(newIndex);
         break;
       }
       case "Home": {
         event.preventDefault();
-        console.log("ItemButton Home: setting focusedIndex to 0");
         setFocusedIndex(0);
         break;
       }
       case "End": {
         event.preventDefault();
-        console.log("ItemButton End: setting focusedIndex to", optionCount - 1);
         setFocusedIndex(optionCount - 1);
         break;
       }
       case "Enter":
       case " ": {
         event.preventDefault();
-        console.log("Triggering selection for item", index);
         onClick?.();
         onToggle();
         break;
@@ -461,10 +438,6 @@ function DropdownItemButton({
   };
 
   const isFocused = focusedIndex === index;
-
-  console.log(
-    `Item ${index}: focusedIndex=${focusedIndex}, isFocused=${isFocused}`
-  ); // Debug log
 
   return (
     <button

@@ -123,24 +123,7 @@ class MoogAuthenticProcessor extends AudioWorkletProcessor {
     // Apply authentic saturation and slight boost for character
     const saturated = this.saturateAuthentic(this.out4);
     const output = saturated * 1.2;
-    // Debug logging for invalid or extreme values
-    if (!isFinite(output) || Math.abs(output) > 1e6 || isNaN(output)) {
-      console.log("[MoogAuthenticProcessor] Invalid output:", {
-        inputSample,
-        fc,
-        res,
-        output,
-        out1: this.out1,
-        out2: this.out2,
-        out3: this.out3,
-        out4: this.out4,
-        in1: this.in1,
-        in2: this.in2,
-        in3: this.in3,
-        in4: this.in4,
-        f,
-      });
-    }
+
     return output; // Authentic Minimoog character boost
   }
 

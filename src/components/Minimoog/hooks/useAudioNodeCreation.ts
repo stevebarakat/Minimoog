@@ -45,9 +45,6 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
           }
         );
 
-        console.log(
-          "Filter initialized with Hybrid style (ZDF accuracy + Authentic character)"
-        );
         filterNodeRef.current = moogFilter;
 
         // Connect everything

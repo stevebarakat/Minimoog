@@ -216,17 +216,6 @@ class MoogZDFProcessor extends AudioWorkletProcessor {
     // Apply saturation
     const saturated = this.saturate(output);
 
-    // Debug logging for invalid or extreme values
-    if (!isFinite(saturated) || Math.abs(saturated) > 1e6 || isNaN(saturated)) {
-      console.log("[MoogZDFProcessor] Invalid output:", {
-        inputSample,
-        fc,
-        res,
-        output,
-        saturated,
-      });
-    }
-
     return saturated;
   }
 

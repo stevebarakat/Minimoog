@@ -171,10 +171,6 @@ export function Onboarding() {
     const findTarget = () => {
       const element = document.querySelector(step.target!);
       if (element) {
-        console.log(
-          `Onboarding: Found target element for step ${step.id}:`,
-          element
-        );
         setTargetElement(element);
 
         // Scroll the element into view with a small delay to ensure positioning
@@ -187,18 +183,7 @@ export function Onboarding() {
         console.warn(
           `Onboarding: Target element not found for step ${step.id} after ${maxRetries} retries`
         );
-        // Debug: log all data-onboarding elements
-        const allOnboardingElements =
-          document.querySelectorAll("[data-onboarding]");
-        console.log(
-          "Available onboarding elements:",
-          Array.from(allOnboardingElements).map((el) => ({
-            selector: el.getAttribute("data-onboarding"),
-            tagName: el.tagName,
-            className: el.className,
-            rect: el.getBoundingClientRect(),
-          }))
-        );
+
         setTargetElement(null);
       }
     };

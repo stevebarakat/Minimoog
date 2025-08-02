@@ -12,6 +12,7 @@
   font-family: var(--font-primary);
   animation: fade-in 0.3s ease-out;
   pointer-events: auto;
+  max-height: var(--radix-tooltip-content-available-height);
 }
 
 .closeButton {
@@ -190,15 +191,5 @@
 
   .description {
     font-size: 13px;
-  }
-
-  .buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .button {
-    width: 100%;
-    max-width: 200px;
   }
 }

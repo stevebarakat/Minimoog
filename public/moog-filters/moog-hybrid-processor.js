@@ -444,21 +444,6 @@ class MoogHybridProcessor extends AudioWorkletProcessor {
 
     this.performanceStats.samplesProcessed += bufferLength;
 
-    // Log performance stats occasionally
-    if (this.performanceStats.samplesProcessed % 44100 === 0) {
-      console.log("[MoogHybridProcessor] Performance stats:", {
-        samplesProcessed: this.performanceStats.samplesProcessed,
-        coefficientUpdates: this.performanceStats.coefficientUpdates,
-        fallbackCount: this.performanceStats.fallbackCount,
-        fallbackRate:
-          (
-            (this.performanceStats.fallbackCount /
-              this.performanceStats.samplesProcessed) *
-            100
-          ).toFixed(2) + "%",
-      });
-    }
-
     return true;
   }
 }
