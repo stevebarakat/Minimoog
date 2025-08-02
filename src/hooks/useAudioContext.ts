@@ -43,9 +43,28 @@ export function useAudioContext() {
 
   const dispose = async () => {
     if (audioContextRef.current) {
-      if (audioContextRef.current.state === "running") {
-        await audioContextRef.current.suspend();
+      try {
+        if (audioContextRef.current.state === "running") {
+          await audioContextRef.current.suspend();
+        }
+      } catch (error) {
+        console.warn("Error suspending audio context:", error);
       }
+      setIsInitialized(false);
+      setIsDisabled(true);
+    }
+  };
+
+  const closeContext = () => {
+    if (audioContextRef.current) {
+      try {
+        if (audioContextRef.current.state !== "closed") {
+          audioContextRef.current.close();
+        }
+      } catch (error) {
+        console.warn("Error closing audio context:", error);
+      }
+      audioContextRef.current = null;
       setIsInitialized(false);
       setIsDisabled(true);
     }
@@ -53,12 +72,7 @@ export function useAudioContext() {
 
   useEffect(() => {
     return () => {
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-        audioContextRef.current = null;
-        setIsInitialized(false);
-        setIsDisabled(true);
-      }
+      closeContext();
     };
   }, [setIsDisabled]);
 

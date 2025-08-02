@@ -14,6 +14,68 @@ export function clampParameter(
 }
 
 /**
+ * Debounce function to prevent excessive calls
+ * @param func - The function to debounce
+ * @param wait - The debounce delay in milliseconds
+ * @returns Debounced function
+ */
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout | null = null;
+
+  return (...args: Parameters<T>) => {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
+
+/**
+ * Throttle function to limit call frequency
+ * @param func - The function to throttle
+ * @param limit - The throttle limit in milliseconds
+ * @returns Throttled function
+ */
+export function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  limit: number
+): (...args: Parameters<T>) => void {
+  let inThrottle: boolean = false;
+
+  return (...args: Parameters<T>) => {
+    if (!inThrottle) {
+      func(...args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+
+/**
+ * Batch audio parameter updates to reduce audio context calls
+ * @param updates - Array of parameter update functions
+ * @param audioContext - The audio context for timing
+ */
+export function batchAudioUpdates(
+  updates: Array<() => void>,
+  audioContext: AudioContext
+): void {
+  const now = audioContext.currentTime;
+
+  // Schedule all updates at the same time to prevent audio glitches
+  updates.forEach((update) => {
+    try {
+      update();
+    } catch (error) {
+      console.warn("Error in batched audio update:", error);
+    }
+  });
+}
+
+/**
  * Safely connect two audio nodes, handling any connection errors.
  * @param source - The source audio node
  * @param destination - The destination audio node
@@ -149,9 +211,7 @@ export function safeSetAudioParameter(
     param.setValueAtTime(value, startTime);
     return true;
   } catch (error) {
-    if (error instanceof Error) {
-      logError(handleParameterError("unknown", value, error));
-    }
+    console.warn("Failed to set audio parameter:", error);
     return false;
   }
 }

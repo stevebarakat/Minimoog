@@ -23,6 +23,12 @@ export * from "./signalUtils";
 // State conversion utilities
 export * from "./stateConversionUtils";
 
+// Memory monitoring utilities
+export * from "./memoryUtils";
+
+// Performance optimization utilities
+export * from "./workerUtils";
+
 // Logging and error reporting utilities
 export * from "./logger";
 export { default as logger } from "./logger";

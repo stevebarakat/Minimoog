@@ -160,11 +160,19 @@ export function useOscillatorFactory(
   // Memoize cleanup function
   const cleanupVibrato = useCallback(() => {
     if (vibratoLfoRef.current) {
-      releaseNode(vibratoLfoRef.current);
+      try {
+        releaseNode(vibratoLfoRef.current);
+      } catch (error) {
+        // Node might already be released
+      }
       vibratoLfoRef.current = null;
     }
     if (vibratoGainRef.current) {
-      releaseNode(vibratoGainRef.current);
+      try {
+        releaseNode(vibratoGainRef.current);
+      } catch (error) {
+        // Node might already be released
+      }
       vibratoGainRef.current = null;
     }
   }, []);
@@ -172,15 +180,20 @@ export function useOscillatorFactory(
   // Create oscillators when audio context is available
   useEffect(() => {
     if (audioContext && mixerNode && !oscRef.current) {
-      oscRef.current = createOscillator(
-        {
-          audioContext,
-          waveform: oscillatorState.waveform,
-          frequency: oscillatorState.frequency,
-          range: oscillatorState.range,
-        },
-        mixerNode
-      );
+      try {
+        oscRef.current = createOscillator(
+          {
+            audioContext,
+            waveform: oscillatorState.waveform,
+            frequency: oscillatorState.frequency,
+            range: oscillatorState.range,
+          },
+          mixerNode
+        );
+      } catch (error) {
+        console.error("Error creating oscillator:", error);
+        oscRef.current = null;
+      }
     }
   }, [
     audioContext,
@@ -201,29 +214,43 @@ export function useOscillatorFactory(
     });
 
     if (oscRef.current && audioContext) {
-      const newVolume = mixerState.enabled ? boostedVolume : 0;
-      console.log(`${oscillatorKey} volume calculation:`, {
-        mixerVolume: mixerState.volume,
-        volumeBoost,
-        boostedVolume,
-        enabled: mixerState.enabled,
-        finalVolume: newVolume,
-      });
-      oscRef.current
-        .getGainNode()
-        .gain.setValueAtTime(newVolume, audioContext.currentTime);
+      try {
+        const newVolume = mixerState.enabled ? boostedVolume : 0;
+        console.log(`${oscillatorKey} volume calculation:`, {
+          mixerVolume: mixerState.volume,
+          volumeBoost,
+          boostedVolume,
+          enabled: mixerState.enabled,
+          finalVolume: newVolume,
+        });
+        oscRef.current
+          .getGainNode()
+          .gain.setValueAtTime(newVolume, audioContext.currentTime);
+      } catch (error) {
+        console.error("Error setting oscillator volume:", error);
+      }
     }
   }, [mixerState.enabled, boostedVolume, audioContext]);
 
   // Waveform and range update effect - memoized config prevents unnecessary updates
   useEffect(() => {
-    oscRef.current?.update(oscillatorConfig);
+    if (oscRef.current) {
+      try {
+        oscRef.current.update(oscillatorConfig);
+      } catch (error) {
+        console.error("Error updating oscillator:", error);
+      }
+    }
   }, [oscillatorConfig]);
 
   // Apply range changes to current frequency
   useEffect(() => {
     if (oscRef.current && lastFrequencyRef.current !== null) {
-      oscRef.current.setFrequency(lastFrequencyRef.current);
+      try {
+        oscRef.current.setFrequency(lastFrequencyRef.current);
+      } catch (error) {
+        console.error("Error setting oscillator frequency:", error);
+      }
     }
   }, [oscillatorState.range]);
 
@@ -237,29 +264,33 @@ export function useOscillatorFactory(
         return;
       }
 
-      lastNoteRef.current = note;
-      const safeFreq = calculateFrequencyForNote(note);
+      try {
+        lastNoteRef.current = note;
+        const safeFreq = calculateFrequencyForNote(note);
 
-      if (glideOn && lastFrequencyRef.current !== null) {
-        oscRef.current.start(lastFrequencyRef.current);
+        if (glideOn && lastFrequencyRef.current !== null) {
+          oscRef.current.start(lastFrequencyRef.current);
+          const oscNode = oscRef.current.getNode();
+          if (oscNode) {
+            oscNode.frequency.linearRampToValueAtTime(
+              safeFreq,
+              audioContext.currentTime + mappedGlideTime
+            );
+          }
+        } else {
+          oscRef.current.start(safeFreq);
+        }
+
+        lastFrequencyRef.current = safeFreq;
+
+        // Setup vibrato if needed
         const oscNode = oscRef.current.getNode();
         if (oscNode) {
-          oscNode.frequency.linearRampToValueAtTime(
-            safeFreq,
-            audioContext.currentTime + mappedGlideTime
-          );
+          const baseFreq = calculateBaseFrequency(note);
+          setupVibrato(oscNode, baseFreq);
         }
-      } else {
-        oscRef.current.start(safeFreq);
-      }
-
-      lastFrequencyRef.current = safeFreq;
-
-      // Setup vibrato if needed
-      const oscNode = oscRef.current.getNode();
-      if (oscNode) {
-        const baseFreq = calculateBaseFrequency(note);
-        setupVibrato(oscNode, baseFreq);
+      } catch (error) {
+        console.error("Error triggering oscillator attack:", error);
       }
     },
     [
@@ -277,9 +308,13 @@ export function useOscillatorFactory(
 
   const triggerRelease = useCallback(() => {
     if (oscRef.current) {
-      oscRef.current.stop();
-      // Don't destroy the oscillator - just stop it from playing
-      // oscRef.current = null;
+      try {
+        oscRef.current.stop();
+        // Don't destroy the oscillator - just stop it from playing
+        // oscRef.current = null;
+      } catch (error) {
+        console.error("Error stopping oscillator:", error);
+      }
     }
     cleanupVibrato();
     lastFrequencyRef.current = null;
@@ -289,13 +324,17 @@ export function useOscillatorFactory(
   // Frequency update effect for parameter changes - memoized to prevent unnecessary updates
   useEffect(() => {
     if (oscRef.current && lastNoteRef.current) {
-      const safeFreq = calculateFrequencyForNote(lastNoteRef.current);
-      const oscNode = oscRef.current.getNode();
-      if (oscNode && audioContext) {
-        oscNode.frequency.linearRampToValueAtTime(
-          safeFreq,
-          audioContext.currentTime + 0.02
-        );
+      try {
+        const safeFreq = calculateFrequencyForNote(lastNoteRef.current);
+        const oscNode = oscRef.current.getNode();
+        if (oscNode && audioContext) {
+          oscNode.frequency.linearRampToValueAtTime(
+            safeFreq,
+            audioContext.currentTime + 0.02
+          );
+        }
+      } catch (error) {
+        console.error("Error updating oscillator frequency:", error);
       }
     }
   }, [calculateFrequencyForNote, audioContext]);
@@ -304,7 +343,11 @@ export function useOscillatorFactory(
   useEffect(() => {
     return () => {
       if (oscRef.current) {
-        oscRef.current.stop();
+        try {
+          oscRef.current.stop();
+        } catch (error) {
+          console.error("Error stopping oscillator during cleanup:", error);
+        }
         oscRef.current = null;
       }
       cleanupVibrato();

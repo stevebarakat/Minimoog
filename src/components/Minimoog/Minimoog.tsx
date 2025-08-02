@@ -22,6 +22,11 @@ import Title from "../Title";
 import Row from "../Row";
 import { isDevMode } from "@/config";
 import { cn } from "@/utils";
+import { startMemoryMonitoring, logSystemStats } from "@/utils/memoryUtils";
+import {
+  getCalculationManager,
+  cleanupCalculationManager,
+} from "@/utils/workerUtils";
 import styles from "./Minimoog.module.css";
 
 // Lazy load non-critical components
@@ -52,6 +57,40 @@ const Minimoog = React.memo(function Minimoog() {
   // Filter tracking
   // ----------------------------
   useFilterTracking(audioContext, filterNode, activeKeys);
+
+  // Memory monitoring and performance optimization
+  // ----------------------------
+  useEffect(() => {
+    if (isDevMode()) {
+      const stopMonitoring = startMemoryMonitoring(30000); // Check every 30 seconds
+
+      // Log initial system stats
+      logSystemStats(audioContext);
+
+      // Initialize calculation manager for Web Worker support
+      const calculationManager = getCalculationManager();
+
+      return () => {
+        stopMonitoring();
+        cleanupCalculationManager();
+      };
+    }
+  }, [audioContext]);
+
+  // Performance monitoring for production
+  useEffect(() => {
+    if (!isDevMode()) {
+      // Lightweight performance monitoring for production
+      const interval = setInterval(() => {
+        const memoryStats = (performance as any).memory;
+        if (memoryStats && memoryStats.usedJSHeapSize > 100 * 1024 * 1024) {
+          console.warn("High memory usage detected in production");
+        }
+      }, 60000); // Check every minute in production
+
+      return () => clearInterval(interval);
+    }
+  }, []);
 
   // Scroll arrow functionality
   const scrollRef = useRef<HTMLDivElement>(null);

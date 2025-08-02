@@ -198,28 +198,25 @@ export function disposeNode(node: AudioNode): void {
 
   const metadata = globalPool.nodes.get(node);
   if (metadata) {
+    try {
+      // Disconnect all connections
+      node.disconnect();
+    } catch {
+      // Node might already be disconnected
+    }
+
+    // Remove from pool
     globalPool.nodes.delete(node);
     globalPool.stats.disposed++;
   }
 
   try {
-    node.disconnect();
-
-    // Stop oscillators
+    // For oscillator nodes, try to stop them
     if (node instanceof OscillatorNode) {
       node.stop();
     }
-
-    // Close any worklet nodes
-    if (
-      "port" in node &&
-      node.port &&
-      typeof (node.port as { close?: () => void }).close === "function"
-    ) {
-      (node.port as { close: () => void }).close();
-    }
   } catch {
-    // Node might already be disposed
+    // Node might already be stopped
   }
 }
 
@@ -234,7 +231,12 @@ export function cleanupPool(): void {
 
   for (const [node, metadata] of Array.from(globalPool.nodes.entries())) {
     if (!metadata.isActive && now - metadata.lastUsed > maxAge) {
-      disposeNode(node);
+      try {
+        disposeNode(node);
+      } catch (error) {
+        // Node might already be disposed
+        console.warn("Error disposing node during cleanup:", error);
+      }
     }
   }
 }
