@@ -263,6 +263,27 @@ export function Onboarding() {
 
   // Calculate responsive positioning based on viewport size
   const getTooltipPosition = () => {
+    // For the first step, center the tooltip relative to the Minimoog synth
+    if (isFirstStep) {
+      const minimoogContainer = document.querySelector('[class*="synth"]');
+      if (minimoogContainer) {
+        const rect = minimoogContainer.getBoundingClientRect();
+        return {
+          top: `${rect.top + rect.height / 2}px`,
+          left: `${rect.left + rect.width / 2}px`,
+          width: "1px",
+          height: "1px",
+        };
+      }
+      // Fallback to viewport center if Minimoog container not found
+      return {
+        top: "50%",
+        left: "50%",
+        width: "1px",
+        height: "1px",
+      };
+    }
+
     if (!targetElement) {
       return {
         top: "50%",
@@ -321,13 +342,13 @@ export function Onboarding() {
         <Tooltip.Portal>
           <Tooltip.Content
             className={styles.tooltip}
-            side={step.position || "bottom"}
-            sideOffset={10}
+            side={isFirstStep ? "bottom" : step.position || "bottom"}
+            sideOffset={isFirstStep ? 0 : 10}
             align="center"
             alignOffset={0}
             avoidCollisions={true}
             collisionBoundary={document.body}
-            collisionPadding={10}
+            collisionPadding={isFirstStep ? 20 : 10}
           >
             <button
               className={styles.closeButton}

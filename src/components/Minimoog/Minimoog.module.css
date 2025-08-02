@@ -4,7 +4,6 @@
   flex-direction: column;
   margin: 4px 1px;
   overflow: hidden;
-  max-height: 100vh;
 
   &::before {
     position: absolute;
@@ -23,11 +22,12 @@
 }
 
 .controlsContainer {
+  max-height: 50vh;
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .controlsPanel {

@@ -13,7 +13,6 @@
   animation: fade-in 0.3s ease-out;
   pointer-events: auto;
   max-height: var(--radix-tooltip-content-available-height);
-  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--color-text-primary) var(--color-off-black);
 }
@@ -48,9 +47,10 @@
 
 .arrow {
   fill: var(--color-black, #000);
-  transform: scale(3);
+  transform: scale(2.5);
   position: absolute;
   pointer-events: none;
+  z-index: 1;
 }
 
 .content {
@@ -87,6 +87,7 @@
 .dot {
   width: 8px;
   height: 8px;
+  aspect-ratio: 1;
   background: var(--color-off-black);
   border: 1px solid var(--color-text-primary);
   border-radius: 50%;
@@ -172,6 +173,12 @@
 /* Responsive adjustments */
 @media (width <= 768px) {
   .tooltip {
+    margin: 0 16px;
+    min-width: 280px;
+    max-width: 90vw;
+  }
+
+  .centeredTooltip {
     margin: 0 16px;
     min-width: 280px;
     max-width: 90vw;

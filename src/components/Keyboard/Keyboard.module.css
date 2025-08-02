@@ -1,23 +1,11 @@
-.keyboardContainer {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  --keyboard-height: 220px;
-
-  @media (width <= 768px) {
-    --keyboard-height: 120px;
-  }
-}
-
 .keyboard {
   position: relative;
   display: flex;
   flex-direction: column;
   padding-left: 3px;
   width: 100%;
-  height: 220px;
   background: var(--color-off-black);
+  --keyboard-height: 220px;
 }
 
 .pianoKeys {
@@ -34,7 +22,8 @@
   flex: 1;
   margin: 0;
   padding: 0;
-  height: 220px;
+  height: var(--keyboard-height);
+  max-height: 30vh;
   background: linear-gradient(180deg, hsl(0deg 0% 100%), hsl(0deg 0% 80%));
   background-color: transparent;
 
@@ -162,7 +151,7 @@
   box-shadow: 6px 0 12px 6px hsl(0deg 0% 0% / 50%);
 }
 
-/* .rightShadow {
+.rightShadow {
   position: absolute;
   right: -4px;
   top: 8px;
@@ -170,7 +159,7 @@
   height: 70%;
   rotate: -3deg;
   box-shadow: 0 0 10px 10px hsl(0deg 0% 0% / 50%);
-} */
+}
 
 .octaveIndicator {
   position: absolute;

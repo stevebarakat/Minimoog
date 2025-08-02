@@ -15,6 +15,10 @@
   text-decoration: none;
   pointer-events: none;
   text-indent: -999999px;
+
+  @media (width <= 768px) {
+    display: none;
+  }
 }
 
 .github-fork-ribbon.fixed {
