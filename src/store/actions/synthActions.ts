@@ -265,12 +265,7 @@ export function createSynthActions(
      */
     setNoiseLfoSwitch: (on: boolean) => set({ noiseLfoSwitch: on }),
 
-    /**
-     * Sets the modulation wheel value
-     * @param {number} value - Modulation wheel value (0-100)
-     */
-    setModWheel: (value: number) =>
-      set({ modWheel: createModWheelRange(value) }),
+
 
     setDecaySwitchOn: (on: boolean) => {
       set({ decaySwitchOn: on });
