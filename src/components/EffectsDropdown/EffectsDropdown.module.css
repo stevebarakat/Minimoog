@@ -1,0 +1,36 @@
+.triggerText {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.arrow {
+  margin-left: var(--spacing-xs);
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.effectItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.effectItem:hover {
+  background-color: var(--background-hover);
+}
+
+.effectName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.1em;
+}
+
+.effectDescription {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  line-height: 1.3;
+}
