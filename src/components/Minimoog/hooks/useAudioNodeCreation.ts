@@ -16,6 +16,9 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
   const delayNodeRef = useRef<DelayNode | null>(null);
   const delayMixGainRef = useRef<GainNode | null>(null);
   const delayFeedbackGainRef = useRef<GainNode | null>(null);
+  const reverbNodeRef = useRef<ConvolverNode | null>(null);
+  const reverbMixGainRef = useRef<GainNode | null>(null);
+  const toneFilterNodeRef = useRef<BiquadFilterNode | null>(null);
   const dryGainRef = useRef<GainNode | null>(null);
 
   // Create and manage basic audio nodes (not filter)
@@ -54,6 +57,18 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
         releaseNode(delayFeedbackGainRef.current);
         delayFeedbackGainRef.current = null;
       }
+      if (reverbNodeRef.current) {
+        reverbNodeRef.current.disconnect();
+        reverbNodeRef.current = null;
+      }
+      if (reverbMixGainRef.current) {
+        releaseNode(reverbMixGainRef.current);
+        reverbMixGainRef.current = null;
+      }
+      if (toneFilterNodeRef.current) {
+        toneFilterNodeRef.current.disconnect();
+        toneFilterNodeRef.current = null;
+      }
       if (dryGainRef.current) {
         releaseNode(dryGainRef.current);
         dryGainRef.current = null;
@@ -91,6 +106,42 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
       audioContext.currentTime
     ); // 30% feedback default
 
+    // Create reverb node and gain nodes
+    // Use convolution reverb for authentic room simulation
+    reverbNodeRef.current = audioContext.createConvolver();
+
+    // Create tone filter node for reverb EQ (bass to treble)
+    toneFilterNodeRef.current = audioContext.createBiquadFilter();
+    toneFilterNodeRef.current.type = "lowpass"; // Will be dynamically changed based on tone
+    toneFilterNodeRef.current.frequency.setValueAtTime(
+      1000,
+      audioContext.currentTime
+    ); // 1kHz default
+    toneFilterNodeRef.current.Q.setValueAtTime(1, audioContext.currentTime); // Moderate Q
+
+    // Generate a simple reverb impulse response
+    const sampleRate = audioContext.sampleRate;
+    const impulseLength = sampleRate * 2; // 2 second reverb tail
+    const impulseBuffer = audioContext.createBuffer(
+      1,
+      impulseLength,
+      sampleRate
+    );
+    const impulseData = impulseBuffer.getChannelData(0);
+
+    // Create a decaying exponential curve for the impulse response
+    for (let i = 0; i < impulseLength; i++) {
+      const t = i / sampleRate;
+      const decay = Math.exp(-t * 2); // Decay rate
+      const noise = (Math.random() * 2 - 1) * 0.2; // Increased noise for more character
+      impulseData[i] = decay * (1.0 + noise); // Increased base amplitude from 0.5 to 1.0
+    }
+
+    reverbNodeRef.current.buffer = impulseBuffer;
+
+    reverbMixGainRef.current = getPooledNode("gain", audioContext) as GainNode;
+    reverbMixGainRef.current.gain.setValueAtTime(0.7, audioContext.currentTime); // 70% mix default (increased from 50%)
+
     // Create dry gain node for dry signal path
     dryGainRef.current = getPooledNode("gain", audioContext) as GainNode;
     dryGainRef.current.gain.setValueAtTime(0.5, audioContext.currentTime); // 50% dry default
@@ -103,23 +154,32 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
       );
     }
 
-    // Set up the basic audio chain: loudness envelope -> delay -> master gain -> destination
+    // Set up the basic audio chain: loudness envelope -> parallel effects (delay + reverb) -> master gain -> destination
     // Also set up delay feedback: delay -> feedback gain -> delay
     if (
       masterGainRef.current &&
       delayNodeRef.current &&
+      reverbNodeRef.current &&
+      toneFilterNodeRef.current &&
       loudnessEnvelopeGainRef.current &&
       delayMixGainRef.current &&
       delayFeedbackGainRef.current &&
+      reverbMixGainRef.current &&
       dryGainRef.current
     ) {
-      // Split signal: loudness envelope -> dry gain + delay mix gain
+      // Split signal: loudness envelope -> dry gain + delay mix gain + reverb mix gain
       loudnessEnvelopeGainRef.current.connect(dryGainRef.current);
       loudnessEnvelopeGainRef.current.connect(delayMixGainRef.current);
+      loudnessEnvelopeGainRef.current.connect(reverbMixGainRef.current);
 
-      // Wet path: delay mix gain -> delay -> master gain
+      // Delay wet path: delay mix gain -> delay -> master gain
       delayMixGainRef.current.connect(delayNodeRef.current);
       delayNodeRef.current.connect(masterGainRef.current);
+
+      // Reverb wet path: reverb mix gain -> reverb -> tone filter -> master gain
+      reverbMixGainRef.current.connect(reverbNodeRef.current);
+      reverbNodeRef.current.connect(toneFilterNodeRef.current);
+      toneFilterNodeRef.current.connect(masterGainRef.current);
 
       // Dry path: dry gain -> master gain
       dryGainRef.current.connect(masterGainRef.current);
@@ -157,6 +217,18 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
       if (delayFeedbackGainRef.current) {
         releaseNode(delayFeedbackGainRef.current);
         delayFeedbackGainRef.current = null;
+      }
+      if (reverbNodeRef.current) {
+        reverbNodeRef.current.disconnect();
+        reverbNodeRef.current = null;
+      }
+      if (reverbMixGainRef.current) {
+        releaseNode(reverbMixGainRef.current);
+        reverbMixGainRef.current = null;
+      }
+      if (toneFilterNodeRef.current) {
+        toneFilterNodeRef.current.disconnect();
+        toneFilterNodeRef.current = null;
       }
       if (dryGainRef.current) {
         releaseNode(dryGainRef.current);
@@ -261,8 +333,6 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
     };
   }, [audioContext]);
 
-
-
   return {
     mixerNode: mixerNodeRef.current,
     saturationNode: saturationNodeRef.current,
@@ -271,6 +341,9 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
     delayNode: delayNodeRef.current,
     delayMixGain: delayMixGainRef.current,
     delayFeedbackGain: delayFeedbackGainRef.current,
+    reverbNode: reverbNodeRef.current,
+    reverbMixGain: reverbMixGainRef.current,
+    toneFilterNode: toneFilterNodeRef.current,
     dryGain: dryGainRef.current,
     masterGain: masterGainRef.current,
     isMixerReady,

@@ -178,6 +178,16 @@ export type SynthState = {
     feedback: VolumeRange; // 0-10 mapped to 0-0.9
   };
 
+  // ============================================================================
+  // REVERB EFFECT STATE
+  // ============================================================================
+  reverb: {
+    enabled: boolean;
+    mix: VolumeRange; // 0-10 mapped to 0-1
+    decay: FilterEnvelopeRange; // 0-10 mapped to 0-10 seconds
+    tone: FilterEnvelopeRange; // 0-10 mapped to bass (low) to treble (high) EQ
+  };
+
 
 };
 

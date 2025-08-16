@@ -57,6 +57,9 @@ export type AudioNodes = {
   delayNode: DelayNode | null;
   delayMixGain: GainNode | null;
   delayFeedbackGain: GainNode | null;
+  reverbNode: ConvolverNode | null;
+  reverbMixGain: GainNode | null;
+  toneFilterNode: BiquadFilterNode | null;
   dryGain: GainNode | null;
   masterGain: GainNode | null;
   isMixerReady: boolean;

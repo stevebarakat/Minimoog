@@ -19,6 +19,8 @@ import { useSynthStore } from "./store/synthStore";
 import Onboarding from "./components/Onboarding";
 import DelayToggle from "./components/DelayToggle";
 import Delay from "./components/Delay";
+import ReverbToggle from "./components/ReverbToggle";
+import Reverb from "./components/Reverb";
 
 function App() {
   // Audio context management
@@ -30,6 +32,9 @@ function App() {
 
   // Delay panel toggle state
   const [isDelayOpen, setIsDelayOpen] = useState(false);
+
+  // Reverb panel toggle state
+  const [isReverbOpen, setIsReverbOpen] = useState(false);
 
   return (
     <ToastProvider>
@@ -43,6 +48,7 @@ function App() {
             <LazyKeyboardInstructions />
             {isDevMode() && <SavePreset disabled={!isInitialized} />}
             {isDevMode() && <DelayToggle onToggle={setIsDelayOpen} />}
+            {isDevMode() && <ReverbToggle onToggle={setIsReverbOpen} />}
             {isDevMode() && (
               <button
                 onClick={() => setIsDevStatsOpen(!isDevStatsOpen)}
@@ -65,6 +71,7 @@ function App() {
           />
         )}
         {isDelayOpen && <Delay onClose={() => setIsDelayOpen(false)} />}
+        {isReverbOpen && <Reverb onClose={() => setIsReverbOpen(false)} />}
         <Onboarding />
       </ErrorBoundary>
     </ToastProvider>

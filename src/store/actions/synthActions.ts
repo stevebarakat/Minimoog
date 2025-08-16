@@ -335,6 +335,34 @@ export function createSynthActions(
         },
       })),
 
+    /**
+     * Updates reverb effect parameters (enabled, mix, decay, tone)
+     * @param {Object} value - Partial reverb parameters
+     * @param {boolean} [value.enabled] - Whether reverb is enabled
+     * @param {number} [value.mix] - Reverb mix (0-10 mapped to 0-1)
+     * @param {number} [value.decay] - Reverb decay (0-10 mapped to 0-10 seconds)
+     * @param {number} [value.tone] - Reverb tone (0-10 mapped to bass to treble EQ)
+     */
+    setReverb: (value) =>
+      set((state: SynthState) => ({
+        reverb: {
+          ...state.reverb,
+          ...value,
+          mix:
+            value.mix !== undefined
+              ? createVolumeRange(value.mix)
+              : state.reverb.mix,
+          decay:
+            value.decay !== undefined
+              ? createFilterEnvelopeRange(value.decay)
+              : state.reverb.decay,
+          tone:
+            value.tone !== undefined
+              ? createFilterEnvelopeRange(value.tone)
+              : state.reverb.tone,
+        },
+      })),
+
     loadPreset: (preset: Partial<SynthState>) => {
       set((state: SynthState) => {
         // Completely replace state with preset values, preserving only essential non-preset properties

@@ -249,6 +249,16 @@ export const SYNTH_CONFIG = {
     TIME: { MIN: 0, MAX: 10, DEFAULT: 2.5 }, // 0-10 mapped to 0-1000ms (250ms default)
     FEEDBACK: { MIN: 0, MAX: 10, DEFAULT: 3 }, // 0-10 mapped to 0-0.9
   },
+
+  // ============================================================================
+  // REVERB EFFECT CONFIGURATION
+  // ============================================================================
+  REVERB: {
+    ENABLED: { DEFAULT: false },
+    MIX: { MIN: 0, MAX: 10, DEFAULT: 7 }, // 0-10 mapped to 0-1 (increased from 5 to 7)
+    DECAY: { MIN: 0, MAX: 10, DEFAULT: 4 }, // 0-10 mapped to 0-10 seconds
+    TONE: { MIN: 0, MAX: 10, DEFAULT: 5 }, // 0-10 mapped to bass (low) to treble (high) EQ
+  },
 } as const;
 
 // ============================================================================
@@ -377,6 +387,14 @@ export const DEFAULT_SYNTH_STATE = {
     mix: createVolumeRange(SYNTH_CONFIG.DELAY.MIX.DEFAULT),
     time: createFilterEnvelopeRange(SYNTH_CONFIG.DELAY.TIME.DEFAULT),
     feedback: createVolumeRange(SYNTH_CONFIG.DELAY.FEEDBACK.DEFAULT),
+  },
+
+  // Reverb effect state
+  reverb: {
+    enabled: SYNTH_CONFIG.REVERB.ENABLED.DEFAULT,
+    mix: createVolumeRange(SYNTH_CONFIG.REVERB.MIX.DEFAULT),
+    decay: createFilterEnvelopeRange(SYNTH_CONFIG.REVERB.DECAY.DEFAULT),
+    tone: createFilterEnvelopeRange(SYNTH_CONFIG.REVERB.TONE.DEFAULT),
   },
 
   tunerOn: SYNTH_CONFIG.SWITCHES.TUNER_ON,

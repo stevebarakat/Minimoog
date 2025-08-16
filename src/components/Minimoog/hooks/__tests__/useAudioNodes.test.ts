@@ -14,6 +14,12 @@ vi.mock("@/store/synthStore", () => ({
       time: 7.5,
       feedback: 3,
     },
+    reverb: {
+      enabled: false,
+      mix: 5,
+      decay: 3,
+      tone: 5,
+    },
   })),
 }));
 vi.mock("../utils/synthUtils", () => ({
@@ -64,6 +70,26 @@ describe("useAudioNodes", () => {
         connect: vi.fn(),
         disconnect: vi.fn(),
       })),
+      createConvolver: vi.fn(() => ({
+        buffer: null,
+        connect: vi.fn(),
+        disconnect: vi.fn(),
+      })),
+      createBiquadFilter: vi.fn(() => ({
+        type: "lowpass",
+        frequency: { value: 1000, setValueAtTime: vi.fn() },
+        Q: { value: 1, setValueAtTime: vi.fn() },
+        gain: { value: 0, setValueAtTime: vi.fn() },
+        connect: vi.fn(),
+        disconnect: vi.fn(),
+      })),
+      createBuffer: vi.fn(() => ({
+        length: 44100,
+        duration: 1,
+        sampleRate: 44100,
+        numberOfChannels: 1,
+        getChannelData: vi.fn(() => new Float32Array(44100)),
+      })),
       createOscillator: vi.fn(),
       createAnalyser: vi.fn(),
       currentTime: 0,
@@ -87,6 +113,9 @@ describe("useAudioNodes", () => {
     expect(result.current).toHaveProperty("delayNode");
     expect(result.current).toHaveProperty("delayMixGain");
     expect(result.current).toHaveProperty("delayFeedbackGain");
+    expect(result.current).toHaveProperty("reverbNode");
+    expect(result.current).toHaveProperty("reverbMixGain");
+    expect(result.current).toHaveProperty("toneFilterNode");
     expect(result.current).toHaveProperty("dryGain");
     expect(result.current).toHaveProperty("masterGain");
     expect(result.current).toHaveProperty("isMixerReady");
