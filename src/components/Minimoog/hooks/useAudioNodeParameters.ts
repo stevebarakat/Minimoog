@@ -123,7 +123,14 @@ export function useAudioNodeParameters({
         currentTime: audioContext.currentTime,
       });
     }
-  }, [delay.mix, delay.enabled, audioContext, delayMixGain, delayFeedbackGain]);
+  }, [
+    delay.mix,
+    delay.enabled,
+    audioContext,
+    delayMixGain,
+    delayFeedbackGain,
+    delay.feedback,
+  ]);
 
   useEffect(() => {
     if (!dryGain || !audioContext) return;

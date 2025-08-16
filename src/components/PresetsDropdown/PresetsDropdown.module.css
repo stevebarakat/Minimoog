@@ -9,17 +9,17 @@
 
 .categoryFilter {
   padding: 12px 16px;
-  background: hsl(0 0% 100% / 2%);
-  border-bottom: 1px solid hsl(0 0% 20%);
+  background: hsl(0deg 0% 100% / 2%);
+  border-bottom: 1px solid hsl(0deg 0% 20%);
 }
 
 .categorySelect {
   padding: 8px 12px;
   width: 100%;
-  background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
-  border: 1px solid hsl(0 0% 33%);
+  background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+  border: 1px solid hsl(0deg 0% 33%);
   border-radius: 4px;
-  color: hsl(0 0% 88%);
+  color: hsl(0deg 0% 88%);
   font-family: Futura, sans-serif;
   font-size: 13px;
   cursor: pointer;
@@ -27,14 +27,14 @@
 }
 
 .categorySelect:hover {
-  background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
-  border-color: hsl(0 0% 47%);
+  background: linear-gradient(135deg, hsl(0deg 0% 23%) 0%, hsl(0deg 0% 16%) 100%);
+  border-color: hsl(0deg 0% 47%);
 }
 
 .categorySelect:focus {
   outline: none;
-  border-color: hsl(0 0% 53%);
-  box-shadow: 0 0 0 2px hsl(0 0% 53% / 20%);
+  border-color: hsl(0deg 0% 53%);
+  box-shadow: 0 0 0 2px hsl(0deg 0% 53% / 20%);
 }
 
 .presetList {
@@ -48,16 +48,16 @@
 }
 
 .presetList::-webkit-scrollbar-track {
-  background: hsl(0 0% 100% / 5%);
+  background: hsl(0deg 0% 100% / 5%);
 }
 
 .presetList::-webkit-scrollbar-thumb {
-  background: hsl(0 0% 100% / 20%);
+  background: hsl(0deg 0% 100% / 20%);
   border-radius: 3px;
 }
 
 .presetList::-webkit-scrollbar-thumb:hover {
-  background: hsl(0 0% 100% / 30%);
+  background: hsl(0deg 0% 100% / 30%);
 }
 
 .presetItem {
@@ -67,7 +67,7 @@
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 1px solid hsl(0 0% 100% / 5%);
+  border-bottom: 1px solid hsl(0deg 0% 100% / 5%);
   text-align: left;
   transition: all 0.2s ease;
 }
@@ -91,26 +91,26 @@
 .presetItem:hover {
   background: linear-gradient(
     135deg,
-    hsl(0 0% 100% / 8%) 0%,
-    hsl(0 0% 100% / 4%) 100%
+    hsl(0deg 0% 100% / 8%) 0%,
+    hsl(0deg 0% 100% / 4%) 100%
   );
 }
 
 .presetItem:active {
   background: linear-gradient(
     135deg,
-    hsl(0 0% 100% / 12%) 0%,
-    hsl(0 0% 100% / 6%) 100%
+    hsl(0deg 0% 100% / 12%) 0%,
+    hsl(0deg 0% 100% / 6%) 100%
   );
 }
 
 .presetItem.selected {
   background: linear-gradient(
     135deg,
-    hsl(0 0% 100% / 15%) 0%,
-    hsl(0 0% 100% / 8%) 100%
+    hsl(0deg 0% 100% / 15%) 0%,
+    hsl(0deg 0% 100% / 8%) 100%
   );
-  border-left: 3px solid hsl(0 0% 53%);
+  border-left: 3px solid hsl(0deg 0% 53%);
 }
 
 .presetHeader {
@@ -121,7 +121,7 @@
 }
 
 .presetName {
-  color: hsl(0 0% 88%);
+  color: hsl(0deg 0% 88%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -130,9 +130,9 @@
 
 .presetCategory {
   padding: 2px 6px;
-  background: hsl(0 0% 100% / 10%);
+  background: hsl(0deg 0% 100% / 10%);
   border-radius: 3px;
-  color: hsl(0 0% 53%);
+  color: hsl(0deg 0% 53%);
   font-family: Futura, sans-serif;
   font-size: 11px;
   font-weight: 500;
@@ -141,27 +141,27 @@
 }
 
 .presetItem.selected .presetName {
-  color: hsl(0 0% 100%);
+  color: hsl(0deg 0% 100%);
 }
 
 .presetItem.selected .presetCategory {
-  background: hsl(0 0% 100% / 20%);
-  color: hsl(0 0% 100%);
+  background: hsl(0deg 0% 100% / 20%);
+  color: hsl(0deg 0% 100%);
 }
 
 .presetItem.focused {
   background: linear-gradient(
     135deg,
-    hsl(0 0% 100% / 10%) 0%,
-    hsl(0 0% 100% / 5%) 100%
+    hsl(0deg 0% 100% / 10%) 0%,
+    hsl(0deg 0% 100% / 5%) 100%
   );
-  outline: 2px solid hsl(0 0% 53%);
+  outline: 2px solid hsl(0deg 0% 53%);
   outline-offset: -2px;
 }
 
 .presetDescription {
   margin: 0;
-  color: hsl(0 0% 67%);
+  color: hsl(0deg 0% 67%);
   font-family: Futura, sans-serif;
   font-size: 12px;
   font-weight: 400;
@@ -193,8 +193,8 @@
   }
 
   .categorySelect:hover {
-    background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
-    border-color: hsl(0 0% 33%);
+    background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+    border-color: hsl(0deg 0% 33%);
   }
 
   .presetItem:hover {
@@ -202,13 +202,13 @@
   }
 
   .presetList::-webkit-scrollbar-thumb:hover {
-    background: hsl(0 0% 100% / 20%);
+    background: hsl(0deg 0% 100% / 20%);
   }
 
   .copyUrlButton:hover {
-    background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
-    border-color: hsl(0 0% 33%);
-    color: hsl(0 0% 53%);
+    background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+    border-color: hsl(0deg 0% 33%);
+    color: hsl(0deg 0% 53%);
     transform: none;
   }
 
@@ -216,20 +216,20 @@
   .presetItem:active {
     background: linear-gradient(
       135deg,
-      hsl(0 0% 100% / 12%) 0%,
-      hsl(0 0% 100% / 6%) 100%
+      hsl(0deg 0% 100% / 12%) 0%,
+      hsl(0deg 0% 100% / 6%) 100%
     );
   }
 
   .categorySelect:active {
-    background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
-    border-color: hsl(0 0% 47%);
+    background: linear-gradient(135deg, hsl(0deg 0% 23%) 0%, hsl(0deg 0% 16%) 100%);
+    border-color: hsl(0deg 0% 47%);
   }
 
   .copyUrlButton:active {
-    background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
-    border-color: hsl(0 0% 47%);
-    color: hsl(0 0% 88%);
+    background: linear-gradient(135deg, hsl(0deg 0% 23%) 0%, hsl(0deg 0% 16%) 100%);
+    border-color: hsl(0deg 0% 47%);
+    color: hsl(0deg 0% 88%);
   }
 }
 
@@ -241,18 +241,18 @@
   padding: 0;
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
-  border: 1px solid hsl(0 0% 33%);
+  background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+  border: 1px solid hsl(0deg 0% 33%);
   border-radius: 4px;
-  color: hsl(0 0% 53%);
+  color: hsl(0deg 0% 53%);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .copyUrlButton:hover {
-  background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
-  border-color: hsl(0 0% 47%);
-  color: hsl(0 0% 88%);
+  background: linear-gradient(135deg, hsl(0deg 0% 23%) 0%, hsl(0deg 0% 16%) 100%);
+  border-color: hsl(0deg 0% 47%);
+  color: hsl(0deg 0% 88%);
 }
 
 .copyUrlButton:active {

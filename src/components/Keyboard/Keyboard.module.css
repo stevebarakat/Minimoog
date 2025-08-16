@@ -60,14 +60,14 @@
 .whiteKeyActive {
   background: linear-gradient(
     to bottom,
-    hsl(0 0% 100%) 0%,
-    hsl(0 0% 97%) 75%,
-    hsl(0 0% 94%) 85%,
-    hsl(0 0% 91%) 90%,
-    hsl(0 0% 87%) 95%
+    hsl(0deg 0% 100%) 0%,
+    hsl(0deg 0% 97%) 75%,
+    hsl(0deg 0% 94%) 85%,
+    hsl(0deg 0% 91%) 90%,
+    hsl(0deg 0% 87%) 95%
   );
   border-bottom: 2px solid hsl(0deg 0% 35%);
-  box-shadow: 0 1px 2px hsl(0 0% 0% / 10%), inset 0 1px 1px hsl(217deg 70% 90%);
+  box-shadow: 0 1px 2px hsl(0deg 0% 0% / 10%), inset 0 1px 1px hsl(217deg 70% 90%);
   transform: translateY(2px);
 }
 

@@ -30,10 +30,10 @@
 
 .button {
   padding: 8px 16px;
-  background: var(--color-panel-bg, hsl(0 0% 16%));
-  border: 1px solid var(--color-border, hsl(0 0% 27%));
+  background: var(--color-panel-bg, hsl(0deg 0% 16%));
+  border: 1px solid var(--color-border, hsl(0deg 0% 27%));
   border-radius: var(--border-radius-sm, 4px);
-  color: var(--color-text-primary, hsl(0 0% 88%));
+  color: var(--color-text-primary, hsl(0deg 0% 88%));
   font-family: var(--font-mono, monospace);
   font-size: 0.875rem;
   cursor: pointer;
@@ -46,13 +46,13 @@
 }
 
 .button:focus {
-  outline: 2px solid var(--color-primary, hsl(210 100% 50%));
+  outline: 2px solid var(--color-primary, hsl(210deg 100% 50%));
   outline-offset: 2px;
 }
 
 .button:hover:not(:disabled) {
-  background: var(--color-bg-secondary, hsl(0 0% 23%));
-  border-color: var(--color-primary, hsl(210 100% 50%));
+  background: var(--color-bg-secondary, hsl(0deg 0% 23%));
+  border-color: var(--color-primary, hsl(210deg 100% 50%));
 }
 
 .stats {

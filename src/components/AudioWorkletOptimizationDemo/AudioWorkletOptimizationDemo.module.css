@@ -1,8 +1,8 @@
 .container {
   margin-top: 16px;
   padding: 16px;
-  background: hsl(0 0% 0% / 80%);
-  border: 1px solid hsl(0 0% 20%);
+  background: hsl(0deg 0% 0% / 80%);
+  border: 1px solid hsl(0deg 0% 20%);
   border-radius: 8px;
   font-family: "Courier New", monospace;
   font-size: 12px;
@@ -10,7 +10,7 @@
 
 .container h3 {
   margin: 0 0 16px;
-  color: hsl(180 100% 50%);
+  color: hsl(180deg 100% 50%);
   font-size: 14px;
   text-align: center;
 }
@@ -24,10 +24,10 @@
 
 .button {
   padding: 8px 12px;
-  background: hsl(0 0% 20%);
-  border: 1px solid hsl(180 100% 50%);
+  background: hsl(0deg 0% 20%);
+  border: 1px solid hsl(180deg 100% 50%);
   border-radius: 4px;
-  color: hsl(180 100% 50%);
+  color: hsl(180deg 100% 50%);
   font-family: "Courier New", monospace;
   font-size: 11px;
   cursor: pointer;
@@ -40,15 +40,15 @@
 }
 
 .button:hover:not(:disabled) {
-  background: hsl(180 100% 50%);
-  color: hsl(0 0% 0%);
+  background: hsl(180deg 100% 50%);
+  color: hsl(0deg 0% 0%);
 }
 
 .stats {
   margin-bottom: 16px;
   padding: 12px;
-  background: hsl(180 100% 50% / 10%);
-  border: 1px solid hsl(180 100% 50%);
+  background: hsl(180deg 100% 50% / 10%);
+  border: 1px solid hsl(180deg 100% 50%);
   border-radius: 4px;
 }
 
@@ -63,31 +63,31 @@
 }
 
 .statLabel {
-  color: hsl(180 100% 50%);
+  color: hsl(180deg 100% 50%);
   font-weight: bold;
 }
 
 .statValue {
-  color: hsl(0 0% 100%);
+  color: hsl(0deg 0% 100%);
 }
 
 .info {
   margin-bottom: 16px;
   padding: 12px;
-  background: hsl(0 0% 0% / 50%);
-  border: 1px solid hsl(0 0% 33%);
+  background: hsl(0deg 0% 0% / 50%);
+  border: 1px solid hsl(0deg 0% 33%);
   border-radius: 4px;
 }
 
 .info h4 {
   margin: 0 0 8px;
-  color: hsl(180 100% 50%);
+  color: hsl(180deg 100% 50%);
   font-size: 12px;
 }
 
 .info p {
   margin: 0 0 8px;
-  color: hsl(0 0% 80%);
+  color: hsl(0deg 0% 80%);
   line-height: 1.4;
 }
 
@@ -95,7 +95,7 @@
 .info ul {
   margin: 0;
   padding-left: 20px;
-  color: hsl(0 0% 80%);
+  color: hsl(0deg 0% 80%);
 }
 
 .info li {
@@ -104,19 +104,19 @@
 }
 
 .info strong {
-  color: hsl(180 100% 50%);
+  color: hsl(180deg 100% 50%);
 }
 
 .results {
   padding: 12px;
-  background: hsl(0 0% 0% / 50%);
-  border: 1px solid hsl(0 0% 33%);
+  background: hsl(0deg 0% 0% / 50%);
+  border: 1px solid hsl(0deg 0% 33%);
   border-radius: 4px;
 }
 
 .results h4 {
   margin: 0 0 8px;
-  color: hsl(180 100% 50%);
+  color: hsl(180deg 100% 50%);
   font-size: 12px;
 }
 
@@ -127,8 +127,8 @@
 
 .resultItem {
   padding: 4px 0;
-  border-bottom: 1px solid hsl(0 0% 20%);
-  color: hsl(0 0% 80%);
+  border-bottom: 1px solid hsl(0deg 0% 20%);
+  color: hsl(0deg 0% 80%);
   font-family: "Courier New", monospace;
   font-size: 11px;
 }
@@ -143,15 +143,15 @@
 }
 
 .resultList::-webkit-scrollbar-track {
-  background: hsl(0 0% 13%);
+  background: hsl(0deg 0% 13%);
   border-radius: 3px;
 }
 
 .resultList::-webkit-scrollbar-thumb {
-  background: hsl(180 100% 50%);
+  background: hsl(180deg 100% 50%);
   border-radius: 3px;
 }
 
 .resultList::-webkit-scrollbar-thumb:hover {
-  background: hsl(180 100% 40%);
+  background: hsl(180deg 100% 40%);
 }
