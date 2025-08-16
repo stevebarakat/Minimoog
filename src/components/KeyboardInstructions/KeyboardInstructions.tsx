@@ -1,9 +1,11 @@
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useIsSynthDisabled } from "@/store/selectors";
 import styles from "./KeyboardInstructions.module.css";
 
 export function KeyboardInstructions() {
   const [isOpen, setIsOpen] = useState(false);
+  const isDisabled = useIsSynthDisabled();
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
@@ -12,6 +14,7 @@ export function KeyboardInstructions() {
           className={styles.instructionsButton}
           aria-label="Show keyboard instructions"
           title="Show keyboard instructions"
+          disabled={isDisabled}
         >
           Instructions
         </button>
