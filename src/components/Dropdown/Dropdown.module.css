@@ -13,11 +13,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border: 2px solid #444;
+  background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
+  border: 2px solid hsl(0 0% 27%);
   border-radius: 8px;
   box-shadow: inset 0 1px 0 hsl(0 0% 100% / 10%), 0 2px 4px hsl(0 0% 0% / 30%);
-  color: #e0e0e0;
+  color: hsl(0 0% 88%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -26,8 +26,8 @@
 }
 
 .trigger:hover {
-  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
-  border-color: #666;
+  background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
+  border-color: hsl(0 0% 40%);
   box-shadow: inset 0 1px 0 hsl(0 0% 100% / 15%), 0 4px 8px hsl(0 0% 0% / 40%);
   transform: translateY(-1px);
 }
@@ -43,7 +43,7 @@
 }
 
 .chevron {
-  color: #888;
+  color: hsl(0 0% 53%);
   transition: transform 0.2s ease;
 }
 
@@ -62,8 +62,8 @@
   height: fit-content;
   max-height: 80vh;
   overflow: hidden;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-  border: 2px solid #444;
+  background: linear-gradient(135deg, hsl(0 0% 10%) 0%, hsl(0 0% 4%) 100%);
+  border: 2px solid hsl(0 0% 27%);
   border-radius: 8px;
   box-shadow: 0 8px 32px hsl(0 0% 0% / 60%), inset 0 1px 0 hsl(0 0% 100% / 5%);
 }
@@ -88,16 +88,16 @@
   }
 
   .trigger:hover {
-    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-    border-color: #444;
+    background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
+    border-color: hsl(0 0% 27%);
     box-shadow: inset 0 1px 0 hsl(0 0% 100% / 10%), 0 2px 4px hsl(0 0% 0% / 30%);
     transform: none;
   }
 
   /* Active states for touch devices */
   .trigger:active {
-    background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
-    border-color: #666;
+    background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
+    border-color: hsl(0 0% 40%);
     box-shadow: inset 0 1px 0 hsl(0 0% 100% / 15%), 0 4px 8px hsl(0 0% 0% / 40%);
   }
 }
@@ -115,7 +115,7 @@
 
 .label {
   padding: 8px 16px;
-  color: #888;
+  color: hsl(0 0% 53%);
   font-family: Futura, sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -160,7 +160,7 @@
   padding: 12px 16px;
   background: transparent;
   border: none;
-  color: #e0e0e0;
+  color: hsl(0 0% 88%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -170,12 +170,12 @@
 }
 
 .dropdownOption:disabled {
-  color: #888;
+  color: hsl(0 0% 53%);
   cursor: not-allowed;
 }
 
 .dropdownOption:hover:not(:disabled) {
-  color: #fff;
+  color: hsl(0 0% 100%);
 }
 
 .dropdownOption.focused {
@@ -184,7 +184,7 @@
     hsl(0 0% 100% / 10%) 0%,
     hsl(0 0% 100% / 5%) 100%
   );
-  color: #fff;
-  outline: 2px solid #888;
+  color: hsl(0 0% 100%);
+  outline: 2px solid hsl(0 0% 53%);
   outline-offset: -2px;
 }

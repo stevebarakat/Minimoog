@@ -9,17 +9,17 @@ export function KnobRing({ type }: { type: "radial" | "arrow" }) {
           type === "arrow"
             ? `linear-gradient(
     to bottom,
-    #595959 0%,
-    #444 35%,
-    #222 35%,
-    #111 100%
+    hsl(0 0% 35%) 0%,
+    hsl(0 0% 27%) 35%,
+    hsl(0 0% 13%) 35%,
+    hsl(0 0% 7%) 100%
     )`
             : `linear-gradient(
       to bottom,
-      #595959 0%,
-      #333 35%,
-      #111 35%,
-      #000 100%
+      hsl(0 0% 35%) 0%,
+      hsl(0 0% 20%) 35%,
+      hsl(0 0% 7%) 35%,
+      hsl(0 0% 0%) 100%
   )`,
       }}
     />

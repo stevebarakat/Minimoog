@@ -13,7 +13,7 @@
   background: var(--color-info);
   border-radius: 8px;
   box-shadow: 0 2px 10px hsl(0deg 0% 0% / 75%);
-  color: #fff;
+  color: hsl(0 0% 100%);
   font-size: 16px;
   inset: 0;
   pointer-events: auto;

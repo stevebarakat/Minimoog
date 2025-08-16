@@ -1,9 +1,9 @@
 .instructionsButton {
   padding: 8px 16px;
-  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border: 1px solid #444;
+  background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
+  border: 1px solid hsl(0 0% 27%);
   border-radius: 6px;
-  color: #fff;
+  color: hsl(0 0% 100%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -14,33 +14,33 @@
 }
 
 .instructionsButton:hover {
-  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
-  border-color: #666;
+  background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
+  border-color: hsl(0 0% 40%);
   transform: translateY(-1px);
 }
 
 .instructionsButton:active {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  background: linear-gradient(135deg, hsl(0 0% 10%) 0%, hsl(0 0% 4%) 100%);
   transform: translateY(0);
 }
 
 .instructionsButton:focus {
-  outline: 2px solid #007acc;
+  outline: 2px solid hsl(210 100% 50%);
   outline-offset: 2px;
 }
 
 .instructionsButton:disabled {
-  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border-color: #555;
-  color: #999;
+  background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
+  border-color: hsl(0 0% 33%);
+  color: hsl(0 0% 60%);
   cursor: not-allowed;
   transform: none;
   opacity: 0.7;
 }
 
 .instructionsButton:disabled:hover {
-  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border-color: #555;
+  background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
+  border-color: hsl(0 0% 33%);
   transform: none;
 }
 
@@ -63,8 +63,8 @@
   width: 95vw;
   max-width: 900px;
   max-height: 85vh;
-  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border: 1px solid #555;
+  background: linear-gradient(135deg, hsl(0 0% 16%) 0%, hsl(0 0% 10%) 100%);
+  border: 1px solid hsl(0 0% 33%);
   border-radius: 12px;
   box-shadow: 0 20px 40px hsl(0 0% 0% / 50%);
   z-index: 10001;
@@ -78,13 +78,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
-  border-bottom: 1px solid #555;
+  background: linear-gradient(135deg, hsl(0 0% 23%) 0%, hsl(0 0% 16%) 100%);
+  border-bottom: 1px solid hsl(0 0% 33%);
 }
 
 .title {
   margin: 0;
-  color: #fff;
+  color: hsl(0 0% 100%);
   font-family: Futura, sans-serif;
   font-size: 20px;
   font-weight: 600;
@@ -98,9 +98,9 @@
   width: 32px;
   height: 32px;
   background: transparent;
-  border: 1px solid #666;
+  border: 1px solid hsl(0 0% 40%);
   border-radius: 6px;
-  color: #ccc;
+  color: hsl(0 0% 80%);
   font-size: 20px;
   font-weight: 300;
   cursor: pointer;
@@ -109,12 +109,12 @@
 
 .closeButton:hover {
   background: hsl(0 0% 100% / 10%);
-  border-color: #888;
-  color: #fff;
+  border-color: hsl(0 0% 53%);
+  color: hsl(0 0% 100%);
 }
 
 .closeButton:focus {
-  outline: 2px solid #007acc;
+  outline: 2px solid hsl(210 100% 50%);
   outline-offset: 2px;
 }
 
@@ -157,12 +157,12 @@
 
 .sectionTitle {
   margin: 0 0 12px 0;
-  color: #fff;
+  color: hsl(0 0% 100%);
   font-family: Futura, sans-serif;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid hsl(0 0% 27%);
   padding-bottom: 6px;
 }
 
@@ -190,7 +190,7 @@
 }
 
 .keyLabel {
-  color: #ccc;
+  color: hsl(0 0% 80%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -209,10 +209,10 @@
 .keys kbd {
   display: inline-block;
   padding: 3px 6px;
-  background: linear-gradient(135deg, #444 0%, #333 100%);
-  border: 1px solid #666;
+  background: linear-gradient(135deg, hsl(0 0% 27%) 0%, hsl(0 0% 20%) 100%);
+  border: 1px solid hsl(0 0% 40%);
   border-radius: 4px;
-  color: #fff;
+  color: hsl(0 0% 100%);
   font-family: "Courier New", monospace;
   font-size: 11px;
   font-weight: 600;
@@ -234,7 +234,7 @@
   display: inline-block;
   padding: 3px 6px 0;
   border-radius: 4px;
-  color: #fff;
+  color: hsl(0 0% 100%);
   font-family: "Futura", sans-serif;
   font-size: 11px;
   font-weight: 600;
@@ -259,10 +259,10 @@
 .controlKeys kbd {
   display: inline-block;
   padding: 4px 8px;
-  background: linear-gradient(135deg, #555 0%, #444 100%);
-  border: 1px solid #777;
+  background: linear-gradient(135deg, hsl(0 0% 33%) 0%, hsl(0 0% 27%) 100%);
+  border: 1px solid hsl(0 0% 47%);
   border-radius: 4px;
-  color: #fff;
+  color: hsl(0 0% 100%);
   font-family: "Courier New", monospace;
   font-size: 12px;
   font-weight: 600;
@@ -272,7 +272,7 @@
 }
 
 .description {
-  color: #ccc;
+  color: hsl(0 0% 80%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -292,14 +292,14 @@
 
 .modulationRow .description {
   font-size: 12px;
-  color: #aaa;
+  color: hsl(0 0% 67%);
 }
 
 /* Tips */
 .tips {
   margin: 0;
   padding-left: 20px;
-  color: #ccc;
+  color: hsl(0 0% 80%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   line-height: 1.6;

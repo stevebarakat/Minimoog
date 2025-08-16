@@ -211,7 +211,7 @@ export function AudioParamOptimizationDemo() {
           {isRunning && (
             <div className={styles.statRow}>
               <span className={styles.statLabel}>Test Status:</span>
-              <span className={styles.statValue} style={{ color: "#ffaa00" }}>
+              <span className={styles.statValue} style={{ color: "hsl(45 100% 50%)" }}>
                 🚀 Running automated test...
               </span>
             </div>

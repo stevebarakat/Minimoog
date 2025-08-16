@@ -90,10 +90,10 @@
   height: var(--knob-size);
   background: linear-gradient(
     to bottom,
-    #595959 0%,
-    #333 35%,
-    #111 35%,
-    #000 100%
+    hsl(0 0% 35%) 0%,
+    hsl(0 0% 20%) 35%,
+    hsl(0 0% 7%) 35%,
+    hsl(0 0% 0%) 100%
   );
   border-radius: var(--knob-border-radius);
   transform: var(--center-transform);

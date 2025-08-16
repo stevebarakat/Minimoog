@@ -3,17 +3,17 @@
   padding: 8px 12px;
   overflow: hidden auto; /* Hide horizontal scrollbar */ /* Add vertical scrollbar when needed */
   background: hsl(0 0% 0% / 80%);
-  border: 2px solid #0f0; /* More visible border */
+  border: 2px solid hsl(120 100% 50%); /* More visible border */
   border-radius: 6px; /* Slightly larger radius */
   box-shadow: 0 0 15px hsl(120 100% 50% / 20%); /* Enhanced glow */
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-family: "Courier New", monospace;
   font-size: 12px;
   cursor: move; /* Show move cursor on the panel */
   backdrop-filter: blur(4px);
   user-select: none; /* Prevent text selection while dragging */
   scrollbar-width: thin;
-  scrollbar-color: #0f0 hsl(0 0% 0% / 30%);
+  scrollbar-color: hsl(120 100% 50%) hsl(0 0% 0% / 30%);
 }
 
 .statsTitle {
@@ -21,7 +21,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 4px;
-  color: #ff0;
+  color: hsl(60 100% 50%);
   font-size: 13px;
   font-weight: bold;
 }
@@ -36,7 +36,7 @@
   background: none;
   border: none;
   border-radius: 50%;
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -45,7 +45,7 @@
 
 .closeButton:hover {
   background: hsl(120 100% 50% / 20%);
-  color: #fff;
+  color: hsl(0 0% 100%);
 }
 
 .closeButton:active {
@@ -60,41 +60,41 @@
 }
 
 .statLabel {
-  color: #ccc;
+  color: hsl(0 0% 80%);
 }
 
 .statValue {
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-weight: bold;
 }
 
 .memoryHigh {
-  color: #f60;
+  color: hsl(30 100% 60%);
 }
 
 .memoryWarning {
-  color: #f00;
+  color: hsl(0 100% 50%);
 }
 
 .separator {
   margin: 6px 0;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid hsl(0 0% 27%);
 }
 
 .audioContext {
-  color: #0cf;
+  color: hsl(180 100% 50%);
 }
 
 .audioContextError {
-  color: #f44;
+  color: hsl(0 100% 60%);
 }
 
 .poolEfficient {
-  color: #0f0;
+  color: hsl(120 100% 50%);
 }
 
 .poolInefficient {
-  color: #f60;
+  color: hsl(30 100% 60%);
 }
 
 /* Custom scrollbar styling */
@@ -108,19 +108,19 @@
 }
 
 .statsPanel::-webkit-scrollbar-thumb {
-  background: #0f0;
-  border: 1px solid #333;
+  background: hsl(120 100% 50%);
+  border: 1px solid hsl(0 0% 20%);
   border-radius: 4px;
 }
 
 .statsPanel::-webkit-scrollbar-thumb:hover {
-  background: #0cf;
+  background: hsl(180 100% 50%);
 }
 
 /* Resize handle styling */
 .statsPanel .react-rnd-handle {
   background: hsl(120 100% 50% / 20%);
-  border: 1px solid #0f0;
+  border: 1px solid hsl(120 100% 50%);
   border-radius: 2px;
 }
 

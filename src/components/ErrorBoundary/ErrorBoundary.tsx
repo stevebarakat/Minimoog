@@ -37,8 +37,8 @@ class ErrorBoundaryInner extends React.Component<
           style={{
             padding: 32,
             textAlign: "center",
-            color: "#b00",
-            background: "#181818",
+            color: "hsl(0 100% 35%)",
+            background: "hsl(0 0% 9%)",
             minHeight: "100vh",
             fontSize: "1.2rem",
           }}
@@ -46,8 +46,8 @@ class ErrorBoundaryInner extends React.Component<
           <h2>Something went wrong.</h2>
           <div
             style={{
-              color: "#BB0000",
-              background: "#fff0f0",
+              color: "hsl(0 100% 37%)",
+              background: "hsl(0 100% 97%)",
               padding: 16,
               borderRadius: 8,
               maxWidth: 600,

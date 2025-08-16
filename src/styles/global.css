@@ -52,10 +52,10 @@ a {
 .dev-stats-toggle {
   padding: 8px 12px;
   min-width: 100px;
-  background: #333;
-  border: 1px solid #0f0;
+  background: hsl(0 0% 20%);
+  border: 1px solid hsl(120 100% 50%);
   border-radius: 4px;
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-family: monospace;
   font-size: 12px;
   font-weight: bold;
@@ -64,9 +64,9 @@ a {
 }
 
 .dev-stats-toggle:hover {
-  background: #0f0;
+  background: hsl(120 100% 50%);
   box-shadow: 0 0 10px hsl(120 100% 50% / 30%);
-  color: #000;
+  color: hsl(0 0% 0%);
 }
 
 .dev-stats-toggle:active {

@@ -2,7 +2,7 @@
   margin-top: 16px;
   padding: 16px;
   background: hsl(0 0% 0% / 80%);
-  border: 1px solid #333;
+  border: 1px solid hsl(0 0% 20%);
   border-radius: 8px;
   font-family: "Courier New", monospace;
   font-size: 12px;
@@ -10,7 +10,7 @@
 
 .container h3 {
   margin: 0 0 16px;
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-size: 14px;
   text-align: center;
 }
@@ -24,10 +24,10 @@
 
 .button {
   padding: 8px 12px;
-  background: #333;
-  border: 1px solid #0f0;
+  background: hsl(0 0% 20%);
+  border: 1px solid hsl(120 100% 50%);
   border-radius: 4px;
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-family: "Courier New", monospace;
   font-size: 11px;
   cursor: pointer;
@@ -40,15 +40,15 @@
 }
 
 .button:hover:not(:disabled) {
-  background: #0f0;
-  color: #000;
+  background: hsl(120 100% 50%);
+  color: hsl(0 0% 0%);
 }
 
 .stats {
   margin-bottom: 16px;
   padding: 12px;
   background: hsl(120 100% 50% / 10%);
-  border: 1px solid #0f0;
+  border: 1px solid hsl(120 100% 50%);
   border-radius: 4px;
 }
 
@@ -63,31 +63,31 @@
 }
 
 .statLabel {
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-weight: bold;
 }
 
 .statValue {
-  color: #fff;
+  color: hsl(0 0% 100%);
 }
 
 .info {
   margin-bottom: 16px;
   padding: 12px;
   background: hsl(0 0% 0% / 50%);
-  border: 1px solid #555;
+  border: 1px solid hsl(0 0% 33%);
   border-radius: 4px;
 }
 
 .info h4 {
   margin: 0 0 8px;
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-size: 12px;
 }
 
 .info p {
   margin: 0 0 8px;
-  color: #ccc;
+  color: hsl(0 0% 80%);
   line-height: 1.4;
 }
 
@@ -95,7 +95,7 @@
 .info ul {
   margin: 0;
   padding-left: 20px;
-  color: #ccc;
+  color: hsl(0 0% 80%);
 }
 
 .info li {
@@ -104,19 +104,19 @@
 }
 
 .info strong {
-  color: #0f0;
+  color: hsl(120 100% 50%);
 }
 
 .results {
   padding: 12px;
   background: hsl(0 0% 0% / 50%);
-  border: 1px solid #555;
+  border: 1px solid hsl(0 0% 33%);
   border-radius: 4px;
 }
 
 .results h4 {
   margin: 0 0 8px;
-  color: #0f0;
+  color: hsl(120 100% 50%);
   font-size: 12px;
 }
 
@@ -127,8 +127,8 @@
 
 .resultItem {
   padding: 4px 0;
-  border-bottom: 1px solid #333;
-  color: #ccc;
+  border-bottom: 1px solid hsl(0 0% 20%);
+  color: hsl(0 0% 80%);
   font-family: "Courier New", monospace;
   font-size: 11px;
 }
@@ -143,15 +143,15 @@
 }
 
 .resultList::-webkit-scrollbar-track {
-  background: #222;
+  background: hsl(0 0% 13%);
   border-radius: 3px;
 }
 
 .resultList::-webkit-scrollbar-thumb {
-  background: #0f0;
+  background: hsl(120 100% 50%);
   border-radius: 3px;
 }
 
 .resultList::-webkit-scrollbar-thumb:hover {
-  background: #0c0;
+  background: hsl(120 100% 40%);
 }
