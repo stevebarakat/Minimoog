@@ -1,0 +1,364 @@
+/* CSS Custom Properties */
+:root {
+  --knob-container-multiplier: 1.75;
+  --knob-border-radius: 50%;
+  --knob-shadow-color: hsl(0deg 0% 0%);
+  --knob-highlight-color: hsl(0deg 0% 25%);
+  --knob-highlight-color-2: hsl(0deg 0% 40%);
+  --knob-tick-color: hsl(0deg 0% 60%);
+  --knob-dot-color: hsl(0deg 0% 75%);
+  --knob-dot-gradient-start: hsl(220deg 13% 85%);
+  --knob-dot-gradient-end: hsl(220deg 13% 55%);
+
+  /* Conic gradient colors for knob surfaces */
+  --knob-surface-light: hsl(0deg 0% 90%);
+  --knob-surface-white: hsl(0deg 0% 100%);
+  --knob-surface-dark: hsl(0deg 0% 30%);
+  --knob-surface-medium: hsl(0deg 0% 80%);
+  --knob-surface-gray: hsl(0deg 0% 50%);
+  --metal-cap: conic-gradient(
+    var(--knob-surface-light),
+    var(--knob-surface-white),
+    var(--knob-surface-dark),
+    var(--knob-surface-medium),
+    var(--knob-surface-gray),
+    var(--knob-surface-light),
+    var(--knob-surface-white),
+    var(--knob-surface-dark),
+    var(--knob-surface-medium),
+    var(--knob-surface-gray),
+    var(--knob-surface-light)
+  );
+
+  /* Common positioning values */
+  --center-transform: translate(-50%, -50%);
+  --dot-transform: translate(-50%, -100%);
+
+  /* Common sizing values */
+  --dot-size-small: 3px;
+  --dot-size-large: 10px;
+  --tick-width: 1px;
+  --tick-height: 6px;
+  --svg-icon-size: 8px;
+}
+
+/* Base container styles */
+.knobContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  touch-action: none;
+  user-select: none;
+}
+
+/* Container size variants */
+.knobContainerSmall {
+  --knob-size: 2rem;
+  --tick-offset: 1.25rem;
+  --tick-height: 4px;
+}
+
+.knobContainerMedium {
+  --knob-size: 2.5rem;
+  --tick-offset: 1.5rem;
+  --tick-height: 5px;
+}
+
+.knobContainerLarge {
+  --knob-size: 3rem;
+  --tick-offset: 1.65rem;
+  --tick-height: 3px;
+}
+
+/* Common container sizing */
+.knobContainerSmall,
+.knobContainerMedium,
+.knobContainerLarge {
+  width: calc(var(--knob-size) * 1.5);
+  height: calc(var(--knob-size) * 1.65);
+}
+
+/* Knob ring background */
+.knobRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: var(--knob-size);
+  height: var(--knob-size);
+  background: linear-gradient(
+    to bottom,
+    #595959 0%,
+    #333 35%,
+    #111 35%,
+    #000 100%
+  );
+  border-radius: var(--knob-border-radius);
+  transform: var(--center-transform);
+  filter: drop-shadow(0 -1px var(--knob-shadow-color));
+}
+
+/* Base knob styles */
+.knob {
+  position: relative;
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: var(--knob-border-radius);
+
+  /* Metal cap for radial knob */
+  &::before {
+    position: absolute;
+    top: 25%;
+    left: 17.5%;
+    z-index: 5;
+    width: 62.5%;
+    height: 62.5%;
+    background-image: var(--metal-cap);
+    border: 0.5px solid hsl(0deg 0% 40%);
+    border-radius: var(--knob-border-radius);
+    pointer-events: none;
+    content: "";
+    filter: brightness(0.75);
+  }
+
+  &:has(.arrow) {
+    &::before {
+      top: 30%;
+      left: 30%;
+      width: 40%;
+      height: 40%;
+    }
+  }
+}
+
+.knobOutline {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: var(--knob-size);
+  height: var(--knob-size);
+  filter: drop-shadow(0 -1px 0 var(--knob-highlight-color));
+
+  &:has(.arrow) {
+    filter: drop-shadow(0 -1px 0 var(--knob-highlight-color-2))
+      drop-shadow(0 1px 0 var(--knob-highlight-color));
+  }
+}
+
+/* Common knob type styles */
+.radial,
+.arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--knob-border-radius);
+  cursor: pointer;
+  transition: transform 0.05s ease-out;
+  place-items: center;
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  width: var(--dot-size-small);
+  height: var(--dot-size-small);
+  background: linear-gradient(
+    to bottom,
+    var(--knob-dot-gradient-start),
+    var(--knob-dot-gradient-end)
+  );
+  border-radius: var(--knob-border-radius);
+  transform: var(--dot-transform);
+  content: "";
+}
+
+/* Radial knob specific styles */
+.radial {
+  top: 7.5%;
+  scale: 0.95;
+  background: url("./images/radial-knob.svg") no-repeat center center;
+
+  .dot {
+    top: 12.5%;
+    border-radius: var(--knob-border-radius);
+    transform: var(--dot-transform);
+    content: "";
+  }
+}
+
+/* Arrow knob specific styles */
+.arrow {
+  scale: 1.05;
+  background: url("./images/arrow-knob.svg") no-repeat center center;
+
+  /* More of a line than a "dot" for the arrow knob */
+  .dot {
+    top: 25%;
+    width: 1px;
+    height: var(--dot-size-large);
+    border-radius: var(--tick-width);
+    transform: var(--dot-transform);
+    content: "";
+  }
+}
+
+.radial:hover,
+.arrow:hover {
+  filter: brightness(1.1);
+}
+
+.radial:active,
+.arrow:active {
+  filter: brightness(0.9);
+  transform: scale(0.98);
+}
+
+/* Touch scaling for mobile/tablet devices */
+.knobContainer.touching {
+  z-index: 1000;
+  margin: -8px;
+  padding: 8px;
+  background: rgb(0 0 0 / 10%);
+  border-radius: 12px;
+  transform: scale(2);
+  transition: transform 0.2s ease-out;
+  transform-origin: center center;
+  backdrop-filter: blur(8px);
+}
+
+/* Legacy selectors for backward compatibility */
+.touching {
+  z-index: 10;
+  transform: scale(1.5) !important;
+  transition: transform 0.2s ease-out;
+}
+
+.radial.touching,
+.arrow.touching {
+  z-index: 10;
+  transform: scale(1.5);
+  transition: transform 0.2s ease-out;
+}
+
+/* Ensure the scaled knob stays above other elements */
+.knobContainer:has(.touching) {
+  z-index: 1000;
+}
+
+/* Focus styles for accessibility */
+.radial:focus-visible,
+.arrow:focus-visible {
+  outline: 1px solid white;
+  filter: drop-shadow(inset 0 0 1px hsl(220deg 100% 80%));
+  border-radius: var(--knob-border-radius);
+}
+
+/* Remove outline for mouse clicks but keep it for keyboard navigation */
+.radial:focus:not(:focus-visible),
+.arrow:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Label styles */
+.title,
+.label {
+  position: absolute;
+  bottom: 100%;
+  display: inline-block;
+  color: var(--color-text-primary);
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.titleMedium,
+.labelMedium {
+  bottom: 97.5%;
+  font-size: var(--font-size-sm);
+}
+
+.labelLarge,
+.titleLarge {
+  bottom: 95%;
+  font-size: var(--font-size-md);
+}
+
+/* Screen reader only label */
+.labelHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+/* Value label */
+.valueLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: var(--center-transform);
+  pointer-events: none;
+
+  svg {
+    width: var(--svg-icon-size);
+    height: var(--svg-icon-size);
+  }
+}
+
+/* Knob tick indicator */
+.knobTick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: var(--tick-width);
+  height: var(--tick-height);
+  background: var(--knob-tick-color);
+  border-radius: var(--tick-width);
+  transform: var(--center-transform);
+}
+
+/* Push/pull visual states */
+.knobPushed {
+  box-shadow: inset 0 1px 2px hsl(0deg 0% 0% / 30%);
+  transform: translateY(2px) scale(0.98);
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.15s ease,
+    box-shadow 0.15s ease;
+  filter: brightness(0.9);
+}
+
+.knobPulled {
+  box-shadow: 0 4px 8px hsl(0deg 0% 0% / 40%), 0 -1px 2px hsl(0deg 0% 100% / 30%),
+    0 0 0 1px hsl(0deg 0% 100% / 10%);
+  transform: translateY(-4px) scale(1.02);
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.15s ease,
+    box-shadow 0.15s ease;
+  filter: brightness(1.15) saturate(1.1);
+}
+
+/* Hover states for push/pull knobs */
+.knobPushed:hover {
+  filter: brightness(0.95);
+  transform: translateY(1.5px) scale(0.99);
+}
+
+.knobPulled:hover {
+  filter: brightness(1.2) saturate(1.15);
+  transform: translateY(-5px) scale(1.03);
+}

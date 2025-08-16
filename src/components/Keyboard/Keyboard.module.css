@@ -1,0 +1,151 @@
+.keyboard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 3px;
+  width: 100%;
+  background: var(--color-off-black);
+
+  --keyboard-height: 220px;
+}
+
+.pianoKeys {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  height: 100%;
+}
+
+.whiteKey {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  height: var(--keyboard-height);
+  background: linear-gradient(180deg, hsl(0deg 0% 100%), hsl(0deg 0% 80%));
+  background-color: transparent;
+
+  /* Button-specific styles */
+  border: none;
+  border-bottom: 2px solid hsl(0deg 0% 35%);
+  border-radius: 0 0 5px 5px;
+  box-shadow: inset 0 0.5px 0.5px 1px hsl(0deg 0% 0% / 40%),
+    inset 0 0 0.5px 1.5px hsl(0deg 0% 90% / 50%),
+    inset 0 0 0.5px 2.5px hsl(0deg 0% 90% / 50%);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    content: "";
+    height: 15%;
+    background: linear-gradient(
+      0deg,
+      hsl(0deg 0% 80% / 0%) 0%,
+      hsl(0deg 0% 50% / 37.5%) 50%,
+      hsl(0deg 0% 20% / 85%) 100%
+    );
+  }
+}
+
+.whiteKeyActive {
+  background: linear-gradient(
+    to bottom,
+    #fff 0%,
+    #f8f8f8 75%,
+    #f0f0f0 85%,
+    #e8e8e8 90%,
+    #ddd 95%
+  );
+  border-bottom: 2px solid hsl(0deg 0% 35%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 10%), inset 0 1px 1px hsl(217deg 70% 90%);
+  transform: translateY(2px);
+}
+
+.blackKey {
+  position: absolute;
+  z-index: 20;
+  margin: 0;
+  padding: 0;
+  height: 65%;
+  background: linear-gradient(
+    to bottom,
+    hsl(217deg 13% 15%),
+    hsl(217deg 13% 10%)
+  );
+  border: none;
+  border-radius: 0 0 5px 5px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  container-type: inline-size;
+
+  &::after {
+    position: absolute;
+    overflow: clip;
+    background: linear-gradient(hsl(217deg 13% 10%), hsl(217deg 13% 20%));
+    border-right: 2px solid var(--color-off-black);
+    border-bottom: 15px solid hsl(0deg 0% 66%);
+    border-left: 2px solid var(--color-off-black);
+    border-radius: 0 0 4px 4px;
+    box-shadow: inset 0 -1px 0 1px hsl(0deg 0% 45%);
+    transform: rotateX(-10deg);
+    inset: 1px 2px;
+    content: "";
+    transform-origin: top center;
+    transition: all 0.15s ease;
+
+    @container (width < 20px) {
+      background: none;
+    }
+  }
+}
+
+.blackKeyActive {
+  &::after {
+    height: 95%;
+    background: linear-gradient(hsl(217deg 13% 10%), hsl(217deg 13% 0%));
+    border-bottom: 10px solid hsl(0deg 0% 66%);
+    border-radius: 2px 2px 3px 3px;
+    transform: translateY(2.5%);
+    transform-origin: top center;
+  }
+}
+
+.octaveIndicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 30;
+  padding: 4px 8px;
+  background: hsl(0deg 0% 0% / 80%);
+  border-radius: 4px;
+  color: hsl(0deg 0% 100%);
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  font-weight: bold;
+  animation: fade-in 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

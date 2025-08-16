@@ -1,0 +1,54 @@
+{
+  "name": "Model D Synthesizer",
+  "short_name": "Model D",
+  "description": "Authentic Minimoog Model D synthesizer emulation",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#1a1a1a",
+  "orientation": "landscape-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["music", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/images/minimoog-icon.png",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/minimoog-icon.png",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Play C4",
+      "short_name": "C4",
+      "description": "Play middle C note",
+      "url": "/?note=C4",
+      "icons": [
+        {
+          "src": "/images/arrow.svg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/minimoog-screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

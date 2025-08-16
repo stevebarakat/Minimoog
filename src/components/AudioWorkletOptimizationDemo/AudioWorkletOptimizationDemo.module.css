@@ -1,0 +1,157 @@
+.container {
+  margin-top: 16px;
+  padding: 16px;
+  background: rgb(0 0 0 / 80%);
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+}
+
+.container h3 {
+  margin: 0 0 16px;
+  color: #0ff;
+  font-size: 14px;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.button {
+  padding: 8px 12px;
+  background: #333;
+  border: 1px solid #0ff;
+  border-radius: 4px;
+  color: #0ff;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.button:hover:not(:disabled) {
+  background: #0ff;
+  color: #000;
+}
+
+.stats {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgb(0 255 255 / 10%);
+  border: 1px solid #0ff;
+  border-radius: 4px;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.statRow:last-child {
+  margin-bottom: 0;
+}
+
+.statLabel {
+  color: #0ff;
+  font-weight: bold;
+}
+
+.statValue {
+  color: #fff;
+}
+
+.info {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgb(0 0 0 / 50%);
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+.info h4 {
+  margin: 0 0 8px;
+  color: #0ff;
+  font-size: 12px;
+}
+
+.info p {
+  margin: 0 0 8px;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.info ol,
+.info ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #ccc;
+}
+
+.info li {
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.info strong {
+  color: #0ff;
+}
+
+.results {
+  padding: 12px;
+  background: rgb(0 0 0 / 50%);
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+.results h4 {
+  margin: 0 0 8px;
+  color: #0ff;
+  font-size: 12px;
+}
+
+.resultList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.resultItem {
+  padding: 4px 0;
+  border-bottom: 1px solid #333;
+  color: #ccc;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+}
+
+.resultItem:last-child {
+  border-bottom: none;
+}
+
+/* Scrollbar styling */
+.resultList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.resultList::-webkit-scrollbar-track {
+  background: #222;
+  border-radius: 3px;
+}
+
+.resultList::-webkit-scrollbar-thumb {
+  background: #0ff;
+  border-radius: 3px;
+}
+
+.resultList::-webkit-scrollbar-thumb:hover {
+  background: #0cc;
+}

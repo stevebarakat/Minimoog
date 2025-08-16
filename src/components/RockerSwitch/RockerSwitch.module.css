@@ -1,0 +1,358 @@
+:root {
+  --switch-width: 2.75rem;
+  --switch-height: 1.125rem;
+  --switch-depth: 0.625rem;
+}
+
+.horizontal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: var(--switch-width);
+  transition: all 0.3s ease-in-out;
+
+  --switch-gloss-img: url("./images/horizontal-gloss.svg");
+
+  &.black {
+    --switch-gloss-img: url("./images/gloss.svg");
+  }
+}
+
+.switch {
+  position: relative;
+  z-index: 10;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  background-color: var(--color-gray-l);
+  border: 1.5px solid black;
+  border-top: 0.5px solid black;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0 1px var(--color-gray-d);
+  cursor: pointer;
+  transform: rotate(180deg);
+  perspective: 7.5rem;
+}
+
+.switch::before,
+.switch::after {
+  position: absolute;
+  height: 100%;
+  background-position: center center, 100% 0;
+  background-size: 100% 100%, 300% 100%;
+  background-repeat: no-repeat, no-repeat;
+  transition: all 0.2s ease-in-out;
+  will-change: transform;
+}
+
+.switch::before {
+  width: 50%;
+  border-radius: 0.175rem 0 0 0.175rem;
+  transform: rotateY(55deg);
+  content: "";
+  transform-origin: 100% 50%;
+}
+
+.switch::after {
+  right: 0;
+  width: 50%;
+  border-left: none;
+  border-radius: 0 0.175rem 0.175rem 0;
+  box-shadow: 0 0 0 0 hsl(0deg 0% 74%);
+  transform: rotateY(0);
+  content: "";
+  transform-origin: 0 50%;
+}
+
+.vertical {
+  position: relative;
+  top: -1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: var(--switch-width);
+  transition: all 0.3s ease-in-out;
+
+  &::before {
+    position: absolute;
+    z-index: 55;
+    margin-top: 0.5rem;
+    width: var(--switch-height);
+    height: calc(var(--switch-width) / 3);
+    background: linear-gradient(
+      to bottom,
+      hsl(0deg 0% 80% / 25%),
+      hsl(0deg 0% 100% / 0%)
+    );
+    border-radius: 0.175rem;
+    pointer-events: none;
+    content: "";
+  }
+
+  label {
+    position: relative;
+    top: -0.5rem;
+    z-index: 50;
+
+    &:focus-visible {
+      outline: none;
+      border-radius: 0.175rem;
+    }
+
+    &:focus-visible::after {
+      position: absolute;
+      top: 5px;
+      left: 10.5px;
+      z-index: 1000;
+      width: calc(var(--switch-height) + 4px);
+      height: calc(var(--switch-width) + 4px);
+      border-radius: 0.25rem;
+      content: "";
+      outline: 2px solid white;
+      outline-offset: -2px;
+      pointer-events: none;
+    }
+  }
+
+  .switch {
+    top: 1.25rem;
+    border: 1px solid black;
+    border-right: 2.5px solid black;
+    border-left: 2.5px solid black;
+    transform: rotate(90deg);
+  }
+
+  --switch-gloss-img: url("./images/vertical-gloss.svg");
+}
+
+/* Focus styles for accessibility */
+.vertical:focus-visible {
+  outline: none;
+}
+
+.state {
+  display: none;
+}
+
+/* Black Theme */
+.black .switch::before,
+.black .switch::after {
+  border: none;
+}
+
+.black .switch::before {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to right, hsl(0deg 0% 8%), hsl(0deg 0% 18%));
+  box-shadow: calc(var(--switch-depth) * -1) 0 0 0 hsl(0deg 0% 8%);
+}
+
+.black .switch::after {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to left, hsl(0deg 0% 8%), hsl(0deg 0% 18%));
+  box-shadow: 0 0 0 0 hsl(0deg 0% 8%);
+}
+
+/* Orange Theme */
+.orange .switch::before,
+.orange .switch::after {
+  border: none;
+}
+
+.orange .switch::before {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to right, hsl(24deg 100% 41%), hsl(28deg 79% 52%));
+  box-shadow: calc(var(--switch-depth) * -1) 0 0 0 hsl(24deg 100% 31%);
+}
+
+.orange .switch::after {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to left, hsl(24deg 100% 41%), hsl(28deg 79% 52%));
+  box-shadow: 0 0 0 0 hsl(24deg 100% 31%);
+}
+
+/* Blue Theme */
+.blue .switch::before,
+.blue .switch::after {
+  border: none;
+}
+
+.blue .switch::before {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to right, hsl(195deg 100% 50%), hsl(199deg 92% 75%));
+  box-shadow: calc(var(--switch-depth) * -1) 0 0 0 hsl(195deg 100% 40%);
+}
+
+.blue .switch::after {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to left, hsl(195deg 100% 50%), hsl(199deg 92% 75%));
+  box-shadow: 0 0 0 0 hsl(195deg 100% 40%);
+}
+
+/* White Theme */
+.white .switch::before,
+.white .switch::after {
+  border: none;
+}
+
+.white .switch::before {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to right, hsl(0deg 0% 74%), hsl(0deg 0% 65%));
+  box-shadow: calc(var(--switch-depth) * -1) 0 0 0 hsl(0deg 0% 75%);
+}
+
+.white .switch::after {
+  background-image: var(--switch-gloss-img),
+    linear-gradient(to left, hsl(0deg 0% 74%), hsl(0deg 0% 65%));
+  box-shadow: 0 0 0 0 hsl(0deg 0% 75%);
+}
+
+/* Base State Styles */
+.state:checked ~ .switch::before {
+  left: -2.25%;
+  width: 52.5%;
+  background-position: center center, 0 0;
+  border-right: none;
+  box-shadow: 0 0 0 0 hsl(0deg 0% 74%);
+  transform: rotateY(0);
+  border-left-color: hsl(0deg 0% 88%);
+}
+
+.state:checked ~ .switch::after {
+  right: 0%;
+  width: 50%;
+  background-position: center center, 0 0;
+  border-left: none;
+  box-shadow: var(--switch-depth) 0 0 0 hsl(0deg 0% 74%);
+  transform: rotateY(-55deg);
+  border-right-color: hsl(0deg 0% 93%);
+}
+
+/* Black Theme State */
+.black .state:checked ~ .switch::before {
+  box-shadow: 0 0 0 0 hsl(0deg 0% 1%);
+  border-left-color: hsl(0deg 0% 22%);
+}
+
+.black .state:checked ~ .switch::after {
+  box-shadow: var(--switch-depth) 0 0 0 hsl(0deg 0% 8%);
+  border-right-color: hsl(0deg 0% 22%);
+}
+
+/* Orange Theme State */
+.orange .state:checked ~ .switch::before {
+  box-shadow: 0 0 0 0 hsl(24deg 100% 31%);
+  border-left-color: hsl(28deg 79% 52%);
+}
+
+.orange .state:checked ~ .switch::after {
+  box-shadow: var(--switch-depth) 0 0 0 hsl(24deg 100% 31%);
+  border-right-color: hsl(6deg 63% 46%);
+}
+
+/* Blue Theme State */
+.blue .state:checked ~ .switch::before {
+  box-shadow: 0 0 0 0 hsl(195deg 100% 40%);
+  border-left-color: hsl(199deg 92% 75%);
+}
+
+.blue .state:checked ~ .switch::after {
+  box-shadow: var(--switch-depth) 0 0 0 hsl(195deg 100% 40%);
+  border-right-color: hsl(195deg 100% 60%);
+}
+
+/* White Theme State */
+.white .state:checked ~ .switch::before {
+  border-radius: 0.1rem 0 0 0.1rem;
+  box-shadow: 0 0 0 0 hsl(0deg 0% 75%);
+}
+
+.white .state:checked ~ .switch::after {
+  border-radius: 0 0.1rem 0.1rem 0;
+  box-shadow: var(--switch-depth) 0 0 0 hsl(0deg 0% 75%);
+}
+
+/* LABELS */
+
+.topLabel {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  width: var(--switch-width);
+  height: fit-content;
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+
+  .vertical & {
+    bottom: 0.125rem;
+  }
+
+  .left {
+    height: 0;
+    text-align: left;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    font-size: var(--font-size-sm);
+    text-align: center;
+  }
+
+  .right {
+    width: 100%;
+    text-align: right;
+  }
+}
+
+.leftLabel {
+  position: absolute;
+  left: calc(var(--spacing-md) * -1);
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+
+.bottomLabel {
+  position: relative;
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: 4px;
+  width: fit-content;
+  min-width: var(--switch-width);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  .verticalLabel {
+    position: relative;
+    top: 1.75rem;
+    line-height: 0;
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    font-size: var(--font-size-sm);
+    text-align: center;
+    white-space: wrap;
+  }
+
+  .right {
+    width: 100%;
+    text-align: right;
+  }
+}

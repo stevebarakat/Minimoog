@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/images/minimoog-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Model D - Authentic Minimoog Synthesizer emulation with Web Audio API. Experience the legendary Moog sound in your browser with accurate filters, oscillators, and modulation."
+    />
+    <meta
+      name="keywords"
+      content="Minimoog, Moog, synthesizer, Web Audio API, virtual instrument, music production, analog synthesis"
+    />
+    <meta name="author" content="Steve Barakat" />
+
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta
+      property="og:title"
+      content="Model D - Authentic Minimoog Synthesizer"
+    />
+    <meta
+      property="og:description"
+      content="Experience the legendary Moog sound in your browser with accurate filters, oscillators, and modulation."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://minimoog.stevebarakat.com" />
+    <meta property="og:image" content="/images/minimoog-logo.webp" />
+    <meta property="og:site_name" content="Model D Synthesizer" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Model D - Authentic Minimoog Synthesizer"
+    />
+    <meta
+      name="twitter:description"
+      content="Experience the legendary Moog sound in your browser with accurate filters, oscillators, and modulation."
+    />
+    <meta name="twitter:image" content="/images/minimoog-logo.webp" />
+
+    <!-- Security Headers - These will be set by the Vite security plugin -->
+    <!-- CSP will be injected by Vite with proper nonce in development -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' blob:; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
+    />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Model D" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/images/minimoog-icon.png" />
+
+    <title>Minimoog</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then((registration) => {
+              // Service worker registered successfully
+            })
+            .catch((registrationError) => {
+              // Service worker registration failed
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

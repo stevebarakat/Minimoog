@@ -1,0 +1,10 @@
+.container {
+  position: absolute;
+  top: 25%;
+  left: -1.5rem;
+}
+
+.mobile {
+  top: -0.5rem;
+  left: -36.5%;
+}

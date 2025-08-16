@@ -1,0 +1,43 @@
+.side {
+  position: relative;
+  margin: 0;
+  min-width: 1.75rem;
+  overflow: hidden;
+  background-image: url("./images/side.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-top: 3px solid hsl(24deg 41% 47% / 50%);
+  border-radius: 0.3rem;
+
+  &::after {
+    position: absolute;
+    right: -3.5px;
+    bottom: 2rem;
+    z-index: 1;
+    height: 25%;
+    rotate: 2deg;
+    content: "";
+  }
+}
+
+.bottomShadow {
+  position: absolute;
+  z-index: 1;
+  height: 25%;
+}
+
+.left {
+  bottom: 5%;
+  rotate: 2deg;
+  left: 31px;
+  box-shadow: 0 0 5px 5px hsl(0deg 0% 0% / 35%);
+}
+
+.right {
+  right: 30px;
+  bottom: 4.5%;
+  height: 35%;
+  box-shadow: 0 0 10px 5px hsl(0deg 0% 0% / 50%);
+  rotate: -2deg;
+}

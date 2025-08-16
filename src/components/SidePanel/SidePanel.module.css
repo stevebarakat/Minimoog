@@ -1,0 +1,44 @@
+.switches {
+  position: relative;
+  top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  width: fit-content;
+}
+
+.sidePanel {
+  padding: var(--spacing-sm);
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    hsl(0deg 0% 20%),
+    hsl(0deg 0% 20%) 2.5%,
+    hsl(0deg 0% 17.5%) 50%,
+    hsl(0deg 0% 22.5%) 90%,
+    hsl(0deg 0% 27.5%) 99%,
+    hsl(0deg 0% 0.5%) 99.25%,
+    hsl(0deg 0% 20%) 99.5%,
+    hsl(0deg 0% 10%) 100%
+  );
+  border-right: 2px solid var(--color-off-black);
+  border-radius: 0 0 10px 10px;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 16px;
+    background: linear-gradient(to bottom, hsl(0deg 0% 0% / 75%), transparent);
+    content: "";
+  }
+}
+
+.mobileSidePanel {
+  margin-bottom: -1.85rem;
+  padding: var(--spacing-sm);
+  padding-left: 5px;
+  height: 100%;
+}

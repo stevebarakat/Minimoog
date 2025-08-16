@@ -1,0 +1,158 @@
+.statsPanel {
+  z-index: 9999;
+  padding: 8px 12px;
+  overflow: hidden auto; /* Hide horizontal scrollbar */ /* Add vertical scrollbar when needed */
+  background: rgb(0 0 0 / 80%);
+  border: 2px solid #0f0; /* More visible border */
+  border-radius: 6px; /* Slightly larger radius */
+  box-shadow: 0 0 15px rgb(0 255 0 / 20%); /* Enhanced glow */
+  color: #0f0;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  cursor: move; /* Show move cursor on the panel */
+  backdrop-filter: blur(4px);
+  user-select: none; /* Prevent text selection while dragging */
+  scrollbar-width: thin;
+  scrollbar-color: #0f0 rgb(0 0 0 / 30%);
+}
+
+.statsTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  color: #ff0;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.closeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: #0f0;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: rgb(0 255 0 / 20%);
+  color: #fff;
+}
+
+.closeButton:active {
+  background: rgb(0 255 0 / 40%);
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.statLabel {
+  color: #ccc;
+}
+
+.statValue {
+  color: #0f0;
+  font-weight: bold;
+}
+
+.memoryHigh {
+  color: #f60;
+}
+
+.memoryWarning {
+  color: #f00;
+}
+
+.separator {
+  margin: 6px 0;
+  border-bottom: 1px solid #444;
+}
+
+.audioContext {
+  color: #0cf;
+}
+
+.audioContextError {
+  color: #f44;
+}
+
+.poolEfficient {
+  color: #0f0;
+}
+
+.poolInefficient {
+  color: #f60;
+}
+
+/* Custom scrollbar styling */
+.statsPanel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.statsPanel::-webkit-scrollbar-track {
+  background: rgb(0 0 0 / 30%);
+  border-radius: 4px;
+}
+
+.statsPanel::-webkit-scrollbar-thumb {
+  background: #0f0;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.statsPanel::-webkit-scrollbar-thumb:hover {
+  background: #0cf;
+}
+
+/* Resize handle styling */
+.statsPanel .react-rnd-handle {
+  background: rgb(0 255 0 / 20%);
+  border: 1px solid #0f0;
+  border-radius: 2px;
+}
+
+.statsPanel .react-rnd-handle:hover {
+  background: rgb(0 255 0 / 40%);
+}
+
+/* Corner resize handles */
+.statsPanel .react-rnd-handle.react-rnd-handle-se {
+  right: -6px;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+}
+
+.statsPanel .react-rnd-handle.react-rnd-handle-sw {
+  bottom: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+}
+
+.statsPanel .react-rnd-handle.react-rnd-handle-ne {
+  top: -6px;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+}
+
+.statsPanel .react-rnd-handle.react-rnd-handle-nw {
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+}

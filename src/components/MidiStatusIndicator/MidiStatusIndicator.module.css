@@ -1,0 +1,33 @@
+.container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  padding: 8px 12px;
+  max-width: 320px;
+  background: #fa0;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+  color: white;
+  font-size: 12px;
+}
+
+.container[data-permission-state="denied"] {
+  background: #f44;
+}
+
+.errorTitle {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.errorDescription {
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+
+.instructions {
+  margin-bottom: 8px;
+  font-size: 10px;
+  line-height: 1.3;
+}

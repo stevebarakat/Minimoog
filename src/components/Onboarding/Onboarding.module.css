@@ -1,0 +1,233 @@
+.tooltip {
+  position: relative;
+  z-index: 10000;
+  padding: 10px;
+  width: clamp(150px, 250px, 300px);
+  min-width: 150px;
+  max-width: 300px;
+  max-height: var(--radix-tooltip-content-available-height);
+  background: var(--color-off-black);
+  border: 2px solid var(--color-black, #000);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 50%);
+  font-family: var(--font-primary);
+  animation: fade-in 0.3s ease-out;
+  pointer-events: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-primary) var(--color-off-black);
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: hsl(0deg 0% 100% / 10%);
+  transform: scale(1.1);
+}
+
+.closeButton:focus {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
+.arrow {
+  position: absolute;
+  z-index: 1;
+  transform: scale(2.5);
+  fill: var(--color-black, #000);
+  pointer-events: none;
+}
+
+.content {
+  padding: 20px;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.description {
+  margin: 0 0 20px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.progress {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  aspect-ratio: 1;
+  background: var(--color-off-black);
+  border: 1px solid var(--color-text-primary);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.dot.active {
+  background: var(--color-text-primary);
+  transform: scale(1.2);
+}
+
+.dot.completed {
+  background: var(--color-text-primary);
+}
+
+.dot:focus {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
+.checkbox {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.checkbox label:hover {
+  opacity: 1;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.button {
+  padding: 8px 16px;
+  background: var(--color-off-black);
+  border: 2px solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.button:hover {
+  background: var(--color-text-primary);
+  color: var(--color-off-black);
+}
+
+.button.primary {
+  background: var(--color-text-primary);
+  color: var(--color-off-black);
+}
+
+.button.primary:hover {
+  background: var(--color-off-black);
+  color: var(--color-text-primary);
+}
+
+.button.skip {
+  padding: 6px 12px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.button.skip:hover {
+  opacity: 1;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (width <= 768px) {
+  .tooltip {
+    margin: 0 16px;
+    min-width: 280px;
+    max-width: 90vw;
+  }
+
+  .centeredTooltip {
+    margin: 0 16px;
+    min-width: 280px;
+    max-width: 90vw;
+  }
+
+  .closeButton {
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,152 @@
+/*!
+ * "Fork me on GitHub" CSS ribbon v0.2.3 | MIT License
+ * https://github.com/simonwhitaker/ribbon-css
+*/
+
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  width: 12.1em;
+  height: 12.1em;
+  overflow: hidden;
+  font-size: 13px;
+  text-decoration: none;
+  pointer-events: none;
+  text-indent: -999999px;
+
+  @media (width <= 768px) {
+    display: none;
+  }
+}
+
+.fixed {
+  position: fixed;
+}
+
+.ribbon:hover,
+.ribbon:active {
+  background-color: hsl(0deg 0% 0% / 0%);
+}
+
+.ribbon::before,
+.ribbon::after {
+  /* The right and left classes determine the side we attach our banner to */
+  position: absolute;
+  top: 3.23em;
+  right: -3.23em;
+  display: block;
+  width: 15.38em;
+  height: 1.54em;
+  transform: rotate(45deg);
+  box-sizing: content-box;
+}
+
+.ribbon::before {
+  /* Add a bit of padding to give some substance outside the "stitching" */
+  padding: 0.38em 0;
+
+  /* Set the base color */
+  background-color: var(--color-error);
+
+  /* Set a gradient: transparent black at the top to almost-transparent black at the bottom */
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(hsl(0deg 0% 0% / 0%)),
+    to(hsl(0deg 0% 0% / 15%))
+  );
+  background-image: linear-gradient(
+    to top,
+    hsl(0deg 0% 0% / 0%),
+    hsl(0deg 0% 0% / 15%)
+  );
+  background-image: linear-gradient(
+    to top,
+    hsl(0deg 0% 0% / 0%),
+    hsl(0deg 0% 0% / 15%)
+  );
+  background-image: linear-gradient(
+    to top,
+    hsl(0deg 0% 0% / 0%),
+    hsl(0deg 0% 0% / 15%)
+  );
+  background-image: linear-gradient(
+    to top,
+    hsl(0deg 0% 0% / 0%),
+    hsl(0deg 0% 0% / 15%)
+  );
+  background-image: linear-gradient(
+    to bottom,
+    hsl(0deg 0% 0% / 0%),
+    hsl(0deg 0% 0% / 15%)
+  );
+
+  /* Add a drop shadow */
+  box-shadow: 0 0.15em 0.23em 0 hsl(0deg 0% 0% / 50%);
+  color: hsl(0deg 0% 100%);
+  content: "Fork me on GitHub";
+  pointer-events: auto;
+}
+
+.ribbon::after {
+  margin: 0.15em 0;
+
+  /* Set the layout properties */
+  padding: 0.15em 0;
+  border-color: hsl(0deg 0% 100%);
+  border-color: hsl(0deg 0% 100% / 70%);
+  border-style: dotted;
+
+  /* Add "stitching" effect */
+  border-width: 0.08em 0;
+
+  /* Set the text properties */
+  color: hsl(0deg 0% 100%);
+  font: 700 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.54em;
+  text-align: center;
+  text-decoration: none;
+
+  /* Set the text from the data-ribbon attribute */
+  content: attr(data-ribbon);
+  text-shadow: 0 -0.08em hsl(0deg 0% 0% / 50%);
+  text-indent: 0;
+}
+
+.leftTop,
+.leftBottom {
+  right: auto;
+  left: 0;
+}
+
+.leftBottom,
+.rightBottom {
+  top: auto;
+  bottom: 0;
+}
+
+.leftTop::before,
+.leftTop::after,
+.leftBottom::before,
+.leftBottom::after {
+  right: auto;
+  left: -3.23em;
+}
+
+.leftBottom::before,
+.leftBottom::after,
+.rightBottom::before,
+.rightBottom::after {
+  top: auto;
+  bottom: 3.23em;
+}
+
+.leftTop::before,
+.leftTop::after,
+.rightBottom::before,
+.rightBottom::after {
+  transform: rotate(-45deg);
+}

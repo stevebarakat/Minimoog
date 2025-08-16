@@ -1,0 +1,1 @@
+export { AudioParamOptimizationDemo } from "./AudioParamOptimizationDemo";

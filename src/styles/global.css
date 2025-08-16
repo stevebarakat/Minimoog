@@ -1,0 +1,74 @@
+@import url("./fonts.css");
+
+/********************  */
+
+/* Global styles */
+
+/********************  */
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+a {
+  color: var(--color-error-light);
+
+  &:hover {
+    color: var(--color-error);
+  }
+}
+
+/********************  */
+
+/* Utility classes */
+
+/********************  */
+
+.sr-only:not(:focus, :active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+/* Remove numbers from Radix Toast viewport <ol> */
+[role="region"][aria-label*="Notification"] > ol {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  list-style: none !important;
+}
+
+/* Dev Stats Toggle Button */
+.dev-stats-toggle {
+  padding: 8px 12px;
+  min-width: 100px;
+  background: #333;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+  color: #0f0;
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dev-stats-toggle:hover {
+  background: #0f0;
+  box-shadow: 0 0 10px rgb(0 255 0 / 30%);
+  color: #000;
+}
+
+.dev-stats-toggle:active {
+  transform: translateY(1px);
+}

@@ -1,0 +1,31 @@
+.title {
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.small {
+  height: calc(var(--font-size-lg) + var(--spacing-sm));
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+}
+
+.medium {
+  height: calc(var(--font-size-md) + var(--spacing-md));
+  font-size: var(--font-size-md);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.large {
+  height: calc(var(--font-size-lg) + var(--spacing-md));
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.xlarge {
+  font-size: var(--font-size-xl);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}

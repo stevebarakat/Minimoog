@@ -1,0 +1,447 @@
+INTRODUCTION
+
+Minimoog Model D is a self-contained monophonic analog synthesizer.
+The main components include:
+- Oscillator-1
+- Oscillator-2
+- Oscillator-3
+- Noise Generator
+- LFO Modulation Oscillator
+- Audio Mixer
+- Filter
+- Filter Contour (Envelope Generator)
+- Loudness Contour (Envelope Generator)
+- 44 full-size keys with Velocity and After Pressure
+- Pitch Bend and Modulation Wheels and Glide
+
+The front panel groups these elements and controls
+together by type—CONTROLLERS, OSCILLATOR
+BANK, MIXER, MODIFIERS, OUTPUT —in an
+intuitive and efficient design. All of these elements
+are controlled via single-function knobs and
+switches. And like its modular ancestors, Model D
+is constructed of independent synthesizer circuits
+connected by audio pathways and control lines. In
+place of patch cables, Model D uses color-coded
+rocker switches to establish connections between
+these circuit elements, or modules. Orange switches
+connect modulation sources to their destinations.
+Blue switches turn audio sources on and off. White
+switches turn performance features on and off.
+Black switches select between modulation sources.
+
+
+** Oscillator Bank **
+
+Oscillators are the primary source of sound in
+an analog synthesizer. The Minimoog Model D
+OSCILLATOR BANK contains three nearly
+identical Oscillators. This arrangement means
+each key can sound up to three oscillators—
+each with its own Waveform, Octave, and Pitch
+setting—creating a deep or complex sound. The
+Mixer then controls the balance between the
+Oscillators.
+
+TUNE
+The tuning of Oscillator–1 is determined by the master
+TUNE knob, located at the top of the CONTROLLERS panel.
+
+RANGE
+The RANGE knob selects the fundamental octave for
+each oscillator over a five-octave range. A sixth LO setting
+brings the pitch down even further, allowing the Oscillator
+to be used for other purposes, such as a modulation source.
+
+FREQUENCY
+Oscillator–2 and Oscillator–3 are each equipped with a
+FREQUENCY knob that can be used to detune the Oscillator
+from the pitch of Oscillator–1. Slight amounts of detuning
+can create a rich, chorusing effect. Tuning the Oscillators to
+an interval (Perfect Fifth above, Perfect Fourth below, etc.)
+provides a powerful voice for playing lead passages
+or creating chords.
+
+WAVEFORM
+Each of the three Oscillators provides six distinct Waveform
+shapes. Each waveform has a unique harmonic content that
+is based on the number and strength of harmonic overtones
+that it contains. These overtones are what impart a particular
+timbre to the Oscillator.
+
+
+WAVEFORM TYPES:
+1. TRIANGLE
+The Triangle wave has an extremely strong fundamental,
+yet contains only odd-numbered harmonics at very low
+levels. This makes the Triangle wave an ideal choice for
+creating soft, flute-like sounds that have a pure tone with
+little overtone activity.
+17 | Oscillator Bank
+Oscillator Bank
+
+2.1. TRIANGLE/SAWTOOTH (OSCILLATOR–1 AND
+OSCILLATOR–2 ONLY)
+This waveform is a hybrid of the Triangle and the Sawtooth
+waveforms. It contains more harmonic energy than the
+Triangle wave and adds in some of the even-numbered
+harmonics, but it is not nearly as brash as the Sawtooth wave.
+This hybrid waveform can add a little more edge than the
+Triangle wave alone, allowing it to cut through the mix with
+a bit more clarity.
+
+2.2. REVERSE SAWTOOTH (OSCILLATOR–3 ONLY)
+The Reverse Sawtooth has a sound similar to the regular
+Sawtooth wave; it is included here primarily as a waveform
+choice when using Oscillator–3 as a modulation source.
+
+3. SAWTOOTH
+The Sawtooth waveform is the most harmonically dense of
+the waveforms, containing all of the natural harmonics in
+relatively strong levels. In addition to creating thick, brassy
+sounds, the Sawtooth waveform lends itself to powerful lead
+and bass sounds as well.
+
+4. PULSE 1/SQUARE
+The harmonic content of a Pulse wave is based on the width
+of the top half of the wave in relation to the bottom half of
+the wave, also known as the duty-cycle. In the Square wave,
+the width of these two portions of the wave is equal. As with
+the Triangle wave, the Pulse 1/Square waveform contains only
+odd-numbered harmonics, but with greater energy. A Square
+wave provides a rich starting point for string-like sounds.
+
+5. PULSE 2/WIDE RECTANGLE
+As the Pulse wave changes from Square to Rectangular,
+even-numbered harmonics are introduced, but the overall
+harmonic mix is changed. The wide rectangle forms the basis
+for hollow, reedy sounds.
+
+6. PULSE 3 / NARROW RECTANGLE
+As the Pulse wave continues to get narrower, lower
+numbered harmonics—both odd and even—are emphasized.
+The resulting timbre takes on a more nasal tone.
+
+
+OSC. 3 CONTROL
+Oscillator–3 is unique. Normally, all Oscillators are controlled
+directly from the keyboard and Pitch wheel. Turning the
+orange rocker switch to OFF releases OSCILLATOR–3 from
+keyboard control, providing a greater range of frequency
+control and allowing it to run free as a modulation source.
+
+OSCILLATOR MODULATION
+When this switch is set to ON, the Oscillators can be
+modulated by Oscillator 3, Noise, Filter Contour, an External
+Mod Source, and the LFO (Low Frequency Oscillator) as
+defined by the CONTROLLERS settings and the Modulation
+Wheel position.
+
+
+
+
+** Controllers **
+
+Minimoog Model D contains a number of
+modulation sources that can affect the pitch of
+the Oscillators or the Cutoff Frequency of the
+Filter. In this regard, Minimoog Model D has
+been modified from its original design, and
+two rocker switches have been added to the
+CONTROLLERS section. Each switch selects between two modulation
+sources, while the Modulation Mix knob controls
+the balance between them. The Modulation
+Wheel (located on the Left-Hand Keyboard
+panel) controls the amount of modulation
+applied to the Oscillators and/or Filter.
+
+
+OSC. 3/FILTER EG SWITCH
+This switch to the bottom left side of the CONTROLLERS
+panel is used to choose the modulation source that
+will be assigned to the counterclockwise position of the
+MODULATION MIX knob. Originally, this modulation source
+was fixed to OSC. 3, but this updated reissue allows FILTER
+EG to be selected as well.
+In the FILTER EG position, the shape defined by the ATTACK
+TIME, DECAY TIME, and SUSTAIN LEVEL knobs of the Filter
+Contour are used as a modulation source. Filter EG is an ideal
+modulation source for creating analog brass and percussion
+sounds.
+
+NOISE/LFO SWITCH
+This switch to the bottom right side of the CONTROLLERS
+panel is used to choose the modulation source that will be
+assigned to the clockwise position of the MODULATION MIX
+knob. Originally, this modulation source was fixed to NOISE,
+but this updated reissue allows LFO to be selected as well.
+The NOISE switch located in the mixer selection determines
+what type of noise is used for modulation. When WHITE
+NOISE is selected, Pink Noise is actually the modulation
+source. When PINK NOISE is selected, Red Noise is actually
+the modulation source. In the LFO position, the additional
+LFO located on the Left-Hand Keyboard panel is used as a
+modulation source. This is ideal for pitch vibrato and trills
+when all three oscillators are in use.
+TIP: The Noise position can also be used to introduce an external
+modulation source via the MOD. SRC. (Modulation Source) jack on
+the Top Patch Panel. Inserting a standard 1/4” TS cable into this jack
+breaks the normalled connection, and any external control voltage
+can be used as a modulation source. Additionally, if a TRS to TS
+insert cable is used, the Modulation Noise signal output is made
+available on the ring/send portion of the cable.
+
+MODULATION MIX
+This knob sets the balance between the modulation sources
+selected using the OSC. 3/FILTER EG and NOISE/LFO
+switches. With the MODULATION MIX knob rotated fully
+counterclockwise, only the modulation source selected
+by the OSC. 3/FILTER EG switch is applied. With the
+MODULATION MIX knob rotated fully clockwise, only the
+modulation source selected by the NOISE/LFO switch is
+applied. In the center position, both selected modulation
+sources are applied equally
+
+
+
+** Left-Hand Keyboard Panel **
+
+GLIDE KNOB
+Located on the CONTROLLERS panel, the GLIDE knob
+determines the amount of time needed to transition from
+one note to the next.
+
+GLIDE SWITCH
+Glide allows the pitch to change in a smooth, continuous
+manner as you transition from note to note, rather than
+instantly stepping to the new pitch. This switch turns the
+Glide effect on and off.
+
+LFO RATE
+Located on the Left-Hand Keyboard panel, the LFO RATE
+knob sets the speed for the dedicated LFO (Low Frequency
+Oscillator) modulation source that has been added to
+Minimoog Model D. Normally, the LFO uses a Triangle wave.
+The LFO RATE knob is a push/pull knob allowing you to
+switch the LFO waveshape between triangle and square.
+Pull up slightly on the LFO RATE knob (until you hear a click)
+to switch the LFO shape to square and push down on the
+knob to return to triangle.
+
+DECAY SWITCH
+When the DECAY switch is ON, the last note played will
+continue to sound as it fades and the Filter Cutoff Frequency
+will lower at the rate set using the DECAY TIME knobs in the
+MODIFIERS section (Page 28).
+23 | Left-Hand Keyboard Panel
+Left-Hand Keyboard Panel
+
+MOD WHEEL
+The MODULATION Wheel provides a real-time performance
+controller that can apply the modulation sources selected
+using the OSC. 3/FILTER EG and NOISE/LFO switches, using
+the mix determined by the MODULATION MIX knob. The
+Oscillator Modulation switch between the CONTROLLERS
+panel and the OSCILLATOR BANK must be in the ON
+position to apply modulation to the Oscillator pitch. The
+FILTER MODULATION switch connecting the CONTROLLER
+panel and the Filter must be in the ON position to apply
+modulation to the Filter Cutoff Frequency. The zero position
+for the Mod Wheel is all the way down, as illustrated.
+
+PITCH WHEEL
+Located next to the MODULATION Wheel, the PITCH Wheel
+provides a real-time performance controller for bending the
+pitch of the Oscillators­ —in the way that a guitarist may bend
+a string or a sax player may bend the reed to alter the pitch
+of a note. The zero position for the PITCH Wheel is in the
+center, allowing the pitch to be bent either sharp or flat. The
+PITCH Wheel will go up a fifth in its maximum position and
+down a fifth in its minimum position.
+NOTE: The PITCH Wheel on Minimoog Model D is now spring-loaded
+and will return to center on release.
+
+
+
+** Mixer & Noise **
+
+The Mixer sets the levels of all five of the
+Minimoog Model D audio sources—3 Oscillators,
+Noise Generator, and External Audio Input.
+The combined output of the Mixer next
+passes through the Filter and finally arrives at
+the audio output. In addition to a dedicated
+Volume knob, each audio source also includes
+an On/Off switch. These switches allow any
+source to be quickly removed from the mix
+while preserving their Volume knob position,
+and can also be useful when setting the
+tuning of each Oscillator. The Oscillators are
+somewhat self-explanatory in regard to the
+Mixer. The External Input Volume and the Noise
+Generator require some extra explanation.
+
+EXTERNAL INPUT VOLUME
+An external audio source can be introduced to Minimoog
+Model D using the EXT. INPUT SIGNAL jack located on
+the Top Patch Panel. The Volume of the external signal is
+controlled using this knob.
+If no cable is connected to the EXT. INPUT SIGNAL jack,
+the main audio output of Minimoog Model D is attenuated
+slightly and then normalled to the External Input signal path.
+In this case, the Main Output signal is sent back to the input
+of the mixer. By increasing the External Input volume far
+enough, the Mixer can overload, introducing varying levels
+of overdrive or distortion. When this occurs, the Overload
+indicator lamp will light. In this case, the External Input
+Volume control is post Main Output volume. This means that
+the MAIN OUTPUT VOLUME knob will affect the amount of
+overload in addition to the EXTERNAL INPUT VOLUME knob.
+CRITICAL NOTE: With no cable connected to the EXT. INPUT
+SIGNAL jack, and the EXTERNAL INPUT VOLUME and MAIN
+OUTPUT VOLUME controls turned all the way up, it is possible to
+overload the mixer to the point that only one sound is heard and
+different pitches do not sound. This will not damage the instrument.
+
+NOISE
+Noise can be a very desirable sound source—either alone or
+mixed in with other sources. It can be used to create anything
+from a rocket launch to the subtle breath of a flute sound.
+In addition to the NOISE VOLUME knob, there is a switch for
+selecting either WHITE or PINK noise. White Noise contains
+equal energy per frequency. Pink Noise contains equal
+energy per octave of the audio spectrum, and is perceived
+as having more low-frequency components. If you think
+of White Noise as TV static, consider Pink Noise more as a
+waterfall pounding the rocks below.
+
+
+
+** Modifiers **
+
+The MODIFIERS Panel contains three separate
+sections: FILTER, FILTER CONTOUR, and
+LOUDNESS CONTOUR. The Filter selectively
+modifies the harmonic content of the sound.
+The Contour controls, also known as Envelope
+Generators, provide a control signal that
+changes over time. The FILTER CONTOUR
+controls the Filter’s Cutoff Frequency over time.
+The LOUDNESS CONTOUR controls the output
+volume level over time.
+
+FILTER CONTROLS:
+- CUTOFF FREQUENCY KNOB
+Minimoog Model D is equipped with a traditional Moog
+Ladder Filter with 10Hz-32kHz frequency response. This
+is a critical component to the thick, punchy, and powerful
+Minimoog Model D sound. When a note is played, harmonic
+content occurring above the filter Cutoff Frequency is
+reduced by the filter at a rate of 24dB/Octave. Harmonic
+content, or sound, below the filter Cutoff Frequency will
+freely pass unaffected.
+This is the foundation of subtractive analog synthesis.
+While the Cutoff Frequency can be set manually using the
+Cutoff Frequency knob, the value is also affected by the
+Keyboard Control switches, Filter Modulation switch, Filter
+Contour controls, and the Amount of Contour knob, which
+are discussed below. When closing the filter by lowering the
+Cutoff Frequency, the sound will be perceived as growing
+darker, while increasing the Filter’s Cutoff Frequency will
+create a progressively brighter sound.
+
+- EMPHASIS KNOB
+Often referred to as resonance, the Emphasis knob takes a
+portion of the output of the Filter and sends it back to the
+input of the Filter, creating a resonance peak that occurs at
+the Filter’s Cutoff Frequency. By turning the Emphasis control
+up and lowering the Filter Cutoff Frequency, the Filter can
+be coaxed into a self-oscillating state, acting as a sine-wave
+oscillator whose pitch can be controlled or played via the
+keyboard by using the Keyboard Control switches defined
+below.
+
+- FILTER MODULATION SWITCH
+When this switch is on, the Filter Cutoff Frequency can be
+modulated by the Noise Generator, Filter Contour, Oscillator
+3, and LFO (Low Frequency Oscillator). The modulation
+source and amount are defined by the CONTROLLERS
+settings and the Modulation Wheel position.
+
+- KEYBOARD CONTROL (1&2) SWITCHES
+The Keyboard Control switches allow the note played on
+the keyboard of Minimoog Model D to affect the Filter Cutoff
+Frequency, a process also known as key tracking. This allows
+notes played higher on the keyboard to have brighter sound.
+Keyboard Control 1 provides 1/3 of the total amount of
+available key tracking. Keyboard Control 2 provides 2/3 of
+the total amount of available key tracking. By using both
+switches together, the full amount of available key tracking
+(1/3 + 2/3 = 1) is applied, resulting in an octave change in filter
+cutoff per octave change played on the keyboard.
+
+-CONTOUR CONTROLS
+Contour controls provide a way to add
+articulation to the sound of the synthesizer.
+Minimoog Model D features two Contour
+controls, or Envelope Generators. One
+provides a signal to change the Filter
+Cutoff Frequency over time. The other
+provides a signal to change the Loudness
+over time. In both cases, the Contour
+contains three main controls: ATTACK
+TIME, DECAY TIME, and SUSTAIN LEVEL.
+
+
+FILTER CONTOUR:
+- ATTACK TIME KNOB
+The Attack Time knob sets the time required for the Filter
+Contour Generator to raise the Filter’s Cutoff Frequency
+from its manual setting to its maximum level (determined by
+the Amount of Contour knob) once a key is pressed or after
+a gate is received.
+
+- DECAY TIME KNOB
+The Decay Time knob sets the time required for the Filter
+Contour Generator to lower the Filter’s Cutoff Frequency
+from the level achieved by the Attack stage to the Sustain
+Level. The Decay Time knob can also control the amount of
+time required for the Filter to return to its manual setting
+after the key is released (or after an external gate signal
+ends). This second function of the Decay Time knob is
+activated by the DECAY switch on the Left-Hand Keyboard.
+
+- SUSTAIN LEVEL KNOB
+After the Attack and Decay stages have been completed,
+the Filter Contour Generator will hold the Filter’s Cutoff
+Frequency at the level determined by the Sustain Level knob
+for as long as a note is held.
+
+- AMOUNT OF CONTOUR KNOB
+The Amount of Contour knob determines how much of the
+control signal created by the Filter Contour will be applied to
+change the Filter Cutoff Frequency over time.
+
+
+LOUDNESS CONTOUR:
+- ATTACK TIME KNOB
+The Attack Time knob sets the time required for the
+Loudness Contour Generator to raise the Volume from zero
+to its maximum level once a key is pressed or after a gate
+is received.
+
+- DECAY TIME KNOB
+The Decay Time knob sets the time required for the
+Loudness Contour Generator to lower the Volume from its
+maximum level achieved by the Attack stage to the Sustain
+Level. The Decay Time knob can also control the amount
+of time required for the note to completely fade out after a
+key is released (or after an external gate signal ends). This
+second function of the Decay Time knob is activated by the
+DECAY switch, located on the Left-Hand Keyboard Panel.
+
+- SUSTAIN LEVEL KNOB
+After the Attack and Decay stages have been completed,
+the Loudness Contour Generator will maintain the Volume
+level determined by the Sustain Level knob for as long as a
+note is held.

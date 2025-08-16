@@ -1,0 +1,36 @@
+.savePresetButton {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-family: Futura, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.savePresetButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.savePresetButton:focus {
+  outline: 2px solid #007acc;
+  outline-offset: 2px;
+}
+
+.savePresetButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+  border-color: #666;
+  transform: translateY(-1px);
+}
+
+.savePresetButton:active:not(:disabled) {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  transform: translateY(0);
+}
