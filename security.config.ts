@@ -3,7 +3,58 @@
  * Implements comprehensive security measures against XSS, clickjacking, and other attacks
  */
 
-export const securityConfig = {
+// Type definitions for security configuration
+interface CSPDirectives {
+  "default-src": string[];
+  "script-src": string[];
+  "style-src": string[];
+  "font-src": string[];
+  "img-src": string[];
+  "connect-src": string[];
+  "media-src": string[];
+  "object-src": string[];
+  "base-uri": string[];
+  "form-action": string[];
+  "upgrade-insecure-requests": string[];
+}
+
+interface SecurityHeaders {
+  "X-XSS-Protection": string;
+  "X-Content-Type-Options": string;
+  "X-Frame-Options": string;
+  "Referrer-Policy": string;
+  "Permissions-Policy": string;
+  "Strict-Transport-Security": string;
+  "Cross-Origin-Opener-Policy": string;
+  "Cross-Origin-Resource-Policy": string;
+  "Cross-Origin-Embedder-Policy": string;
+  "Origin-Isolation": string;
+  "Clear-Site-Data": string;
+  "Feature-Policy": string;
+}
+
+interface TrustedTypesPolicy {
+  name: string;
+  createHTML: (string: string) => string;
+  createScript: (string: string) => string;
+  createScriptURL: (string: string) => string;
+}
+
+interface SecurityValidators {
+  sanitizeInput: (input: unknown) => unknown;
+  validateUrl: (url: string) => boolean;
+  validateFileType: (file: File, allowedTypes: string[]) => boolean;
+}
+
+interface SecurityConfig {
+  csp: CSPDirectives;
+  headers: SecurityHeaders;
+  trustedTypesPolicy: TrustedTypesPolicy;
+  generateNonce: () => string;
+  validators: SecurityValidators;
+}
+
+export const securityConfig: SecurityConfig = {
   // Content Security Policy (for meta tag - limited directives)
   csp: {
     "default-src": ["'self'"],
@@ -76,17 +127,17 @@ export const securityConfig = {
   // Trusted Types Policy
   trustedTypesPolicy: {
     name: "policy-1",
-    createHTML: (string) => {
+    createHTML: (string: string): string => {
       // Sanitize HTML strings
       const div = document.createElement("div");
       div.textContent = string;
       return div.innerHTML;
     },
-    createScript: (string) => {
+    createScript: (string: string): string => {
       // Sanitize script strings
       return string.replace(/[<>]/g, "");
     },
-    createScriptURL: (string) => {
+    createScriptURL: (string: string): string => {
       // Validate URLs
       try {
         const url = new URL(string);
@@ -101,7 +152,7 @@ export const securityConfig = {
   },
 
   // CSP Nonce Generator
-  generateNonce: () => {
+  generateNonce: (): string => {
     if (typeof crypto !== "undefined" && crypto.getRandomValues) {
       const array = new Uint8Array(16);
       crypto.getRandomValues(array);
@@ -119,7 +170,7 @@ export const securityConfig = {
   // Security Validation Functions
   validators: {
     // Validate input for XSS prevention
-    sanitizeInput: (input) => {
+    sanitizeInput: (input: unknown): unknown => {
       if (typeof input !== "string") return input;
       return input
         .replace(/&/g, "&amp;")
@@ -131,7 +182,7 @@ export const securityConfig = {
     },
 
     // Validate URLs
-    validateUrl: (url) => {
+    validateUrl: (url: string): boolean => {
       try {
         const parsed = new URL(url);
         return ["http:", "https:"].includes(parsed.protocol);
@@ -141,7 +192,7 @@ export const securityConfig = {
     },
 
     // Validate file uploads
-    validateFileType: (file, allowedTypes) => {
+    validateFileType: (file: File, allowedTypes: string[]): boolean => {
       return allowedTypes.includes(file.type);
     },
   },
