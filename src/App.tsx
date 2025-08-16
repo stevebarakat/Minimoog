@@ -17,6 +17,7 @@ const LazyCopySettings = lazy(() => import("./components/CopySettings"));
 import { DevStatsPanel } from "./components/DevStatsPanel";
 import { useSynthStore } from "./store/synthStore";
 import Onboarding from "./components/Onboarding";
+import DelayToggle from "./components/DelayToggle";
 import Delay from "./components/Delay";
 
 function App() {
@@ -41,15 +42,7 @@ function App() {
           <Row justify="center" gap="var(--spacing-md)">
             <LazyKeyboardInstructions />
             {isDevMode() && <SavePreset disabled={!isInitialized} />}
-            {isDevMode() && (
-              <button
-                onClick={() => setIsDelayOpen(!isDelayOpen)}
-                className="dev-stats-toggle"
-                title={isDelayOpen ? "Close Delay" : "Open Delay"}
-              >
-                {isDelayOpen ? "CLOSE DELAY" : "DELAY"}
-              </button>
-            )}
+            {isDevMode() && <DelayToggle onToggle={setIsDelayOpen} />}
             {isDevMode() && (
               <button
                 onClick={() => setIsDevStatsOpen(!isDevStatsOpen)}
