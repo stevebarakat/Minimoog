@@ -1,12 +1,17 @@
 .instructionsButton {
   padding: 8px 16px;
-  background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 16%) 0%,
+    hsl(0deg 0% 10%) 100%
+  );
   border: 1px solid hsl(0deg 0% 27%);
   border-radius: 6px;
   color: hsl(0deg 0% 100%);
   font-family: Futura, sans-serif;
   font-size: 14px;
   font-weight: 500;
+  line-height: 1.65;
   white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -14,13 +19,21 @@
 }
 
 .instructionsButton:hover {
-  background: linear-gradient(135deg, hsl(0deg 0% 23%) 0%, hsl(0deg 0% 16%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 23%) 0%,
+    hsl(0deg 0% 16%) 100%
+  );
   border-color: hsl(0deg 0% 40%);
   transform: translateY(-1px);
 }
 
 .instructionsButton:active {
-  background: linear-gradient(135deg, hsl(0deg 0% 10%) 0%, hsl(0deg 0% 4%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 10%) 0%,
+    hsl(0deg 0% 4%) 100%
+  );
   transform: translateY(0);
 }
 
@@ -30,7 +43,11 @@
 }
 
 .instructionsButton:disabled {
-  background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 16%) 0%,
+    hsl(0deg 0% 10%) 100%
+  );
   border-color: hsl(0deg 0% 33%);
   color: hsl(0deg 0% 60%);
   cursor: not-allowed;
@@ -39,7 +56,11 @@
 }
 
 .instructionsButton:disabled:hover {
-  background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 16%) 0%,
+    hsl(0deg 0% 10%) 100%
+  );
   border-color: hsl(0deg 0% 33%);
   transform: none;
 }
@@ -64,7 +85,11 @@
   max-width: 900px;
   max-height: 85vh;
   overflow: hidden;
-  background: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 16%) 0%,
+    hsl(0deg 0% 10%) 100%
+  );
   border: 1px solid hsl(0deg 0% 33%);
   border-radius: 12px;
   box-shadow: 0 20px 40px hsl(0deg 0% 0% / 50%);
@@ -78,7 +103,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  background: linear-gradient(135deg, hsl(0deg 0% 23%) 0%, hsl(0deg 0% 16%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 23%) 0%,
+    hsl(0deg 0% 16%) 100%
+  );
   border-bottom: 1px solid hsl(0deg 0% 33%);
 }
 
@@ -210,7 +239,11 @@
   padding: 3px 6px;
   min-width: 20px;
   min-width: 2rem;
-  background: linear-gradient(135deg, hsl(0deg 0% 27%) 0%, hsl(0deg 0% 20%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 27%) 0%,
+    hsl(0deg 0% 20%) 100%
+  );
   border: 1px solid hsl(0deg 0% 40%);
   border-radius: 4px;
   box-shadow: inset 0 1px 0 hsl(0deg 0% 100% / 10%);
@@ -259,7 +292,11 @@
   display: inline-block;
   padding: 4px 8px;
   min-width: 24px;
-  background: linear-gradient(135deg, hsl(0deg 0% 33%) 0%, hsl(0deg 0% 27%) 100%);
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 33%) 0%,
+    hsl(0deg 0% 27%) 100%
+  );
   border: 1px solid hsl(0deg 0% 47%);
   border-radius: 4px;
   box-shadow: inset 0 1px 0 hsl(0deg 0% 100% / 10%);

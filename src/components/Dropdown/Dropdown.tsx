@@ -134,9 +134,18 @@ function DropdownRoot({
 type DropdownTriggerProps = {
   children: ReactNode;
   className?: string;
+  width?: string;
+  textAlign?: "left" | "center" | "right";
+  justifyContent?: "flex-start" | "center" | "flex-end" | "space-between";
 };
 
-function DropdownTrigger({ children, className }: DropdownTriggerProps) {
+function DropdownTrigger({
+  children,
+  className,
+  width,
+  textAlign,
+  justifyContent,
+}: DropdownTriggerProps) {
   const { isOpen, onToggle, disabled, ariaLabel, ariaExpanded, ariaHasPopup } =
     useDropdownContext();
 
@@ -177,6 +186,9 @@ function DropdownTrigger({ children, className }: DropdownTriggerProps) {
         className={cn(styles.trigger, className)}
         style={{
           cursor: disabled ? "not-allowed" : "pointer",
+          width: width || undefined,
+          textAlign: textAlign || undefined,
+          justifyContent: justifyContent || undefined,
         }}
         onClick={onToggle}
         onKeyDown={handleKeyDown}
