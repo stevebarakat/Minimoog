@@ -10,6 +10,9 @@ import SavePreset from "./components/SavePreset";
 
 // Lazy load non-critical components
 const LazyPresetsDropdown = lazy(() => import("./components/PresetsDropdown"));
+const LazyKeyboardInstructions = lazy(
+  () => import("./components/KeyboardInstructions")
+);
 const LazyCopySettings = lazy(() => import("./components/CopySettings"));
 import { DevStatsPanel } from "./components/DevStatsPanel";
 import { useSynthStore } from "./store/synthStore";
@@ -32,6 +35,7 @@ function App() {
         />
         <Suspense fallback={<div>Loading controls...</div>}>
           <Row justify="center" gap="var(--spacing-md)">
+            <LazyKeyboardInstructions />
             {isDevMode() && <SavePreset disabled={!isInitialized} />}
             {isDevMode() && (
               <button
