@@ -1,12 +1,9 @@
-import { useState } from "react";
-import { Rnd } from "react-rnd";
 import Knob from "../Knob";
-import Title from "../Title";
 import Column from "../Column";
 import Row from "../Row";
 import { RockerSwitch } from "../RockerSwitch";
+import EffectsPanel from "../EffectsPanel";
 import { useSynthStore } from "@/store/synthStore";
-import styles from "./Delay.module.css";
 
 type DelayProps = {
   onClose: () => void;
@@ -15,56 +12,21 @@ type DelayProps = {
 export default function Delay({ onClose }: DelayProps) {
   const { delay, setDelay } = useSynthStore();
 
-  // Panel position and size state
-  const [panelPosition, setPanelPosition] = useState({
-    x: window.innerWidth - 320,
-    y: 100,
-  });
-
-  const handleMixChange = (value: number) => {
+  function handleMixChange(value: number) {
     setDelay({ mix: Number(value.toFixed(1)) });
-  };
+  }
 
-  const handleTimeChange = (value: number) => {
+  function handleTimeChange(value: number) {
     setDelay({ time: Number(value.toFixed(1)) });
-  };
+  }
 
-  const handleFeedbackChange = (value: number) => {
+  function handleFeedbackChange(value: number) {
     setDelay({ feedback: Number(value.toFixed(1)) });
-  };
+  }
 
   return (
-    <Rnd
-      className={styles.delayPanel}
-      position={panelPosition}
-      onDragStop={(_e, d) => setPanelPosition({ x: d.x, y: d.y })}
-      onResizeStop={(_e, _direction, _ref, _delta, position) => {
-        setPanelPosition(position);
-      }}
-      bounds="window"
-      enableResizing={{
-        top: true,
-        right: true,
-        bottom: true,
-        left: true,
-        topRight: true,
-        bottomRight: true,
-        bottomLeft: true,
-        topLeft: true,
-      }}
-    >
-      <div className={styles.header}>
-        <Title size="lg">Delay Effect</Title>
-        <button
-          className={styles.closeButton}
-          onClick={onClose}
-          aria-label="Close delay panel"
-        >
-          ×
-        </button>
-      </div>
-
-      <Column gap="var(--spacing-lg)" style={{ padding: "var(--spacing-md)" }}>
+    <EffectsPanel title="Delay Effect" onClose={onClose}>
+      <Column gap="var(--spacing-lg)">
         <Row justify="center" style={{ marginBottom: "var(--spacing-md)" }}>
           <RockerSwitch
             theme="blue"
@@ -108,14 +70,13 @@ export default function Delay({ onClose }: DelayProps) {
             size="medium"
             valueLabels={{
               0: "0",
-              2: "0.4",
-              4: "0.8",
-              6: "1.2",
-              8: "1.6",
-              10: "2",
+              2: "0.2",
+              4: "0.4",
+              6: "0.6",
+              8: "0.8",
+              10: "1.0",
             }}
           />
-
           <Knob
             type="radial"
             value={delay.feedback}
@@ -138,6 +99,6 @@ export default function Delay({ onClose }: DelayProps) {
           />
         </Row>
       </Column>
-    </Rnd>
+    </EffectsPanel>
   );
 }

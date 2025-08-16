@@ -246,7 +246,7 @@ export const SYNTH_CONFIG = {
   DELAY: {
     ENABLED: { DEFAULT: false },
     MIX: { MIN: 0, MAX: 10, DEFAULT: 5 }, // 0-10 mapped to 0-1
-    TIME: { MIN: 0, MAX: 10, DEFAULT: 7.5 }, // 0-10 mapped to 0-2000ms (1500ms default)
+    TIME: { MIN: 0, MAX: 10, DEFAULT: 2.5 }, // 0-10 mapped to 0-1000ms (250ms default)
     FEEDBACK: { MIN: 0, MAX: 10, DEFAULT: 3 }, // 0-10 mapped to 0-0.9
   },
 } as const;

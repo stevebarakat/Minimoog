@@ -1,4 +1,4 @@
-.delayPanel {
+.effectsPanel {
   z-index: 1000;
   padding: var(--spacing-lg);
   height: fit-content;
@@ -54,26 +54,30 @@
   color: var(--color-text);
 }
 
-.delayPanel .react-rnd-handle {
+.content {
+  padding: var(--spacing-md);
+}
+
+.effectsPanel .react-rnd-handle {
   cursor: move;
 }
 
-.delayPanel .react-rnd-handle:hover {
+.effectsPanel .react-rnd-handle:hover {
   background: hsl(0deg 0% 100% / 10%);
 }
 
-.delayPanel .react-rnd-handle.react-rnd-handle-se {
+.effectsPanel .react-rnd-handle.react-rnd-handle-se {
   cursor: se-resize;
 }
 
-.delayPanel .react-rnd-handle.react-rnd-handle-sw {
+.effectsPanel .react-rnd-handle.react-rnd-handle-sw {
   cursor: sw-resize;
 }
 
-.delayPanel .react-rnd-handle.react-rnd-handle-ne {
+.effectsPanel .react-rnd-handle.react-rnd-handle-ne {
   cursor: ne-resize;
 }
 
-.delayPanel .react-rnd-handle.react-rnd-handle-nw {
+.effectsPanel .react-rnd-handle.react-rnd-handle-nw {
   cursor: nw-resize;
 }

@@ -87,8 +87,8 @@ export function useAudioNodeParameters({
     if (!delayNode || !audioContext || !delay.enabled) return;
 
     try {
-      // Map delay time from 0-10 to 0-2000ms
-      const delayTimeMs = (delay.time / 10) * 2000;
+      // Map delay time from 0-10 to 0-1000ms
+      const delayTimeMs = (delay.time / 10) * 1000;
       delayNode.delayTime.setValueAtTime(
         delayTimeMs / 1000,
         audioContext.currentTime
