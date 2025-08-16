@@ -54,6 +54,10 @@ export type AudioNodes = {
   saturationNode: WaveShaperNode | null;
   filterNode: AudioWorkletNode | BiquadFilterNode | null;
   loudnessEnvelopeGain: GainNode | null;
+  delayNode: DelayNode | null;
+  delayMixGain: GainNode | null;
+  delayFeedbackGain: GainNode | null;
+  dryGain: GainNode | null;
   masterGain: GainNode | null;
   isMixerReady: boolean;
   filterEnvelope: FilterEnvelope | null;

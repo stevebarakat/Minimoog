@@ -17,6 +17,7 @@
   --color-info: hsl(210deg 100% 56%);
   --color-error: hsl(0deg 100% 33%);
   --color-success: hsl(141deg 71% 38%);
+  --color-delay: hsl(210deg 80% 50%);
 
   /* Typography */
   --font-primary: "Futura", sans-serif;

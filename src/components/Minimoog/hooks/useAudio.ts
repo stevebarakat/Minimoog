@@ -2,7 +2,6 @@ import { useAudioNodes } from "./useAudioNodes";
 import { useModulation } from "./useModulation";
 import { useEnvelopes } from "./useEnvelopes";
 import { useNoiseAndAux } from "./useNoiseAndAux";
-import { useOscillator3Control } from "./useOscillator3Control";
 import { useModulationManager } from "./useModulationManager";
 import { useOscillatorFactory } from "@/components/OscillatorBank/hooks/useOscillatorFactory";
 import { getOscillatorFactory } from "@/components/OscillatorBank/oscillatorRegistry";
@@ -17,6 +16,10 @@ import { useMidiHandling } from "@/components/Keyboard/hooks";
  * @returns {GainNode} returns.mixerNode - Main mixer node for combining oscillator outputs
  * @returns {null} returns.filterNode - Filter node (removed, returns null)
  * @returns {GainNode} returns.loudnessEnvelopeGain - Gain node controlled by loudness envelope
+ * @returns {DelayNode} returns.delayNode - Delay effect node between envelope and master gain
+ * @returns {GainNode} returns.delayMixGain - Delay mix control gain node
+ * @returns {GainNode} returns.delayFeedbackGain - Delay feedback control gain node
+ * @returns {GainNode} returns.dryGain - Dry signal gain node for dry/wet mixing
  * @returns {GainNode} returns.masterGain - Final output gain node
  * @returns {Object} returns.osc1 - Oscillator 1 instance with start/stop/update methods
  * @returns {Object} returns.osc2 - Oscillator 2 instance with start/stop/update methods
@@ -29,6 +32,10 @@ export function useAudio(audioContext: AudioContext | null) {
     saturationNode,
     filterNode,
     loudnessEnvelopeGain,
+    delayNode,
+    delayMixGain,
+    delayFeedbackGain,
+    dryGain,
     masterGain,
     filterEnvelope,
   } = useAudioNodes(audioContext);
@@ -64,9 +71,6 @@ export function useAudio(audioContext: AudioContext | null) {
     oscillatorModulation: modulationManager,
   });
 
-  // Set up OSC 3 control (free-running when released from keyboard control)
-  const osc3ControlHook = useOscillator3Control(audioContext, osc3, mixerNode);
-
   // Set up modulation system and connect it to the modulation manager
   useModulation({
     audioContext,
@@ -74,8 +78,6 @@ export function useAudio(audioContext: AudioContext | null) {
     osc2,
     osc3,
     filterNode,
-    osc3Control: osc3ControlHook,
-    modulationManager,
   });
 
   // Set up envelopes and get synth object
@@ -97,6 +99,10 @@ export function useAudio(audioContext: AudioContext | null) {
     saturationNode,
     filterNode,
     loudnessEnvelopeGain,
+    delayNode,
+    delayMixGain,
+    delayFeedbackGain,
+    dryGain,
     masterGain,
     osc1,
     osc2,

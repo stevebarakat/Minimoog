@@ -167,6 +167,18 @@ export type SynthState = {
     enabled: boolean;
     volume: VolumeRange;
   };
+
+  // ============================================================================
+  // DELAY EFFECT STATE
+  // ============================================================================
+  delay: {
+    enabled: boolean;
+    mix: VolumeRange; // 0-10 mapped to 0-1
+    time: FilterEnvelopeRange; // 0-10 mapped to 0-2000ms
+    feedback: VolumeRange; // 0-10 mapped to 0-0.9
+  };
+
+
 };
 
 export type SynthActions = {
@@ -255,6 +267,11 @@ export type SynthActions = {
   // ============================================================================
   setTunerOn: (on: boolean) => void;
   setAuxOutput: (value: Partial<{ enabled: boolean; volume: number }>) => void;
+
+  // ============================================================================
+  // DELAY EFFECT ACTIONS
+  // ============================================================================
+  setDelay: (value: Partial<{ enabled: boolean; mix: number; time: number; feedback: number }>) => void;
 
   // ============================================================================
   // PRESET ACTIONS

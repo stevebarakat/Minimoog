@@ -311,6 +311,35 @@ export function createSynthActions(
               : state.auxOutput.volume,
         },
       })),
+
+    /**
+     * Updates delay effect parameters (enabled, mix, time, feedback)
+     * @param {Object} value - Partial delay parameters
+     * @param {boolean} [value.enabled] - Whether delay is enabled
+     * @param {number} [value.mix] - Delay mix (0-10 mapped to 0-1)
+     * @param {number} [value.time] - Delay time (0-10 mapped to 0-2000ms)
+     * @param {number} [value.feedback] - Delay feedback (0-10 mapped to 0-0.9)
+     */
+    setDelay: (value) =>
+      set((state: SynthState) => ({
+        delay: {
+          ...state.delay,
+          ...value,
+          mix:
+            value.mix !== undefined
+              ? createVolumeRange(value.mix)
+              : state.delay.mix,
+          time:
+            value.time !== undefined
+              ? createFilterEnvelopeRange(value.time)
+              : state.delay.time,
+          feedback:
+            value.feedback !== undefined
+              ? createVolumeRange(value.feedback)
+              : state.delay.feedback,
+        },
+      })),
+
     loadPreset: (preset: Partial<SynthState>) => {
       set((state: SynthState) => {
         // Completely replace state with preset values, preserving only essential non-preset properties

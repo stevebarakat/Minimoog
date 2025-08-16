@@ -9,6 +9,10 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
     saturationNode,
     filterNode,
     loudnessEnvelopeGain,
+    delayNode,
+    delayMixGain,
+    delayFeedbackGain,
+    dryGain,
     masterGain,
     isMixerReady,
   } = useAudioNodeCreation(audioContext);
@@ -23,6 +27,10 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
   useAudioNodeParameters({
     audioContext,
     filterNode,
+    delayNode,
+    delayMixGain,
+    delayFeedbackGain,
+    dryGain,
     masterGain,
     mixerNode,
   });
@@ -32,6 +40,10 @@ export function useAudioNodes(audioContext: AudioContext | null): AudioNodes {
     saturationNode,
     filterNode,
     loudnessEnvelopeGain,
+    delayNode,
+    delayMixGain,
+    delayFeedbackGain,
+    dryGain,
     masterGain,
     isMixerReady,
     filterEnvelope,

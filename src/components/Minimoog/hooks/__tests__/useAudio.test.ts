@@ -7,6 +7,10 @@ vi.mock("../useAudioNodes", () => ({
     mixerNode: {},
     filterNode: {},
     loudnessEnvelopeGain: {},
+    delayNode: {},
+    delayMixGain: {},
+    delayFeedbackGain: {},
+    dryGain: {},
     masterGain: {},
   })),
 }));

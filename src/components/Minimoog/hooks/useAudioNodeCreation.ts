@@ -13,6 +13,10 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
   );
   const masterGainRef = useRef<GainNode | null>(null);
   const loudnessEnvelopeGainRef = useRef<GainNode | null>(null);
+  const delayNodeRef = useRef<DelayNode | null>(null);
+  const delayMixGainRef = useRef<GainNode | null>(null);
+  const delayFeedbackGainRef = useRef<GainNode | null>(null);
+  const dryGainRef = useRef<GainNode | null>(null);
 
   // Create and manage basic audio nodes (not filter)
   useEffect(() => {
@@ -38,6 +42,22 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
         releaseNode(loudnessEnvelopeGainRef.current);
         loudnessEnvelopeGainRef.current = null;
       }
+      if (delayNodeRef.current) {
+        delayNodeRef.current.disconnect();
+        delayNodeRef.current = null;
+      }
+      if (delayMixGainRef.current) {
+        releaseNode(delayMixGainRef.current);
+        delayMixGainRef.current = null;
+      }
+      if (delayFeedbackGainRef.current) {
+        releaseNode(delayFeedbackGainRef.current);
+        delayFeedbackGainRef.current = null;
+      }
+      if (dryGainRef.current) {
+        releaseNode(dryGainRef.current);
+        dryGainRef.current = null;
+      }
       setIsMixerReady(false);
       return;
     }
@@ -51,6 +71,30 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
       audioContext
     ) as GainNode;
 
+    // Create delay node with reasonable defaults
+    delayNodeRef.current = audioContext.createDelay(2.0); // Max 2 second delay
+    delayNodeRef.current.delayTime.setValueAtTime(
+      1.5,
+      audioContext.currentTime
+    ); // 1500ms default
+
+    // Create delay mix and feedback gain nodes
+    delayMixGainRef.current = getPooledNode("gain", audioContext) as GainNode;
+    delayMixGainRef.current.gain.setValueAtTime(0.5, audioContext.currentTime); // 50% mix default
+
+    delayFeedbackGainRef.current = getPooledNode(
+      "gain",
+      audioContext
+    ) as GainNode;
+    delayFeedbackGainRef.current.gain.setValueAtTime(
+      0.3,
+      audioContext.currentTime
+    ); // 30% feedback default
+
+    // Create dry gain node for dry signal path
+    dryGainRef.current = getPooledNode("gain", audioContext) as GainNode;
+    dryGainRef.current.gain.setValueAtTime(0.5, audioContext.currentTime); // 50% dry default
+
     // Initialize loudness envelope gain to 0 (silent) so envelope can control volume
     if (loudnessEnvelopeGainRef.current && audioContext) {
       loudnessEnvelopeGainRef.current.gain.setValueAtTime(
@@ -59,9 +103,31 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
       );
     }
 
-    // Set up the basic audio chain: loudness envelope -> master gain -> destination
-    if (masterGainRef.current && loudnessEnvelopeGainRef.current) {
-      loudnessEnvelopeGainRef.current.connect(masterGainRef.current);
+    // Set up the basic audio chain: loudness envelope -> delay -> master gain -> destination
+    // Also set up delay feedback: delay -> feedback gain -> delay
+    if (
+      masterGainRef.current &&
+      delayNodeRef.current &&
+      loudnessEnvelopeGainRef.current &&
+      delayMixGainRef.current &&
+      delayFeedbackGainRef.current &&
+      dryGainRef.current
+    ) {
+      // Split signal: loudness envelope -> dry gain + delay mix gain
+      loudnessEnvelopeGainRef.current.connect(dryGainRef.current);
+      loudnessEnvelopeGainRef.current.connect(delayMixGainRef.current);
+
+      // Wet path: delay mix gain -> delay -> master gain
+      delayMixGainRef.current.connect(delayNodeRef.current);
+      delayNodeRef.current.connect(masterGainRef.current);
+
+      // Dry path: dry gain -> master gain
+      dryGainRef.current.connect(masterGainRef.current);
+
+      // Feedback path: delay -> feedback gain -> delay
+      delayNodeRef.current.connect(delayFeedbackGainRef.current);
+      delayFeedbackGainRef.current.connect(delayNodeRef.current);
+
       masterGainRef.current.connect(audioContext.destination);
       setIsMixerReady(true);
     }
@@ -79,6 +145,22 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
       if (loudnessEnvelopeGainRef.current) {
         releaseNode(loudnessEnvelopeGainRef.current);
         loudnessEnvelopeGainRef.current = null;
+      }
+      if (delayNodeRef.current) {
+        delayNodeRef.current.disconnect();
+        delayNodeRef.current = null;
+      }
+      if (delayMixGainRef.current) {
+        releaseNode(delayMixGainRef.current);
+        delayMixGainRef.current = null;
+      }
+      if (delayFeedbackGainRef.current) {
+        releaseNode(delayFeedbackGainRef.current);
+        delayFeedbackGainRef.current = null;
+      }
+      if (dryGainRef.current) {
+        releaseNode(dryGainRef.current);
+        dryGainRef.current = null;
       }
       setIsMixerReady(false);
     };
@@ -179,11 +261,17 @@ export function useAudioNodeCreation(audioContext: AudioContext | null) {
     };
   }, [audioContext]);
 
+
+
   return {
     mixerNode: mixerNodeRef.current,
     saturationNode: saturationNodeRef.current,
     filterNode: filterNodeRef.current,
     loudnessEnvelopeGain: loudnessEnvelopeGainRef.current,
+    delayNode: delayNodeRef.current,
+    delayMixGain: delayMixGainRef.current,
+    delayFeedbackGain: delayFeedbackGainRef.current,
+    dryGain: dryGainRef.current,
     masterGain: masterGainRef.current,
     isMixerReady,
   };

@@ -8,6 +8,12 @@ vi.mock("@/store/synthStore", () => ({
     filterEmphasis: 5,
     mainVolume: 10,
     isMainActive: true,
+    delay: {
+      enabled: false,
+      mix: 5,
+      time: 7.5,
+      feedback: 3,
+    },
   })),
 }));
 vi.mock("../utils/synthUtils", () => ({
@@ -53,6 +59,11 @@ describe("useAudioNodes", () => {
         connect: vi.fn(),
         disconnect: vi.fn(),
       })),
+      createDelay: vi.fn(() => ({
+        delayTime: { value: 0.3, setValueAtTime: vi.fn() },
+        connect: vi.fn(),
+        disconnect: vi.fn(),
+      })),
       createOscillator: vi.fn(),
       createAnalyser: vi.fn(),
       currentTime: 0,
@@ -73,6 +84,10 @@ describe("useAudioNodes", () => {
     expect(result.current).toHaveProperty("mixerNode");
     expect(result.current).toHaveProperty("filterNode");
     expect(result.current).toHaveProperty("loudnessEnvelopeGain");
+    expect(result.current).toHaveProperty("delayNode");
+    expect(result.current).toHaveProperty("delayMixGain");
+    expect(result.current).toHaveProperty("delayFeedbackGain");
+    expect(result.current).toHaveProperty("dryGain");
     expect(result.current).toHaveProperty("masterGain");
     expect(result.current).toHaveProperty("isMixerReady");
   });

@@ -5,16 +5,24 @@ import { useKeyboardControl } from "./useFilterTracking";
 
 type AudioNodeParametersProps = {
   audioContext: AudioContext | null;
+  filterNode: AudioWorkletNode | BiquadFilterNode | null;
+  delayNode: DelayNode | null;
+  delayMixGain: GainNode | null;
+  delayFeedbackGain: GainNode | null;
+  dryGain: GainNode | null;
   masterGain: GainNode | null;
   mixerNode: GainNode | null;
-  filterNode: AudioWorkletNode | BiquadFilterNode | null;
 };
 
 export function useAudioNodeParameters({
   audioContext,
+  filterNode,
+  delayNode,
+  delayMixGain,
+  delayFeedbackGain,
+  dryGain,
   masterGain,
   mixerNode,
-  filterNode,
 }: AudioNodeParametersProps) {
   const {
     mainVolume,
@@ -23,6 +31,7 @@ export function useAudioNodeParameters({
     filterEmphasis,
     activeKeys,
     filterModulationOn,
+    delay,
   } = useSynthStore();
 
   // Get keyboard control offset for filter tracking
@@ -72,6 +81,66 @@ export function useAudioNodeParameters({
       });
     }
   }, [isMainActive, audioContext, mixerNode]);
+
+  // Set delay parameters
+  useEffect(() => {
+    if (!delayNode || !audioContext || !delay.enabled) return;
+
+    try {
+      // Map delay time from 0-10 to 0-2000ms
+      const delayTimeMs = (delay.time / 10) * 2000;
+      delayNode.delayTime.setValueAtTime(
+        delayTimeMs / 1000,
+        audioContext.currentTime
+      );
+    } catch (error) {
+      console.error("Error setting delay time:", error, {
+        delayTime: delay.time,
+        currentTime: audioContext.currentTime,
+      });
+    }
+  }, [delay.time, delay.enabled, audioContext, delayNode]);
+
+  useEffect(() => {
+    if (!delayMixGain || !audioContext) return;
+
+    try {
+      // Map mix from 0-10 to 0-1, or 0 if delay is disabled
+      const mixGain = delay.enabled ? delay.mix / 10 : 0;
+      delayMixGain.gain.setValueAtTime(mixGain, audioContext.currentTime);
+
+      // When disabled, also set feedback to 0 to stop the feedback loop
+      if (delayFeedbackGain) {
+        const feedbackGain = delay.enabled ? (delay.feedback / 10) * 0.9 : 0;
+        delayFeedbackGain.gain.setValueAtTime(
+          feedbackGain,
+          audioContext.currentTime
+        );
+      }
+    } catch (error) {
+      console.error("Error setting delay mix:", error, {
+        delayMix: delay.mix,
+        currentTime: audioContext.currentTime,
+      });
+    }
+  }, [delay.mix, delay.enabled, audioContext, delayMixGain, delayFeedbackGain]);
+
+  useEffect(() => {
+    if (!dryGain || !audioContext) return;
+
+    try {
+      // Map mix from 0-10 to 1-0 (inverse of wet mix for dry signal)
+      // When mix is 0, dry should be 100%. When mix is 10, dry should be 0%
+      // When delay is disabled, dry should be 100%
+      const dryGainValue = delay.enabled ? 1 - delay.mix / 10 : 1;
+      dryGain.gain.setValueAtTime(dryGainValue, audioContext.currentTime);
+    } catch (error) {
+      console.error("Error setting dry gain:", error, {
+        delayMix: delay.mix,
+        currentTime: audioContext.currentTime,
+      });
+    }
+  }, [delay.mix, delay.enabled, audioContext, dryGain]);
 
   // Set filter parameters with keyboard control
   useEffect(() => {

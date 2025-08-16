@@ -239,6 +239,16 @@ export const SYNTH_CONFIG = {
     NOISE_LFO_SWITCH: true,
     TUNER_ON: false,
   },
+
+  // ============================================================================
+  // DELAY EFFECT CONFIGURATION
+  // ============================================================================
+  DELAY: {
+    ENABLED: { DEFAULT: false },
+    MIX: { MIN: 0, MAX: 10, DEFAULT: 5 }, // 0-10 mapped to 0-1
+    TIME: { MIN: 0, MAX: 10, DEFAULT: 7.5 }, // 0-10 mapped to 0-2000ms (1500ms default)
+    FEEDBACK: { MIN: 0, MAX: 10, DEFAULT: 3 }, // 0-10 mapped to 0-0.9
+  },
 } as const;
 
 // ============================================================================
@@ -360,6 +370,15 @@ export const DEFAULT_SYNTH_STATE = {
     enabled: false,
     volume: createVolumeRange(SYNTH_CONFIG.VOLUME.AUX.DEFAULT),
   },
+
+  // Delay effect state
+  delay: {
+    enabled: SYNTH_CONFIG.DELAY.ENABLED.DEFAULT,
+    mix: createVolumeRange(SYNTH_CONFIG.DELAY.MIX.DEFAULT),
+    time: createFilterEnvelopeRange(SYNTH_CONFIG.DELAY.TIME.DEFAULT),
+    feedback: createVolumeRange(SYNTH_CONFIG.DELAY.FEEDBACK.DEFAULT),
+  },
+
   tunerOn: SYNTH_CONFIG.SWITCHES.TUNER_ON,
   decaySwitchOn: SYNTH_CONFIG.SWITCHES.DECAY_SWITCH_ON,
 } as const;
