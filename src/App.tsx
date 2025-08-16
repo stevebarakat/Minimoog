@@ -14,11 +14,11 @@ const LazyKeyboardInstructions = lazy(
   () => import("./components/KeyboardInstructions")
 );
 const LazyCopySettings = lazy(() => import("./components/CopySettings"));
-const LazyDelayToggle = lazy(() => import("./components/DelayToggle"));
-const LazyDelay = lazy(() => import("./components/Delay"));
 import { DevStatsPanel } from "./components/DevStatsPanel";
 import { useSynthStore } from "./store/synthStore";
 import Onboarding from "./components/Onboarding";
+import DelayToggle from "./components/DelayToggle";
+import Delay from "./components/Delay";
 
 function App() {
   // Audio context management
@@ -42,7 +42,7 @@ function App() {
           <Row justify="center" gap="var(--spacing-md)">
             <LazyKeyboardInstructions />
             {isDevMode() && <SavePreset disabled={!isInitialized} />}
-            {isDevMode() && <LazyDelayToggle onToggle={setIsDelayOpen} />}
+            {isDevMode() && <DelayToggle onToggle={setIsDelayOpen} />}
             {isDevMode() && (
               <button
                 onClick={() => setIsDevStatsOpen(!isDevStatsOpen)}
@@ -64,7 +64,7 @@ function App() {
             onClose={() => setIsDevStatsOpen(false)}
           />
         )}
-        {isDelayOpen && <LazyDelay onClose={() => setIsDelayOpen(false)} />}
+        {isDelayOpen && <Delay onClose={() => setIsDelayOpen(false)} />}
         <Onboarding />
       </ErrorBoundary>
     </ToastProvider>
