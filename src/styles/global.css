@@ -65,7 +65,7 @@ a {
 
 .dev-stats-toggle:hover {
   background: #0f0;
-  box-shadow: 0 0 10px rgb(0 255 0 / 30%);
+  box-shadow: 0 0 10px hsl(120 100% 50% / 30%);
   color: #000;
 }
 

@@ -48,7 +48,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: hsl(0 0% 0% / 80%);
   backdrop-filter: blur(4px);
   z-index: 10000;
   animation: fadeIn 0.2s ease-out;
@@ -66,7 +66,7 @@
   background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
   border: 1px solid #555;
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 40px hsl(0 0% 0% / 50%);
   z-index: 10001;
   animation: slideIn 0.3s ease-out;
   overflow: hidden;
@@ -108,7 +108,7 @@
 }
 
 .closeButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: hsl(0 0% 100% / 10%);
   border-color: #888;
   color: #fff;
 }
@@ -133,17 +133,17 @@
 }
 
 .body::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: hsl(0 0% 100% / 5%);
   border-radius: 3px;
 }
 
 .body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: hsl(0 0% 100% / 20%);
   border-radius: 3px;
 }
 
 .body::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: hsl(0 0% 100% / 30%);
 }
 
 /* Sections */
@@ -218,7 +218,7 @@
   font-weight: 600;
   min-width: 20px;
   text-align: center;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 10%);
   min-width: 2rem;
 }
 
@@ -268,7 +268,7 @@
   font-weight: 600;
   min-width: 24px;
   text-align: center;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 10%);
 }
 
 .description {

@@ -226,7 +226,7 @@
   z-index: 1000;
   margin: -8px;
   padding: 8px;
-  background: rgb(0 0 0 / 10%);
+  background: hsl(0 0% 0% / 10%);
   border-radius: 12px;
   transform: scale(2);
   transition: transform 0.2s ease-out;
@@ -344,8 +344,8 @@
 }
 
 .knobPulled {
-  box-shadow: 0 4px 8px hsl(0deg 0% 0% / 40%), 0 -1px 2px hsl(0deg 0% 100% / 30%),
-    0 0 0 1px hsl(0deg 0% 100% / 10%);
+  box-shadow: 0 4px 8px hsl(0deg 0% 0% / 40%),
+    0 -1px 2px hsl(0deg 0% 100% / 30%), 0 0 0 1px hsl(0deg 0% 100% / 10%);
   transform: translateY(-4px) scale(1.02);
   transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.15s ease,
     box-shadow 0.15s ease;

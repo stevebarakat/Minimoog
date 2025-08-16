@@ -9,7 +9,7 @@
   background: var(--color-off-black);
   border: 2px solid var(--color-black, #000);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 50%);
+  box-shadow: 0 4px 12px hsl(0 0% 0% / 50%);
   font-family: var(--font-primary);
   animation: fade-in 0.3s ease-out;
   pointer-events: auto;

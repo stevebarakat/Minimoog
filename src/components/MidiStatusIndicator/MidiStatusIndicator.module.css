@@ -7,7 +7,7 @@
   max-width: 320px;
   background: #fa0;
   border-radius: 4px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 30%);
   color: white;
   font-size: 12px;
 }

@@ -128,7 +128,7 @@
   height: 18px;
   background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+  box-shadow: 0 2px 4px hsl(0 0% 0% / 20%);
   cursor: pointer;
   appearance: none;
 }
@@ -139,7 +139,7 @@
   background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   border: none;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+  box-shadow: 0 2px 4px hsl(0 0% 0% / 20%);
   cursor: pointer;
 }
 
@@ -152,7 +152,7 @@
 .control span {
   padding: 4px 8px;
   min-width: 60px;
-  background: rgb(0 0 0 / 20%);
+  background: hsl(0 0% 0% / 20%);
   border-radius: 4px;
   color: #a0aec0;
   font-family: "Courier New", monospace;

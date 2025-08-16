@@ -2,10 +2,10 @@
   z-index: 9999;
   padding: 8px 12px;
   overflow: hidden auto; /* Hide horizontal scrollbar */ /* Add vertical scrollbar when needed */
-  background: rgb(0 0 0 / 80%);
+  background: hsl(0 0% 0% / 80%);
   border: 2px solid #0f0; /* More visible border */
   border-radius: 6px; /* Slightly larger radius */
-  box-shadow: 0 0 15px rgb(0 255 0 / 20%); /* Enhanced glow */
+  box-shadow: 0 0 15px hsl(120 100% 50% / 20%); /* Enhanced glow */
   color: #0f0;
   font-family: "Courier New", monospace;
   font-size: 12px;
@@ -13,7 +13,7 @@
   backdrop-filter: blur(4px);
   user-select: none; /* Prevent text selection while dragging */
   scrollbar-width: thin;
-  scrollbar-color: #0f0 rgb(0 0 0 / 30%);
+  scrollbar-color: #0f0 hsl(0 0% 0% / 30%);
 }
 
 .statsTitle {
@@ -44,12 +44,12 @@
 }
 
 .closeButton:hover {
-  background: rgb(0 255 0 / 20%);
+  background: hsl(120 100% 50% / 20%);
   color: #fff;
 }
 
 .closeButton:active {
-  background: rgb(0 255 0 / 40%);
+  background: hsl(120 100% 50% / 40%);
 }
 
 .statRow {
@@ -103,7 +103,7 @@
 }
 
 .statsPanel::-webkit-scrollbar-track {
-  background: rgb(0 0 0 / 30%);
+  background: hsl(0 0% 0% / 30%);
   border-radius: 4px;
 }
 
@@ -119,13 +119,13 @@
 
 /* Resize handle styling */
 .statsPanel .react-rnd-handle {
-  background: rgb(0 255 0 / 20%);
+  background: hsl(120 100% 50% / 20%);
   border: 1px solid #0f0;
   border-radius: 2px;
 }
 
 .statsPanel .react-rnd-handle:hover {
-  background: rgb(0 255 0 / 40%);
+  background: hsl(120 100% 50% / 40%);
 }
 
 /* Corner resize handles */
