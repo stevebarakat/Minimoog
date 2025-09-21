@@ -1,4 +1,5 @@
 import { StateCreator } from "zustand";
+import { trackEvent } from "@/utils";
 import {
   SynthState,
   SynthActions,
@@ -102,7 +103,10 @@ export function createSynthActions(
     setIsMainActive: (value) =>
       setWithSave(set, () => ({ isMainActive: value })),
 
-    setFilterType: (type) => setWithSave(set, () => ({ filterType: type })),
+    setFilterType: (type) => {
+      trackEvent("filter_type_changed", { filter_type: type });
+      setWithSave(set, () => ({ filterType: type }));
+    },
 
     setFilterEnvelope: (env) =>
       setWithSave(set, (state: SynthState) => ({
@@ -120,10 +124,12 @@ export function createSynthActions(
             : state.filterSustain,
       })),
 
-    setFilterCutoff: (value) =>
+    setFilterCutoff: (value) => {
+      trackEvent("filter_frequency_adjusted", { frequency_value: value });
       setWithSave(set, () => ({
         filterCutoff: createFilterCutoffRange(value),
-      })),
+      }));
+    },
 
     setFilterEmphasis: (value) =>
       setWithSave(set, () => ({
@@ -151,8 +157,10 @@ export function createSynthActions(
     setLfoWaveform: (waveform: "triangle" | "square") =>
       setWithSave(set, () => ({ lfoWaveform: waveform })),
 
-    setLfoRate: (rate: number) =>
-      setWithSave(set, () => ({ lfoRate: createLfoRateRange(rate) })),
+    setLfoRate: (rate: number) => {
+      trackEvent("lfo_rate_changed", { lfo_rate: rate });
+      setWithSave(set, () => ({ lfoRate: createLfoRateRange(rate) }));
+    },
 
     setModMix: (value: number) =>
       setWithSave(set, () => ({ modMix: createModMixRange(value) })),

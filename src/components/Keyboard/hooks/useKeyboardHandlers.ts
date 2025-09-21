@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import type { UseKeyboardHandlersProps } from "./types";
+import { trackEvent } from "@/utils";
 
 export function useKeyboardHandlers({
   isMouseDown,
@@ -28,8 +29,10 @@ export function useKeyboardHandlers({
         return updatedKeys;
       });
 
-      // Always trigger the new note - the synth should handle the transition
-      // Small delay to ensure smooth transition when switching notes
+      trackEvent("keyboard_used", {
+        key_pressed: note,
+      });
+
       setTimeout(() => {
         synth.triggerAttack(note);
         onKeyDown(note);

@@ -12,3 +12,6 @@ export * from "./data";
 
 // Core utilities
 export * from "./core";
+
+// Analytics utilities
+export * from "./analytics";

@@ -3,6 +3,7 @@ import { useSynthStore } from "@/store/synthStore";
 import { presets, Preset, getCategories } from "@/data/presets";
 import { convertPresetToStoreFormat } from "@/utils/data";
 import { logger } from "@/utils/core";
+import { trackEvent } from "@/utils";
 import { useToast } from "@/components/Toast/hooks/useToast";
 
 export function usePresetsDropdown() {
@@ -61,9 +62,13 @@ export function usePresetsDropdown() {
     try {
       const presetParameters = convertPresetToStoreFormat(preset);
       loadPreset(presetParameters);
-      setLastLoadedPresetId(preset.id); // Track the preset ID instead of name
+      setLastLoadedPresetId(preset.id);
 
-      // Save to localStorage for persistence
+      trackEvent("preset_selected", {
+        preset_name: preset.name,
+        preset_category: preset.category,
+      });
+
       if (typeof window !== "undefined") {
         localStorage.setItem("lastLoadedPresetId", preset.id);
       }
