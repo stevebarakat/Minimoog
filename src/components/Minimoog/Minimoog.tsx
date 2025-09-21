@@ -76,7 +76,9 @@ const Minimoog = memo(function Minimoog() {
               activeKeys={safeActiveKeys}
               octaveRange={{ min: 3, max: 5 }}
               extraKeys={8}
-              onKeyDown={setActiveKeys}
+              onKeyDown={(note) => {
+                setActiveKeys(note);
+              }}
               onKeyUp={(note) => {
                 // Only set activeKeys to null if this was the currently active note
                 // and there are no other keys still pressed

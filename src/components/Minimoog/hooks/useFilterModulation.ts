@@ -22,7 +22,7 @@ export function useFilterModulation({
 
   // Get keyboard control state at the hook level for proper reactivity
   const activeKeys = useSynthStore((state) => state.activeKeys);
-  
+
   // Use the shared keyboard control calculation
   const keyboardControlOffset = useKeyboardControl(activeKeys);
 
@@ -77,10 +77,11 @@ export function useFilterModulation({
           isActive: true,
           currentValue: 0,
           startTime: audioContext.currentTime,
-          attackTime: data.attackTime,
-          decayTime: data.decayTime,
-          sustainLevel: data.sustainLevel,
-          peakValue: data.peakCutoff - data.startCutoff,
+          attackTime: data.envelopeAttack.attackTime,
+          decayTime: data.envelopeAttack.decayTime,
+          sustainLevel: data.envelopeAttack.sustainLevel,
+          peakValue:
+            data.envelopeAttack.peakCutoff - data.envelopeAttack.startCutoff,
         };
       } else if (data.envelopeRelease && data.forModulation) {
         // Envelope release started
@@ -88,6 +89,8 @@ export function useFilterModulation({
       }
     };
 
+    // Remove any existing listeners first to prevent duplicates
+    filterNode.port.removeEventListener("message", handleEnvelopeMessage);
     filterNode.port.addEventListener("message", handleEnvelopeMessage);
 
     // Start modulation immediately
@@ -179,10 +182,10 @@ export function useFilterModulation({
               envelopeValue = envelope.peakValue * envelope.sustainLevel;
             }
 
-            // Limit envelope influence to prevent extreme modulation ranges
-            const rawInfluence = 1 + envelopeValue / baseCutoff;
-            envelopeInfluence = Math.min(2, Math.max(0.5, rawInfluence));
-          }
+                 // Limit envelope influence to prevent extreme modulation ranges
+                 const rawInfluence = 1 + envelopeValue / baseCutoff;
+                 envelopeInfluence = Math.min(2, Math.max(0.5, rawInfluence));
+               }
 
           // AUTHENTIC MINIMOOG: Integrate Filter Contour directly into modulation
           // When contour is active, it influences the modulation depth

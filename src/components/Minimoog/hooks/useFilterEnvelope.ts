@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import {
   mapContourAmount,
@@ -29,12 +29,20 @@ export function useFilterEnvelope({
   // Get keyboard control offset for filter tracking
   const keyboardControlOffset = useKeyboardControl(activeKeys);
 
-  const filterEnvelope = useMemo(() => {
-    return {
-      triggerAttack: () => {
-        if (!audioContext || !filterNode) {
-          return;
-        }
+  // Track pending envelope triggers when filter node isn't ready
+  const pendingTriggerRef = useRef<boolean>(false);
+
+         const filterEnvelope = useMemo(() => {
+           return {
+             triggerAttack: () => {
+               if (!audioContext) {
+                 return;
+               }
+
+               if (!filterNode) {
+                 pendingTriggerRef.current = true;
+                 return;
+               }
 
         // Only trigger envelope if contour amount is greater than 0
         if (filterContourAmount <= 0) {
@@ -59,16 +67,21 @@ export function useFilterEnvelope({
         if (filterNode instanceof AudioWorkletNode) {
           if (filterModulationOn) {
             // When modulation is ON, send envelope data to the modulation system
-            filterNode.port.postMessage({
-              envelopeAttack: {
-                startCutoff: baseCutoff,
-                peakCutoff,
-                attackTime,
-                decayTime,
-                sustainLevel,
+            // Wait longer to ensure modulation system is fully ready
+            setTimeout(() => {
+              const message = {
+                envelopeAttack: {
+                  startCutoff: baseCutoff,
+                  peakCutoff,
+                  attackTime,
+                  decayTime,
+                  sustainLevel,
+                },
                 forModulation: true,
-              },
-            });
+              };
+              
+              filterNode.port.postMessage(message);
+            }, 200); // Longer delay to ensure modulation system is ready
           } else {
             // Normal envelope operation when modulation is OFF
             filterNode.port.postMessage({
@@ -109,8 +122,8 @@ export function useFilterEnvelope({
               envelopeRelease: {
                 targetCutoff: baseCutoff,
                 releaseTime,
-                forModulation: true,
               },
+              forModulation: true,
             });
           } else {
             // Normal envelope operation when modulation is OFF
@@ -135,6 +148,14 @@ export function useFilterEnvelope({
     keyboardControlOffset,
     filterModulationOn,
   ]);
+
+  // Handle pending envelope triggers when filter node becomes available
+  useEffect(() => {
+    if (filterNode && pendingTriggerRef.current && filterModulationOn) {
+      pendingTriggerRef.current = false;
+      filterEnvelope.triggerAttack();
+    }
+  }, [filterNode, filterModulationOn, filterEnvelope]);
 
   return filterEnvelope;
 }
