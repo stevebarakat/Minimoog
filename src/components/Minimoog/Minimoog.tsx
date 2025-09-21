@@ -77,7 +77,13 @@ const Minimoog = memo(function Minimoog() {
               octaveRange={{ min: 3, max: 5 }}
               extraKeys={8}
               onKeyDown={setActiveKeys}
-              onKeyUp={() => setActiveKeys(null)}
+              onKeyUp={(note) => {
+                // Only set activeKeys to null if this was the currently active note
+                // and there are no other keys still pressed
+                if (note === safeActiveKeys) {
+                  setActiveKeys(null);
+                }
+              }}
               synth={synthObj}
               view={view}
             />
