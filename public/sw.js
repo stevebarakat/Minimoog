@@ -76,6 +76,11 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // Skip external requests (Google Analytics, etc.) - let them pass through
+  if (url.origin !== location.origin) {
+    return;
+  }
+
   // Handle different types of requests
   if (url.pathname.endsWith(".wasm")) {
     // WASM files - cache first, then network
