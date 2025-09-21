@@ -91,7 +91,7 @@ This project recreates the iconic Minimoog Model D synthesizer in the browser us
 - **Installable**: Download as a native app on desktop and mobile devices
 - **Offline Functionality**: Works completely offline once installed
 - **App Shortcuts**: Quick access to common functions from device home screen
-- **Native Performance**: Standalone app experience without browser chrome
+- **Native Performance**: Standalone app experience without browser
 - **Automatic Updates**: Service worker ensures you always have the latest version
 
 ---
