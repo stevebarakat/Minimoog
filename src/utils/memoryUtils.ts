@@ -103,8 +103,14 @@ function triggerAggressiveCleanup(): void {
 /**
  * Start periodic memory monitoring
  */
-export function startMemoryMonitoring(intervalMs = 30000): () => void {
-  const interval = setInterval(() => monitorMemoryUsage(2000), intervalMs); // Threshold: 2GB
+export function startMemoryMonitoring(
+  intervalMs = 30000,
+  thresholdMB = 500
+): () => void {
+  const interval = setInterval(
+    () => monitorMemoryUsage(thresholdMB),
+    intervalMs
+  );
 
   return () => {
     clearInterval(interval);
