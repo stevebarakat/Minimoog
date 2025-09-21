@@ -1,0 +1,117 @@
+.effectsPanel {
+  z-index: 1000;
+  padding: 0 var(--spacing-md);
+  height: fit-content;
+  min-height: fit-content;
+  background: var(--color-gray-l);
+  background: linear-gradient(
+    to bottom,
+    hsl(0deg 0% 35%) 0%,
+    hsl(0deg 0% 15%) 1.5%,
+    hsl(0deg 0% 13%) 50%,
+    hsl(0deg 0% 10%) 90%,
+    hsl(0deg 0% 18%) 98.5%,
+    hsl(0deg 0% 0%) 100%
+  );
+  box-shadow: 0 6px 6px 6px hsl(0deg 0% 0% / 25%);
+  color: var(--color-text);
+  font-family: var(--font-family);
+
+  &::before {
+    position: absolute;
+    top: 0;
+    top: -1.25%;
+    left: 0;
+    width: 1rem;
+    height: 102.5%;
+    background-image: url("../../styles/images/side.png");
+    background-position: 50% 60%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 3px;
+    box-shadow: 0.5rem 0.25rem 10px hsl(0deg 0% 0% / 50%);
+    content: "";
+  }
+
+  &::after {
+    position: absolute;
+    top: -1.25%;
+    right: 0;
+    bottom: 0;
+    width: 1rem;
+    height: 102.5%;
+    background-image: url("../../styles/images/side.png");
+    background-position: 50% 60%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 3px;
+    box-shadow: -0.5rem 0.25rem 10px hsl(0deg 0% 0% / 50%);
+    content: "";
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-synth-header);
+  border-bottom: 2px solid var(--color-synth-border);
+  text-align: center;
+  cursor: move;
+  user-select: none;
+}
+
+.closeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: var(--color-text-secondary);
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--color-border);
+  color: var(--color-text);
+}
+
+.effectsPanel .react-rnd-handle {
+  cursor: move;
+}
+
+.effectsPanel .react-rnd-handle:hover {
+  background: hsl(0deg 0% 100% / 10%);
+}
+
+.effectsPanel .react-rnd-handle.react-rnd-handle-se {
+  cursor: se-resize;
+}
+
+.effectsPanel .react-rnd-handle.react-rnd-handle-sw {
+  cursor: sw-resize;
+}
+
+.effectsPanel .react-rnd-handle.react-rnd-handle-ne {
+  cursor: ne-resize;
+}
+
+.effectsPanel .react-rnd-handle.react-rnd-handle-nw {
+  cursor: nw-resize;
+}

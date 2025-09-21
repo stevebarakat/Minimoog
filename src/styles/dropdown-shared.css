@@ -1,0 +1,141 @@
+/* Shared Dropdown Styles - Import this file in dropdown component CSS files */
+
+/* Container styles */
+.dropdown-container {
+  position: relative;
+  z-index: var(--dropdown-container-z-index);
+  overflow: visible;
+}
+
+.dropdown-wrapper {
+  width: fit-content;
+  min-width: 0;
+}
+
+/* Ensure dropdown content shrinks to fit */
+.dropdown-wrapper > div {
+  width: fit-content;
+  min-width: 0;
+}
+
+/* Scrollable list styles */
+.dropdown-scrollable-list {
+  padding: 0.5rem 0;
+
+  /* Allow horizontal expansion to fit content with max width */
+  width: max-content;
+  min-width: 9.375rem;
+  max-width: 21.875rem;
+  max-height: var(--dropdown-list-max-height);
+  overflow-y: auto;
+}
+
+.dropdown-scrollable-list::-webkit-scrollbar {
+  width: var(--dropdown-scrollbar-width);
+}
+
+.dropdown-scrollable-list::-webkit-scrollbar-track {
+  background: var(--color-white-5);
+}
+
+.dropdown-scrollable-list::-webkit-scrollbar-thumb {
+  background: var(--color-white-25);
+  border-radius: var(--dropdown-scrollbar-thumb-radius);
+}
+
+.dropdown-scrollable-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-white-50);
+}
+
+/* Option styles */
+.dropdown-option {
+  /* Allow options to expand to fill available width */
+  width: 100%;
+  min-width: 0;
+  border-bottom: 1px solid var(--dropdown-border-color);
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+/* Button styles */
+.dropdown-button {
+  /* Allow button to fill available width */
+  margin: 0;
+  padding: var(--dropdown-option-padding);
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-button:hover {
+  background: linear-gradient(
+    135deg,
+    var(--dropdown-hover-bg-light) 0%,
+    var(--dropdown-hover-bg-dark) 100%
+  );
+}
+
+/* Content styles */
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dropdown-option-gap);
+}
+
+.dropdown-label {
+  color: var(--dropdown-label-color);
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.0187rem;
+}
+
+.dropdown-label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-description {
+  margin: 0;
+  color: var(--dropdown-description-color);
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.active-label {
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.375rem;
+  background: hsl(120deg 60% 40%);
+  border-radius: 0.25rem;
+  color: hsl(0deg 0% 100%);
+  font-family: Futura, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.0313rem;
+}
+
+.inactive-label {
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.375rem;
+  background: hsl(0deg 0% 7%);
+  border: 1px solid var(--color-white-50);
+  border-radius: 0.25rem;
+  color: var(--dropdown-description-color);
+  font-family: Futura, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.0313rem;
+}

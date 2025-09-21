@@ -1,0 +1,158 @@
+.statsPanel {
+  z-index: 9999;
+  padding: 8px 12px;
+  overflow: hidden auto; /* Hide horizontal scrollbar */ /* Add vertical scrollbar when needed */
+  background: hsl(0deg 0% 0% / 80%);
+  border: 2px solid hsl(120deg 100% 50%); /* More visible border */
+  border-radius: 6px; /* Slightly larger radius */
+  box-shadow: 0 0 15px hsl(120deg 100% 50% / 20%); /* Enhanced glow */
+  color: hsl(120deg 100% 50%);
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  cursor: move; /* Show move cursor on the panel */
+  backdrop-filter: blur(4px);
+  user-select: none; /* Prevent text selection while dragging */
+  scrollbar-width: thin;
+  scrollbar-color: hsl(120deg 100% 50%) hsl(0deg 0% 0% / 30%);
+}
+
+.statsTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  color: hsl(60deg 100% 50%);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.closeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: hsl(120deg 100% 50%);
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: hsl(120deg 100% 50% / 20%);
+  color: hsl(0deg 0% 100%);
+}
+
+.closeButton:active {
+  background: hsl(120deg 100% 50% / 40%);
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.statLabel {
+  color: hsl(0deg 0% 80%);
+}
+
+.statValue {
+  color: hsl(120deg 100% 50%);
+  font-weight: bold;
+}
+
+.memoryHigh {
+  color: hsl(30deg 100% 60%);
+}
+
+.memoryWarning {
+  color: hsl(0deg 100% 50%);
+}
+
+.separator {
+  margin: 6px 0;
+  border-bottom: 1px solid hsl(0deg 0% 27%);
+}
+
+.audioContext {
+  color: hsl(180deg 100% 50%);
+}
+
+.audioContextError {
+  color: hsl(0deg 100% 60%);
+}
+
+.poolEfficient {
+  color: hsl(120deg 100% 50%);
+}
+
+.poolInefficient {
+  color: hsl(30deg 100% 60%);
+}
+
+/* Custom scrollbar styling */
+.statsPanel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.statsPanel::-webkit-scrollbar-track {
+  background: hsl(0deg 0% 0% / 30%);
+  border-radius: 4px;
+}
+
+.statsPanel::-webkit-scrollbar-thumb {
+  background: hsl(120deg 100% 50%);
+  border: 1px solid hsl(0deg 0% 20%);
+  border-radius: 4px;
+}
+
+.statsPanel::-webkit-scrollbar-thumb:hover {
+  background: hsl(180deg 100% 50%);
+}
+
+/* Resize handle styling */
+.statsPanel .react-rnd-handle {
+  background: hsl(120deg 100% 50% / 20%);
+  border: 1px solid hsl(120deg 100% 50%);
+  border-radius: 2px;
+}
+
+.statsPanel .react-rnd-handle:hover {
+  background: hsl(120deg 100% 50% / 40%);
+}
+
+/* Corner resize handles */
+.statsPanel .react-rnd-handle.react-rnd-handle-se {
+  right: -6px;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+}
+
+.statsPanel .react-rnd-handle.react-rnd-handle-sw {
+  bottom: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+}
+
+.statsPanel .react-rnd-handle.react-rnd-handle-ne {
+  top: -6px;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+}
+
+.statsPanel .react-rnd-handle.react-rnd-handle-nw {
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+}

@@ -1,0 +1,85 @@
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--color-background);
+  border: 2px solid var(--color-border);
+  border-radius: 0.5rem;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: var(--color-background-hover);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+  height: 3rem;
+  background-color: var(--color-white-5);
+  white-space: nowrap;
+}
+
+.secondary {
+  padding: 0.5rem;
+
+  .label {
+    height: auto;
+    background: none;
+  }
+}
+
+.segmented .iconSegmented {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 1rem;
+}
+
+.segmented .left {
+  border-right: 2px solid var(--color-border);
+}
+
+.segmented .right {
+  border-left: 2px solid var(--color-border);
+}
+
+.minWidth {
+  min-width: 10rem;
+}
+
+/* Effect is active and open */
+.active {
+  color: var(--color-text-active);
+}
+
+/* Effect is active but not visible */
+.pulsating {
+  animation: pulsate 5s infinite;
+}
+
+@keyframes pulsate {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

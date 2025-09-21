@@ -1,0 +1,104 @@
+@import url("./fonts.css");
+
+/********************  */
+
+/* Global styles */
+
+/********************  */
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+a {
+  color: var(--color-error-light);
+
+  &:hover {
+    color: var(--color-error);
+  }
+}
+
+.sr-only:not(:focus, :active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.dev-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Remove numbers from Radix Toast viewport <ol> */
+[role="region"][aria-label*="Notification"] > ol {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  list-style: none !important;
+}
+
+.dev-stats-toggle {
+  padding: 8px 12px;
+  min-width: 100px;
+  background: hsl(0deg 0% 20%);
+  border: 1px solid hsl(120deg 100% 50%);
+  border-radius: 4px;
+  color: hsl(120deg 100% 50%);
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dev-stats-toggle:hover {
+  background: hsl(120deg 100% 50%);
+  box-shadow: 0 0 10px hsl(120deg 100% 50% / 30%);
+  color: hsl(0deg 0% 0%);
+}
+
+.dev-stats-toggle:active {
+  transform: translateY(1px);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: fit-content;
+  height: 51px;
+  font-size: var(--font-size-xl);
+}
+
+.loader::before {
+  content: "Loading controls...";
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: fit-content;
+  height: 51px;
+  font-size: var(--font-size-xl);
+  animation: reveal-dots 1s steps(4) infinite;
+  clip-path: inset(0 1ch 0 0);
+}
+
+@keyframes reveal-dots {
+  to {
+    clip-path: inset(0 -1ch 0 0);
+  }
+}

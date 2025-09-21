@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap location (uncomment and update when sitemap is added)
+# Sitemap: https://stevebarakat.com/sitemap.xml

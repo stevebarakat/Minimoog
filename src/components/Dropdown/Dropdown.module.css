@@ -1,0 +1,114 @@
+.container {
+  position: relative;
+  z-index: 100;
+}
+
+.dropdown {
+  position: relative;
+
+  /* Remove width: 100% to allow natural width */
+}
+
+.triggerText {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  min-width: 16px;
+  transition: transform 0.2s ease;
+}
+
+.chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1002;
+  margin-top: 4px;
+  width: fit-content;
+  min-width: 200px;
+  max-width: 90vw;
+  height: fit-content;
+  max-height: 80vh;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 10%) 0%,
+    hsl(0deg 0% 4%) 100%
+  );
+  border: 2px solid hsl(0deg 0% 27%);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px hsl(0deg 0% 0% / 60%),
+    inset 0 1px 0 hsl(0deg 0% 100% / 5%);
+}
+
+/* Responsive adjustments */
+@media (width <= 760px) {
+  .container {
+    margin: 0 16px;
+    max-width: 100%;
+  }
+
+  .menu {
+    max-height: 300px;
+  }
+}
+
+/* Additional components for composable dropdown */
+.separator {
+  margin: 4px 0;
+  height: 1px;
+  background: hsl(0deg 0% 100% / 10%);
+}
+
+.group {
+  padding: 4px 0;
+}
+
+.label {
+  padding: 8px 16px;
+  font-family: Futura, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid hsl(0deg 0% 100% / 5%);
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:active {
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 100% / 12%) 0%,
+    hsl(0deg 0% 100% / 6%) 100%
+  );
+}
+
+/* Shared selected state styling for dropdown items */
+.selected {
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 100% / 15%) 0%,
+    hsl(0deg 0% 100% / 8%) 100%
+  );
+  border-left: 3px solid hsl(0deg 0% 53%);
+}

@@ -1,0 +1,74 @@
+/* Design Tokens - Centralized CSS Variables */
+
+:root {
+  /* Colors */
+  --color-background: hsl(0deg 0% 10%);
+  --color-background-hover: hsl(0deg 0% 15%);
+  --color-off-black: hsl(0deg 0% 6.25%);
+  --color-gray-xd: hsl(0deg 0% 15%);
+  --color-gray-d: hsl(0deg 0% 25%);
+  --color-gray: hsl(0deg 0% 50%);
+  --color-gray-l: hsl(0deg 0% 75%);
+  --color-white-75: hsl(0deg 0% 100% / 75%);
+  --color-white-50: hsl(0deg 0% 100% / 50%);
+  --color-white-25: hsl(0deg 0% 100% / 25%);
+  --color-white-10: hsl(0deg 0% 100% / 10%);
+  --color-white-5: hsl(0deg 0% 100% / 5%);
+  --color-black-25: hsl(0deg 0% 0% / 25%);
+  --color-error-light: hsl(0deg 100% 92%);
+  --color-text-primary: hsl(0deg 0% 75%);
+  --color-text: hsl(0deg 0% 88%);
+  --color-text-secondary: hsl(0deg 0% 50%);
+  --color-text-active: hsl(143deg 100% 50%);
+  --color-info: hsl(210deg 100% 56%);
+  --color-error: hsl(0deg 100% 33%);
+  --color-success: hsl(141deg 71% 38%);
+  --color-warning: hsl(45deg 100% 50%);
+  --color-delay: hsl(210deg 80% 50%);
+  --color-border: hsl(0deg 0% 30%);
+
+  /* Typography */
+  --font-primary: "Futura", sans-serif;
+  --font-family: "Futura", sans-serif;
+  --font-size-xxs: 0.4rem;
+  --font-size-xs: 0.4375rem;
+  --font-size-sm: 0.4875rem;
+  --font-size-md: 0.582rem;
+  --font-size-lg: 0.775rem;
+  --font-size-xl: 1.2rem;
+
+  /* Spacing */
+  --spacing-sm: 0.25rem;
+  --spacing-md: 0.5rem;
+  --spacing-lg: 0.75rem;
+  --spacing-xl: 1rem;
+
+  /* Transitions */
+  --transition-fast: 0.1s ease-out;
+  --transition-slow: 0.3s ease-in-out;
+
+  /* Border Radius */
+  --radius-full: 50%;
+
+  /* Minimoog */
+  --color-synth-bg: var(--color-gray-xd);
+  --color-synth-border: hsl(0deg 0% 60%);
+  --color-synth-header: hsl(0deg 0% 20%);
+
+  /* Dropdown Components */
+  --dropdown-container-z-index: 100;
+  --dropdown-list-max-height: 300px;
+  --dropdown-option-padding: 12px 16px;
+  --dropdown-option-gap: 4px;
+  --dropdown-scrollbar-width: 6px;
+  --dropdown-scrollbar-thumb-radius: 3px;
+  --dropdown-border-color: hsl(0deg 0% 100% / 5%);
+  --dropdown-hover-bg-light: hsl(0deg 0% 100% / 8%);
+  --dropdown-hover-bg-dark: hsl(0deg 0% 100% / 4%);
+  --dropdown-selected-bg-light: hsl(0deg 0% 100% / 15%);
+  --dropdown-selected-bg-dark: hsl(0deg 0% 100% / 8%);
+  --dropdown-selected-border-color: hsl(0deg 0% 53%);
+  --dropdown-selected-border-width: 3px;
+  --dropdown-label-color: hsl(0deg 0% 88%);
+  --dropdown-description-color: hsl(0deg 0% 67%);
+}

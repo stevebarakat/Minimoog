@@ -1,0 +1,84 @@
+.toast {
+  position: fixed;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 8px;
+  padding: 16px 32px 16px 16px;
+  width: 100%;
+  min-width: 280px;
+  max-width: 400px;
+  height: fit-content;
+  min-height: 100px;
+  background: var(--color-info);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px hsl(0deg 0% 0% / 75%);
+  color: hsl(0deg 0% 100%);
+  font-size: 16px;
+  inset: 0;
+  pointer-events: auto;
+
+  ul {
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .description {
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  &.error {
+    background: var(--color-error);
+  }
+
+  &.success {
+    background: var(--color-success);
+  }
+
+  &.info {
+    background: var(--color-info);
+  }
+}
+
+.close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: inherit;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.close:hover {
+  background: rgb(255 255 255 / 10%);
+  opacity: 1;
+}
+
+.close:focus {
+  outline: 2px solid rgb(255 255 255 / 50%);
+  outline-offset: 2px;
+}

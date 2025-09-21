@@ -1,0 +1,50 @@
+@import url("@/styles/dropdown-shared.css");
+
+.categoryFilter {
+  padding: 12px 16px;
+  background: hsl(0deg 0% 100% / 2%);
+  border-bottom: 1px solid hsl(0deg 0% 20%);
+}
+
+.categorySelect {
+  padding: 8px 12px;
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 16%) 0%,
+    hsl(0deg 0% 10%) 100%
+  );
+  border: 1px solid hsl(0deg 0% 33%);
+  border-radius: 4px;
+  color: hsl(0deg 0% 88%);
+  font-family: Futura, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.categorySelect:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(0deg 0% 23%) 0%,
+    hsl(0deg 0% 16%) 100%
+  );
+  border-color: hsl(0deg 0% 47%);
+}
+
+.presetHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.presetCategory {
+  padding: 2px 6px;
+  background: hsl(0deg 0% 100% / 10%);
+  border-radius: 3px;
+  font-family: Futura, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

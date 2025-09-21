@@ -1,0 +1,1 @@
+export { AudioWorkletOptimizationDemo } from './AudioWorkletOptimizationDemo';
