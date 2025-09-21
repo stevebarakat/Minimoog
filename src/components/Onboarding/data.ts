@@ -81,19 +81,19 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     position: "bottom",
   },
   {
-    id: "effects",
-    title: "Effects",
-    description:
-      "Add depth to your sound with built-in effects! Access delay and reverb effects that can be opened as floating panels. Each effect has individual controls and can be used together.",
-    target: "[data-onboarding='effects']",
-    position: "bottom",
-  },
-  {
     id: "presets",
     title: "Presets",
     description:
       "Load classic Minimoog presets to get you started. Choose from a variety of iconic sounds that showcase the synthesizer's capabilities.",
     target: "[data-onboarding='presets']",
+    position: "bottom",
+  },
+  {
+    id: "effects",
+    title: "Effects",
+    description:
+      "Add depth to your sound with built-in effects! Access delay and reverb effects that can be opened as floating panels. Each effect has individual controls and can be used together.",
+    target: "[data-onboarding='effects']",
     position: "bottom",
   },
   {
