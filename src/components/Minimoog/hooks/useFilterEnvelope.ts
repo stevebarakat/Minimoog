@@ -58,9 +58,17 @@ export function useFilterEnvelope({
 
         if (filterNode instanceof AudioWorkletNode) {
           if (filterModulationOn) {
-            // When modulation is ON, do NOT send any messages to the filter
-            // The modulation system will handle everything
-            return;
+            // When modulation is ON, send envelope data to the modulation system
+            filterNode.port.postMessage({
+              envelopeAttack: {
+                startCutoff: baseCutoff,
+                peakCutoff,
+                attackTime,
+                decayTime,
+                sustainLevel,
+                forModulation: true,
+              },
+            });
           } else {
             // Normal envelope operation when modulation is OFF
             filterNode.port.postMessage({
@@ -96,9 +104,14 @@ export function useFilterEnvelope({
 
         if (filterNode instanceof AudioWorkletNode) {
           if (filterModulationOn) {
-            // When modulation is ON, do NOT send any messages to the filter
-            // The modulation system will handle everything
-            return;
+            // When modulation is ON, send envelope data to the modulation system
+            filterNode.port.postMessage({
+              envelopeRelease: {
+                targetCutoff: baseCutoff,
+                releaseTime,
+                forModulation: true,
+              },
+            });
           } else {
             // Normal envelope operation when modulation is OFF
             filterNode.port.postMessage({
