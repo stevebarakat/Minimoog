@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useSynthStore } from "@/store/synthStore";
-import { noteToFrequency, calculateKeyboardControlledCutoff } from "@/utils";
+import { calculateKeyboardControlledCutoff } from "@/utils";
+import { useKeyboardControl } from "./useKeyboardControl";
 import { calculateGradualModulation } from "@/utils/modulationUtils";
 
 type FilterModulationProps = {
@@ -21,8 +22,9 @@ export function useFilterModulation({
 
   // Get keyboard control state at the hook level for proper reactivity
   const activeKeys = useSynthStore((state) => state.activeKeys);
-  const keyboardControl1 = useSynthStore((state) => state.keyboardControl1);
-  const keyboardControl2 = useSynthStore((state) => state.keyboardControl2);
+  
+  // Use the shared keyboard control calculation
+  const keyboardControlOffset = useKeyboardControl(activeKeys);
 
   // Add smoothing state to prevent audio artifacts
   const lastCutoffRef = useRef<number>(0);
@@ -139,33 +141,7 @@ export function useFilterModulation({
           const modWheel = state.modWheel || 0;
           const filterContourAmount = state.filterContourAmount;
 
-          // Calculate keyboard control offset
-          let keyboardControlOffset = 0;
-          if (
-            activeKeys &&
-            typeof activeKeys === "string" &&
-            (keyboardControl1 || keyboardControl2)
-          ) {
-            // AUTHENTIC MINIMOOG: Calculate tracking amount based on which switches are on
-            let trackingAmount = 0;
-            if (keyboardControl1) trackingAmount += 1 / 3; // 1/3 tracking
-            if (keyboardControl2) trackingAmount += 2 / 3; // 2/3 tracking
-
-            if (trackingAmount > 0) {
-              // Use middle C (C4) as the reference note (no offset)
-              const referenceFreq = 261.63; // C4 frequency
-              const activeFreq = noteToFrequency(activeKeys);
-
-              // Calculate the octave difference from the reference note
-              const octaveDifference = Math.log2(activeFreq / referenceFreq);
-
-              // Apply the tracking amount to get the filter cutoff offset
-              // Positive offset for higher notes, negative for lower notes
-              keyboardControlOffset = octaveDifference * trackingAmount;
-            }
-          }
-
-          // Use keyboard control offset from the hook level
+          // Use the shared keyboard control calculation from the hook
           // Use the single source of truth for keyboard-controlled cutoff calculation
           const keyboardControlFrequency = calculateKeyboardControlledCutoff(
             state.filterCutoff,
@@ -275,7 +251,6 @@ export function useFilterModulation({
     filterNode,
     getModSignal,
     activeKeys,
-    keyboardControl1,
-    keyboardControl2,
+    keyboardControlOffset,
   ]);
 }
