@@ -16,7 +16,8 @@ A web-based emulation of the classic Minimoog Model D analog synthesizer, levera
 Experience the Minimoog Model D emulator in your browser:
 
 1. **Live Demo**: [minimoog.app](https://www.minimoog.app/)
-2. **Local Development**: Follow the [Quick Start](#quick-start) guide below
+2. **Install as App**: Click the install button in your browser to download as a native app
+3. **Local Development**: Follow the [Quick Start](#quick-start) guide below
 
 <p align="center">
   <img src="public/images/minimoog-real.webp" alt="Original Minimoog Model D" width="100%"/><br/>
@@ -50,6 +51,7 @@ This project recreates the iconic Minimoog Model D synthesizer in the browser us
 - **Authentic Sound**: Faithful recreation of the synthesizer's oscillator characteristics and filter behavior
 - **Real-time Performance**: Low-latency audio processing for live performance
 - **MIDI Enabled**: Works out of the box with most MIDI keyboards (plug and play).
+- **Progressive Web App**: Installable as a native app with full offline functionality
 - **Modern Web Standards**: Built with React 19, TypeScript, and Web Audio API
 - **Open Source**: Complete source code available for learning and modification
 
@@ -83,6 +85,14 @@ This project recreates the iconic Minimoog Model D synthesizer in the browser us
 - **URL State Persistence**: Save and share your current settings via URL parameters
 - **Responsive Design**: Works on desktop and mobile devices
 - **Logarithmic Controls**: Natural-feeling frequency, filter, and volume controls
+
+### Progressive Web App (PWA)
+
+- **Installable**: Download as a native app on desktop and mobile devices
+- **Offline Functionality**: Works completely offline once installed
+- **App Shortcuts**: Quick access to common functions from device home screen
+- **Native Performance**: Standalone app experience without browser chrome
+- **Automatic Updates**: Service worker ensures you always have the latest version
 
 ---
 
