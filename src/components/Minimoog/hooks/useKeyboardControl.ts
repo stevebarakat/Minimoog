@@ -13,11 +13,11 @@ import { logger } from "@/utils/core";
 export function useKeyboardControl(activeKeys: Note | null) {
   const { keyboardControl1, keyboardControl2 } = useSynthStore();
 
-         return useMemo(() => {
-           // If no active keys or no keyboard control switches are on, return no offset
-           if (!activeKeys || (!keyboardControl1 && !keyboardControl2)) {
-             return 0;
-           }
+  return useMemo(() => {
+    // If no active keys or no keyboard control switches are on, return no offset
+    if (!activeKeys || (!keyboardControl1 && !keyboardControl2)) {
+      return 0;
+    }
 
     try {
       // Calculate the tracking amount based on which switches are on

@@ -32,17 +32,17 @@ export function useFilterEnvelope({
   // Track pending envelope triggers when filter node isn't ready
   const pendingTriggerRef = useRef<boolean>(false);
 
-         const filterEnvelope = useMemo(() => {
-           return {
-             triggerAttack: () => {
-               if (!audioContext) {
-                 return;
-               }
+  const filterEnvelope = useMemo(() => {
+    return {
+      triggerAttack: () => {
+        if (!audioContext) {
+          return;
+        }
 
-               if (!filterNode) {
-                 pendingTriggerRef.current = true;
-                 return;
-               }
+        if (!filterNode) {
+          pendingTriggerRef.current = true;
+          return;
+        }
 
         // Only trigger envelope if contour amount is greater than 0
         if (filterContourAmount <= 0) {
@@ -79,7 +79,7 @@ export function useFilterEnvelope({
                 },
                 forModulation: true,
               };
-              
+
               filterNode.port.postMessage(message);
             }, 200); // Longer delay to ensure modulation system is ready
           } else {

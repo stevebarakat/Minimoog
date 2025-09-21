@@ -181,16 +181,16 @@ export function Keyboard({
   // Periodic cleanup to catch any stuck keys (runs every 5 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
-        // Only cleanup if we have pressed keys and the window is not focused
-        if (pressedKeys.length > 0 && !document.hasFocus()) {
-          pressedKeys.forEach((note) => {
-            if (synth) {
-              synth.triggerRelease();
-            }
-            onKeyUp(note);
-          });
-          setPressedKeys([]);
-        }
+      // Only cleanup if we have pressed keys and the window is not focused
+      if (pressedKeys.length > 0 && !document.hasFocus()) {
+        pressedKeys.forEach((note) => {
+          if (synth) {
+            synth.triggerRelease();
+          }
+          onKeyUp(note);
+        });
+        setPressedKeys([]);
+      }
     }, 5000);
 
     return () => clearInterval(interval);

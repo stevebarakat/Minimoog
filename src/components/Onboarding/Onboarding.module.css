@@ -78,6 +78,7 @@
 }
 
 .description {
+  color: var(--color-text);
   margin: 0 0 20px;
   font-size: 14px;
   font-weight: 400;

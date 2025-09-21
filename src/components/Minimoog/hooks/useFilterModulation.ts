@@ -182,10 +182,10 @@ export function useFilterModulation({
               envelopeValue = envelope.peakValue * envelope.sustainLevel;
             }
 
-                 // Limit envelope influence to prevent extreme modulation ranges
-                 const rawInfluence = 1 + envelopeValue / baseCutoff;
-                 envelopeInfluence = Math.min(2, Math.max(0.5, rawInfluence));
-               }
+            // Limit envelope influence to prevent extreme modulation ranges
+            const rawInfluence = 1 + envelopeValue / baseCutoff;
+            envelopeInfluence = Math.min(2, Math.max(0.5, rawInfluence));
+          }
 
           // AUTHENTIC MINIMOOG: Integrate Filter Contour directly into modulation
           // When contour is active, it influences the modulation depth
