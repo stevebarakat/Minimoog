@@ -16,7 +16,8 @@ type SynthesizerEvent =
   | "audio_generated"
   | "app_installed"
   | "keyboard_used"
-  | "effect_enabled";
+  | "effect_enabled"
+  | "app_loaded";
 
 type EventParameters = {
   preset_name?: string;
