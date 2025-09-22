@@ -76,7 +76,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Skip external requests (Google Analytics, etc.) - let them pass through
+  // Skip external requests - let them pass through
   if (url.origin !== location.origin) {
     return;
   }

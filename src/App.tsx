@@ -7,7 +7,6 @@ import Onboarding from "./components/Onboarding";
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import Footer from "./components/Footer";
 import MobileMessage from "./components/MobileMessage";
-import { trackEvent } from "./utils";
 
 function App() {
   // Register service worker only in production
@@ -23,14 +22,6 @@ function App() {
         });
     }
 
-    // Test analytics on app load
-    if (typeof window !== "undefined") {
-      console.log("Testing analytics...", { gtag: typeof window.gtag });
-      trackEvent("app_loaded", {
-        timestamp: Date.now(),
-        user_agent: navigator.userAgent,
-      });
-    }
   }, []);
 
   return (

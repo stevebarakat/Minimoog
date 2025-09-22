@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import type { UseKeyboardHandlersProps } from "./types";
-import { trackEvent } from "@/utils";
 
 export function useKeyboardHandlers({
   isMouseDown,
@@ -29,9 +28,6 @@ export function useKeyboardHandlers({
         return updatedKeys;
       });
 
-      trackEvent("keyboard_used", {
-        key_pressed: note,
-      });
 
       setTimeout(() => {
         synth.triggerAttack(note);

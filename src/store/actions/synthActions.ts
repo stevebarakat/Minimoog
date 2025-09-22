@@ -1,5 +1,4 @@
 import { StateCreator } from "zustand";
-import { trackEvent } from "@/utils";
 import {
   SynthState,
   SynthActions,
@@ -104,7 +103,6 @@ export function createSynthActions(
       setWithSave(set, () => ({ isMainActive: value })),
 
     setFilterType: (type) => {
-      trackEvent("filter_type_changed", { filter_type: type });
       setWithSave(set, () => ({ filterType: type }));
     },
 
@@ -125,7 +123,6 @@ export function createSynthActions(
       })),
 
     setFilterCutoff: (value) => {
-      trackEvent("filter_frequency_adjusted", { frequency_value: value });
       setWithSave(set, () => ({
         filterCutoff: createFilterCutoffRange(value),
       }));
@@ -158,7 +155,6 @@ export function createSynthActions(
       setWithSave(set, () => ({ lfoWaveform: waveform })),
 
     setLfoRate: (rate: number) => {
-      trackEvent("lfo_rate_changed", { lfo_rate: rate });
       setWithSave(set, () => ({ lfoRate: createLfoRateRange(rate) }));
     },
 
