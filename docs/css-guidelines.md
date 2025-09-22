@@ -1,4 +1,4 @@
-# CSS Modules Best Practices
+# CSS Guidelines
 
 ## File Naming
 

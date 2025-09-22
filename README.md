@@ -287,7 +287,8 @@ All third-party code is used in compliance with their respective licenses:
 - [Dropdown Component](docs/dropdown-readme.md) - Dropdown component implementation details
 - [Onboarding Component](docs/onboarding-readme.md) - User onboarding system documentation
 - [Configuration](docs/config-readme.md) - Project configuration and constants
-- [CSS Modules Best Practices](docs/css-modules-best-practices.md) - CSS modules usage guidelines
+- [CSS Guidelines](docs/css-guidelines.md) - CSS modules usage guidelines
+- [Project Preferences](docs/project-preferences.md) - Coding standards and development guidelines
 
 ### Audio System Documentation
 

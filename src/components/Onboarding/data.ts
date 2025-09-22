@@ -68,7 +68,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     id: "keyboard",
     title: "Keyboard",
     description:
-      "Hook up a MIDI keyboard or use you computer keyboard to play the Minimoog. Use the pitch and modulation wheels for expressive control.",
+      "Hook up a MIDI keyboard or use the computer's keyboard to play the Minimoog. Use the pitch and modulation wheels for expressive control.",
     target: "[data-onboarding='keyboard']",
     position: "top",
   },

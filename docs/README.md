@@ -48,7 +48,7 @@ If you're new to the project, start with:
 For developers working on the project:
 
 - [Configuration](config-readme.md) - Project setup and constants
-- [CSS Modules Best Practices](css-modules-best-practices.md) - Styling guidelines
+- [CSS Guidelines](css-guidelines.md) - Styling guidelines
 - [Component Documentation](dropdown-readme.md) - Individual component guides
 
 ## 🎵 Audio System
