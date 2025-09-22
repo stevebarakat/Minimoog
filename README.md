@@ -204,6 +204,8 @@ This project incorporates several third-party libraries, algorithms, and researc
   - `@radix-ui/react-toast` - Toast notifications
   - `@radix-ui/react-tooltip` - Tooltip components
   - `@radix-ui/react-dialog` - Modal component
+  - `@radix-ui/react-progress` - Progress indicators
+  - `@radix-ui/react-toggle` - Toggle controls
 - **[react-rnd](https://github.com/bokuweb/react-rnd)** - Resizable and draggable component
 - **License**: MIT
 
@@ -213,6 +215,7 @@ This project incorporates several third-party libraries, algorithms, and researc
 - **[loglevel](https://github.com/pimterry/loglevel)** - Lightweight logging
 - **[Lucide React](https://lucide.dev/)** - Icon library
 - **[Typed Storage](https://github.com/yeunoia/typed-storage)** - Type-safe localStorage wrapper
+- **[Vercel Analytics](https://vercel.com/analytics)** - Web analytics
 - **License**: MIT
 
 #### Development Tools
@@ -275,19 +278,15 @@ All third-party code is used in compliance with their respective licenses:
 
 ### Implementation Guides
 
-- [Audio Buffer Optimization](docs/audio-buffer-optimization-implementation.md) - Audio buffer optimization techniques
-- [Audio Param Optimization](docs/audio-param-optimization-implementation.md) - Audio parameter optimization strategies
-- [Audio Worklet Optimization](docs/audio-worklet-optimization-implementation.md) - Audio worklet performance optimization
 - [Node Pooling Implementation](docs/node-pooling-implementation.md) - Audio node pooling for performance
-- [Moog Filter Implementations](docs/moog-filter-implementations.md) - Different filter implementation approaches
-- [Authentic Minimoog Filter Improvements](docs/authentic-minimoog-filter-improvements.md) - Filter authenticity improvements
+- [Moog Filter Implementation](docs/moog-filter-implementation.md) - Filter implementation approaches
 
 ### Component Documentation
 
 - [Dropdown Component](docs/dropdown-readme.md) - Dropdown component implementation details
 - [Onboarding Component](docs/onboarding-readme.md) - User onboarding system documentation
 - [Configuration](docs/config-readme.md) - Project configuration and constants
-- [CSS Guidelines](docs/css-guidelines.md) - CSS modules usage guidelines
+- [CSS Modules Best Practices](docs/css-modules-best-practices.md) - CSS modules usage guidelines
 - [Project Preferences](docs/project-preferences.md) - Coding standards and development guidelines
 
 ### Audio System Documentation
@@ -296,8 +295,7 @@ All third-party code is used in compliance with their respective licenses:
 - [Noise Generators](docs/noise-generators-readme.md) - Noise generation algorithms
 - [Development Storage](docs/development-storage.md) - Development data storage patterns
 - [Aux Output](docs/aux-output.md) - Secondary audio output system
-- [Moog Filters](docs/moog-filters-readme.md) - Filter algorithm implementations
-- [Images](docs/images-readme.md) - Image assets and usage
+- [Moog Filter Implementation](docs/moog-filter-implementation.md) - Filter algorithm implementations
 
 ---
 

@@ -234,6 +234,8 @@ describe("Mixer - Integration Tests", () => {
     const osc1SwitchInput = document.querySelector("#oscillator-1");
     expect(osc1SwitchInput).toBeInTheDocument();
     const osc1SwitchLabel = osc1SwitchInput!.closest("label");
+    // Wait for the async focus behavior in RockerSwitch
+    await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(osc1SwitchLabel).toHaveFocus();
 
     await user.click(osc2Knob);
