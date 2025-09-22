@@ -85,83 +85,119 @@ const Knob = React.memo(function Knob({ value, onChange, ... }) {
 
 ### 3. **Memoized Selector Hooks**
 
-Created `src/hooks/useMemoizedSelector.ts` for expensive calculations:
+Created `src/hooks/useMemoizedSelector.ts` for organized state access:
 
 ```typescript
-// Before: Calculations on every render
-const vibratoAmount = useSynthStore((state) => {
-  if (!state.oscillatorModulationOn || state.modWheel <= 0) return 0;
-  return Math.max(0, Math.min(100, state.modWheel)) / 100;
-});
-
-// After: Memoized calculations
-const vibratoAmount = useVibratoAmount();
+// Organized state selectors for better component structure
+const oscillatorState = useMemoizedOscillatorState("oscillator1", true);
+const filterState = useMemoizedFilterState(true);
+const modulationState = useMemoizedModulationState(true);
 ```
 
 **Available Hooks**:
 
-- ✅ `useMemoizedOscillatorState()` - Oscillator state with optional calculations
-- ✅ `useMemoizedFilterState()` - Filter state with optional calculations
-- ✅ `useMemoizedModulationState()` - Modulation state with LFO calculations
+- ✅ `useMemoizedOscillatorState()` - Oscillator state with optional calculation data
+- ✅ `useMemoizedFilterState()` - Filter state with optional modulation data
+- ✅ `useMemoizedModulationState()` - Modulation state with optional LFO calculations
+
+**Implementation Note**:
+
+The `useMemoizedSelector` is a wrapper around `useSynthStore` that provides organized state access rather than complex memoization logic. This simplifies component code while maintaining good performance.
 
 **Benefits**:
 
-- ✅ Expensive calculations only performed when dependencies change
-- ✅ Prevents redundant mathematical operations
-- ✅ Improves real-time audio performance
+- ✅ Organized state access for better component structure
+- ✅ Optional calculation data to avoid unnecessary computations
+- ✅ Cleaner component code with focused state selectors
 
-### 4. **Component-Level Memoization for Complex Components**
+### 4. **Component-Level Memoization for Pure Components**
 
-Implemented React.memo for complex components with multiple dependencies:
+Implemented React.memo for pure components with stable props:
 
 ```typescript
-// Complex components now memoized
-const Minimoog = React.memo(function Minimoog() {
-  // Component logic
+// Pure components memoized for performance
+const Knob = React.memo(function Knob({ value, onChange, ... }) {
+  return <div>...</div>;
 });
 
-const Controllers = React.memo(function Controllers() {
-  // Component logic
+const VintageLED = React.memo(function VintageLED({ isOn, ... }) {
+  return <div>...</div>;
 });
 ```
 
 **Components Memoized**:
 
-- ✅ `OscillatorBank` - Container component with multiple children
-- ✅ `Output` - Output controls component
+- ✅ `Knob` - Pure UI component with stable props
+- ✅ `VintageLED` - LED indicator with simple state
+- ✅ `Wheel` - Modulation wheel with stable behavior
+- ✅ `WhiteKey`, `BlackKey` - Keyboard components with stable props
 
-**Components Removed from Memoization**:
+**Components NOT Memoized (Correctly)**:
 
 - ❌ `Minimoog` - Top-level component with frequently changing hook results
 - ❌ `Controllers` - Simple container with inline style objects
 - ❌ `Modifiers` - Simple container with inline style objects
+- ❌ `OscillatorBank` - Container with frequently changing children
 
 **Benefits**:
 
-- ✅ Prevents unnecessary re-renders of complex component trees
-- ✅ Improves performance for components with many children
+- ✅ Prevents re-renders when props haven't changed
+- ✅ Improves performance for frequently used components
 - ✅ Reduces CPU usage during parameter changes
 
-### 5. **Lazy Loading for Non-Critical Components**
+### 5. **Node Pooling System**
+
+Implemented comprehensive node pooling for efficient audio node management:
+
+```typescript
+// Node pooling utilities
+import {
+  getPooledNode,
+  releaseNode,
+  getPooledWorkletNode,
+  prewarmPool,
+} from "@/utils/nodePoolingUtils";
+
+// Get pooled audio nodes
+const delayNode = getPooledNode(audioContext, "delay");
+const workletNode = getPooledWorkletNode(audioContext, "huovilainen");
+
+// Release when done
+releaseNode(delayNode);
+```
+
+**Supported Node Types**:
+
+- ✅ `delay`, `convolver`, `biquadFilter`, `stereoPanner`, `dynamicsCompressor`
+- ✅ Worklet processors with specialized pooling
+- ✅ Automatic prewarming for common node types
+
+**Benefits**:
+
+- ✅ **Reduced node creation overhead** - Reuses existing nodes
+- ✅ **Memory efficiency** - Prevents node proliferation
+- ✅ **Better performance** - Faster node allocation during audio processing
+
+### 6. **Lazy Loading for Non-Critical Components**
 
 Implemented lazy loading for components that aren't immediately needed:
 
 ```typescript
-// Lazy load non-critical components
-const LazyPresetsDropdown = lazy(() => import("../PresetsDropdown"));
-const LazyCopyUrl = lazy(() => import("../CopyUrl"));
+// Lazy load effect components
+const Delay = lazy(() => import("@/components/Delay"));
+const Reverb = lazy(() => import("@/components/Reverb"));
 
 // Wrap in Suspense
-<Suspense fallback={<div>Loading controls...</div>}>
-  <LazyPresetsDropdown disabled={!isInitialized} />
-  <LazyCopyUrl disabled={!isInitialized} />
+<Suspense fallback={<div>Loading Delay...</div>}>
+  <Delay onClose={() => onCloseEffect("delay")} />
 </Suspense>;
 ```
 
 **Components Lazy Loaded**:
 
-- ✅ `PresetsDropdown` - Not critical for core synth functionality
-- ✅ `CopyUrl` - Utility component loaded on demand
+- ✅ `Delay` - Effect component loaded on demand
+- ✅ `Reverb` - Effect component loaded on demand
+- ✅ `LazyImage` - Image loading with intersection observer
 
 **Benefits**:
 
@@ -169,43 +205,98 @@ const LazyCopyUrl = lazy(() => import("../CopyUrl"));
 - ✅ Reduced bundle size for critical path
 - ✅ Better user experience with loading states
 
-### 6. **Virtual Scrolling for Large Lists**
+### 7. **Audio Worklets for Heavy Processing**
 
-Implemented virtual scrolling for the preset list to handle large datasets efficiently:
+Implemented optimized audio worklets for real-time audio processing:
 
 ```typescript
-// Virtual scrolling configuration
-const ITEM_HEIGHT = 80;
-const VISIBLE_ITEMS = 8;
-const BUFFER_SIZE = 2;
+// Huovilainen optimized worklet with parameter batching
+class HuovilainenOptimizedWorkletProcessor extends AudioWorkletProcessor {
+  constructor() {
+    super();
+    // Parameter batching for efficient updates
+    this.parameterBatch = new Map();
+    this.maxBatchSize = 16;
 
-// Only render visible items
-const visiblePresets = useMemo(() => {
-  return presets.slice(startIndex, endIndex);
-}, [presets, startIndex, endIndex]);
+    // Memory pooling for buffer management
+    this.tempBufferPool = new Map();
+    this.maxMemoryPoolSize = 50 * 1024 * 1024; // 50MB
+
+    // Performance monitoring
+    this.workletId = `huovilainen-optimized-${Date.now()}`;
+  }
+}
 ```
 
 **Features Implemented**:
 
-- ✅ Dynamic item rendering based on scroll position
-- ✅ Buffer items for smooth scrolling
-- ✅ Memoized item rendering to prevent re-renders
-- ✅ Configurable item height and visible count
+- ✅ **Parameter batching** - Groups parameter updates for efficiency
+- ✅ **Memory pooling** - Reuses audio buffers to reduce GC pressure
+- ✅ **Performance monitoring** - Tracks processing time and memory usage
+- ✅ **WASM integration** - Heavy filter algorithms in WebAssembly
+- ✅ **Node pooling** - Efficient audio node management via `nodePoolingUtils.ts`
 
 **Benefits**:
 
-- ✅ Handles large lists efficiently (40+ presets)
-- ✅ Smooth scrolling performance
-- ✅ Reduced memory usage for large datasets
-- ✅ Better performance on mobile devices
+- ✅ **Reduced CPU usage** - Optimized parameter updates and memory management
+- ✅ **Better real-time performance** - Dedicated audio threads for processing
+- ✅ **Memory efficiency** - Buffer pooling prevents memory fragmentation
 
-### 7. **Audio Worklets for Heavy Processing**
+### 8. **Audio Worklet Performance Monitoring**
 
-- **Real-time audio processing** in dedicated audio threads
-- **WASM integration** for heavy filter algorithms
-- **Node pooling** for efficient audio node management
+Implemented comprehensive performance monitoring for audio worklets:
 
-### 8. **Oscillator Hook Memoization**
+```typescript
+// Audio worklet performance handler
+class AudioWorkletPerformanceHandler {
+  private metrics: PerformanceMetrics[] = [];
+  private stats: PerformanceStats = {
+    averageProcessingTime: 0,
+    peakProcessingTime: 0,
+    totalFrames: 0,
+    droppedFrames: 0,
+  };
+
+  public recordMetrics(metrics: PerformanceMetrics): void {
+    // Track processing time, memory usage, frame drops
+  }
+}
+```
+
+**Features Implemented**:
+
+- ✅ **Processing time tracking** - Monitors audio worklet performance
+- ✅ **Memory usage monitoring** - Tracks WASM memory consumption
+- ✅ **Frame drop detection** - Identifies audio glitches
+- ✅ **Performance statistics** - Provides real-time performance data
+
+### 9. **Filter Singleton Pattern**
+
+Implemented singleton pattern for efficient filter management:
+
+```typescript
+// Filter singleton for efficient filter instance management
+class FilterSingleton {
+  private static instance: FilterSingleton | null = null;
+  private filterInstance: { node: AudioWorkletNode | BiquadFilterNode | null } =
+    { node: null };
+
+  static getInstance(): FilterSingleton {
+    if (!FilterSingleton.instance) {
+      FilterSingleton.instance = new FilterSingleton();
+    }
+    return FilterSingleton.instance;
+  }
+}
+```
+
+**Benefits**:
+
+- ✅ **Single filter instance** - Prevents multiple filter creation
+- ✅ **Efficient resource management** - Reuses existing filter nodes
+- ✅ **Memory optimization** - Avoids duplicate WASM module loading
+
+### 10. **Oscillator Hook Memoization**
 
 Detailed memoization optimizations for expensive oscillator calculations:
 
@@ -508,19 +599,25 @@ Use React DevTools Profiler to monitor:
 
 ### ✅ Implemented Optimizations
 
-- [x] Memoized frequency calculations
-- [x] Optimized state selectors
-- [x] React.memo for pure components
-- [x] Audio worklets for heavy processing
-- [x] Node pooling for audio efficiency
-- [x] Memory usage tracking
-- [x] Render performance monitoring
-- [x] Virtual scrolling for large lists
-- [x] Lazy loading for non-critical components
-- [x] Component-level memoization for complex components
-- [x] Event handler optimization (debouncing/throttling)
-- [x] Oscillator hook memoization with useMemo/useCallback
-- [x] Audio parameter memoization for real-time performance
+- [x] Optimized state selectors with granular subscriptions
+- [x] React.memo for pure components (Knob, VintageLED, Wheel, Keyboard)
+- [x] Audio worklets with parameter batching and memory pooling
+- [x] Node pooling system for efficient audio node management
+- [x] Lazy loading for effect components (Delay, Reverb)
+- [x] Lazy image loading with intersection observer
+- [x] Audio worklet performance monitoring
+- [x] Filter singleton pattern for efficient filter management
+- [x] Organized state selectors for better component structure
+- [x] WASM integration for heavy filter algorithms
+- [x] Memory pooling in audio worklets
+- [x] Parameter batching for efficient audio updates
+
+### ❌ NOT Implemented (Documentation Inaccuracies)
+
+- [ ] Virtual scrolling for large lists
+- [ ] Lazy loading for PresetsDropdown/CopyUrl components
+- [ ] Complex memoized selector calculations
+- [ ] Component memoization for Minimoog/Controllers/OscillatorBank
 
 ### 🔄 Ongoing Monitoring
 
@@ -550,13 +647,13 @@ function Oscillator1Controls() {
 ### Using Memoized Selectors
 
 ```typescript
-// In a component that needs expensive calculations
+// In a component that needs organized state access
 import { useMemoizedOscillatorState } from "@/hooks/useMemoizedSelector";
 
 function OscillatorDisplay() {
   const oscillatorState = useMemoizedOscillatorState("oscillator1", true);
 
-  // Expensive calculations only performed when needed
+  // Organized state access with optional calculation data
   return <div>...</div>;
 }
 ```
@@ -570,20 +667,49 @@ const MyComponent = React.memo(function MyComponent({ value, onChange }) {
 });
 ```
 
-### Using Oscillator Hook Memoization
+### Using Node Pooling
 
 ```typescript
-// Using the current oscillator factory hook
-const osc1 = useOscillatorFactory(audioContext, mixerNode, {
-  oscillatorKey: "oscillator1",
-  createOscillator: getOscillatorFactory("sawtooth")!,
-  detuneCents: 2, // Slight detune for warmth
-  volumeBoost: 1.2,
-  oscillatorModulation: modulationManager,
-});
+// Using the node pooling system for efficient audio node management
+import {
+  getPooledNode,
+  releaseNode,
+  prewarmPool,
+} from "@/utils/nodePoolingUtils";
 
-// The hook automatically handles memoization internally
-osc1.triggerAttack("C4"); // Optimized frequency calculation
+// Prewarm the pool for better performance
+prewarmPool(audioContext);
+
+// Get pooled audio nodes
+const delayNode = getPooledNode(audioContext, "delay");
+const biquadFilter = getPooledNode(audioContext, "biquadFilter");
+
+// Use nodes in audio graph
+// ... audio processing ...
+
+// Release nodes back to pool when done
+releaseNode(delayNode);
+releaseNode(biquadFilter);
+```
+
+### Using Audio Worklet Performance Monitoring
+
+```typescript
+// Monitor audio worklet performance
+import { AudioWorkletPerformanceHandler } from "@/utils/audioWorkletPerformance";
+
+const performanceHandler = new AudioWorkletPerformanceHandler();
+
+// Record performance metrics from worklet
+workletNode.port.onmessage = (e) => {
+  if (e.data.type === "performance-metrics") {
+    performanceHandler.recordMetrics(e.data.metrics);
+  }
+};
+
+// Get performance statistics
+const stats = performanceHandler.getStats();
+console.log("Average processing time:", stats.averageProcessingTime);
 ```
 
 ## 🔮 Future Enhancements

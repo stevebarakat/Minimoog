@@ -2,13 +2,13 @@
 
 ## Overview
 
-This guide explains how to integrate the optimized AudioWorklets with your existing synthesizer system to achieve maximum performance benefits from our three optimization systems.
+This guide explains how to integrate the optimized AudioWorklets with your existing synthesizer system to achieve maximum performance benefits.
 
 ## 🎯 **What We've Optimized**
 
 ### **1. Huovilainen Moog Filter Worklet**
 
-- **File**: `public/audio/moog-filters/huovilainen/huovilainen-worklet-processor-optimized.js`
+- **File**: `public/audio/moog-filters/huovilainen/huovilainen-worklet-processor.js`
 - **Optimizations**: Parameter batching, memory pooling, performance monitoring
 - **Benefits**: 80-90% reduction in parameter update overhead, efficient buffer management
 
@@ -38,7 +38,7 @@ await audioContext.audioWorklet.addModule(
 
 // After (optimized)
 await audioContext.audioWorklet.addModule(
-  "/audio/moog-filters/huovilainen/huovilainen-worklet-processor-optimized.js"
+  "/audio/moog-filters/huovilainen/huovilainen-worklet-processor.js"
 );
 ```
 
@@ -56,21 +56,13 @@ const filterNode = new AudioWorkletNode(
 // After (optimized)
 const filterNode = new AudioWorkletNode(
   audioContext,
-  "huovilainen-worklet-processor-optimized"
+  "huovilainen-worklet-processor"
 );
 ```
 
-### **Step 3: Enable Performance Monitoring**
+### **Step 3: Performance Monitoring**
 
-The optimized worklets automatically send performance metrics. Ensure the performance handler is initialized:
-
-```typescript
-// This is already done in useAudioContext.ts
-import { initializeAudioWorkletPerformanceHandler } from "@/utils";
-
-// Initialize during audio context setup
-initializeAudioWorkletPerformanceHandler();
-```
+The optimized worklets automatically collect performance metrics internally for optimization purposes.
 
 ## 📊 **Performance Monitoring Integration**
 
@@ -86,29 +78,13 @@ The optimized worklets automatically collect and report:
 
 ### **Real-Time Dashboard**
 
-Your DevStatsPanel now shows:
-
-- **Active Worklets**: Number of optimized worklets running
-- **Avg CPU Usage**: Average CPU consumption across all worklets
-- **Memory Pools**: Memory pool statistics and efficiency
-- **Parameter Batches**: Batching efficiency and queue status
+The optimized worklets provide internal performance monitoring for debugging and optimization purposes.
 
 ## 🔧 **Configuration Options**
 
 ### **AudioWorklet Optimization Settings**
 
-```typescript
-// In useAudioContext.ts - customize these values
-initializeAudioWorkletOptimizer({
-  enableParameterBatching: true, // Enable parameter batching
-  enableMemoryPooling: true, // Enable memory pooling
-  enablePerformanceMonitoring: true, // Enable performance monitoring
-  maxBatchSize: 64, // Maximum batch size for updates
-  memoryPoolSize: 50, // Memory pool size in MB
-  monitoringInterval: 1000, // Performance monitoring interval
-  logLevel: "info", // Logging level
-});
-```
+The optimized worklets have built-in configuration options that can be adjusted in their constructors for optimal performance.
 
 ### **Worklet-Specific Settings**
 
@@ -141,9 +117,9 @@ this.noiseCache.length = 1024; // Noise cache size
 
 ### **1. Performance Testing**
 
-Use the AudioWorkletOptimizationDemo to test:
+Test the optimized worklets by:
 
-- **Parameter Batching**: Send multiple parameter updates and observe batching
+- **Parameter Batching**: Send multiple parameter updates and observe batching behavior
 - **Memory Pooling**: Monitor memory pool creation and buffer reuse
 - **Performance Monitoring**: Track real-time performance metrics
 
@@ -169,43 +145,19 @@ Monitor memory consumption:
 
 #### **1. Performance Metrics Not Showing**
 
-```typescript
-// Check if performance handler is initialized
-import { getAudioWorkletPerformanceHandler } from "@/utils";
-
-const handler = getAudioWorkletPerformanceHandler();
-console.log("Handler status:", handler?.getStatus());
-```
+Check the browser console for worklet performance messages and ensure the optimized worklets are being used.
 
 #### **2. Memory Pool Not Working**
 
-```typescript
-// Verify memory pooling is enabled
-import { getAudioWorkletOptimizationStats } from "@/utils";
-
-const stats = getAudioWorkletOptimizationStats();
-console.log("Memory pool stats:", stats?.memory);
-```
+Monitor memory usage in the browser dev tools and check that buffers are being reused efficiently.
 
 #### **3. Parameter Batching Issues**
 
-```typescript
-// Check batch processing status
-const stats = getAudioWorkletOptimizationStats();
-console.log("Batch stats:", stats?.batches);
-```
+Verify that parameter updates are being batched by checking the worklet's internal batch processing.
 
 ### **Debug Logging**
 
-Enable debug logging for troubleshooting:
-
-```typescript
-// In useAudioContext.ts
-initializeAudioWorkletOptimizer({
-  logLevel: "debug", // Enable debug logging
-  // ... other settings
-});
-```
+Enable debug logging in the browser console to troubleshoot worklet performance issues.
 
 ## 🚀 **Advanced Integration**
 
@@ -349,7 +301,7 @@ class CustomOptimizedProcessor extends AudioWorkletProcessor {
 
 ### **Post-Integration**
 
-- [ ] Monitor performance metrics in DevStatsPanel
+- [ ] Monitor performance metrics in browser dev tools
 - [ ] Verify audio quality remains unchanged
 - [ ] Test under various load conditions
 - [ ] Document performance improvements
@@ -380,4 +332,4 @@ By integrating these optimized AudioWorklets, your synthesizer will achieve:
 - **Automatic optimization** that works transparently
 - **Professional-grade audio performance** suitable for production use
 
-The optimizations are designed to be **backward compatible** while providing substantial performance benefits. Monitor the DevStatsPanel to see real-time improvements and identify further optimization opportunities.
+The optimizations are designed to be **backward compatible** while providing substantial performance benefits. Monitor browser dev tools to see real-time improvements and identify further optimization opportunities.

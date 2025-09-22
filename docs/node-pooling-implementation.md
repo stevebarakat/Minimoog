@@ -34,7 +34,7 @@ The Minimoog Web Audio synthesizer implements a comprehensive node pooling syste
 ### Basic Node Pooling
 
 ```typescript
-import { getPooledNode, releaseNode } from "@/utils";
+import { getPooledNode, releaseNode } from "@/utils/data";
 
 // Get a pooled gain node
 const gainNode = getPooledNode<GainNode>("gain", audioContext);
@@ -48,7 +48,7 @@ releaseNode(gainNode);
 ### AudioWorkletNode Pooling
 
 ```typescript
-import { getPooledWorkletNode, releaseNode } from "@/utils";
+import { getPooledWorkletNode, releaseNode } from "@/utils/data";
 
 // Get a pooled worklet node with specific processor
 const workletNode = getPooledWorkletNode(audioContext, "pink-noise-processor");
@@ -59,10 +59,39 @@ const workletNode = getPooledWorkletNode(audioContext, "pink-noise-processor");
 releaseNode(workletNode);
 ```
 
+### Specialized Node Functions
+
+```typescript
+import {
+  getPooledDelayNode,
+  getPooledConvolverNode,
+  getPooledBiquadFilterNode,
+  getPooledStereoPannerNode,
+  getPooledDynamicsCompressorNode,
+  releaseNode,
+} from "@/utils/data";
+
+// Get specialized nodes with optimized configurations
+const delayNode = getPooledDelayNode(audioContext, 2.0); // 2 second max delay
+const convolverNode = getPooledConvolverNode(audioContext);
+const filterNode = getPooledBiquadFilterNode(audioContext);
+const pannerNode = getPooledStereoPannerNode(audioContext);
+const compressorNode = getPooledDynamicsCompressorNode(audioContext);
+
+// Use the nodes...
+
+// Release back to pool when done
+releaseNode(delayNode);
+releaseNode(convolverNode);
+releaseNode(filterNode);
+releaseNode(pannerNode);
+releaseNode(compressorNode);
+```
+
 ### Batch Operations
 
 ```typescript
-import { createNodeBatch, releaseNodeBatch } from "@/utils";
+import { createNodeBatch, releaseNodeBatch } from "@/utils/data";
 
 // Create multiple nodes at once
 const gainNodes = createNodeBatch<GainNode>("gain", audioContext, 5);
@@ -105,18 +134,17 @@ type NodePoolConfig = {
 - `gain` - GainNode (heavily used for mixer, master, envelopes, etc.)
 - `analyser` - AnalyserNode (used by tuner)
 - `audioWorklet` - AudioWorkletNode (with processor-specific matching)
+- `delay` - DelayNode (used in delay effects)
+- `convolver` - ConvolverNode (used in reverb effects)
+- `biquadFilter` - BiquadFilterNode (used in filter processing)
+- `stereoPanner` - StereoPannerNode (used in stereo processing)
+- `dynamicsCompressor` - DynamicsCompressorNode (used in compression effects)
 
 **Note on Oscillators:**
 
 - `oscillator` - OscillatorNode (used in tuner and oscillators)
 - **Oscillators cannot be pooled** due to their single-use nature
 - The system automatically bypasses pooling for oscillator nodes
-
-**Removed Types:**
-The following node types were removed from pooling as they weren't being used:
-
-- `delay`, `convolver`, `waveShaper`, `panner`, `stereoPanner`
-- `dynamicsCompressor`, `channelSplitter`, `channelMerger`
 
 ## Performance Benefits
 
@@ -159,24 +187,21 @@ When in development mode, the DevStatsPanel shows:
 ### Pool Statistics API
 
 ```typescript
-import { getPoolStats, getDetailedPoolInfo, getPoolInsights } from "@/utils";
+import { getPoolStats } from "@/utils/data";
 
 // Get basic stats
 const stats = getPoolStats();
-console.log(
-  `Pool efficiency: ${
-    (stats.poolHits / (stats.poolHits + stats.poolMisses)) * 100
-  }%`
-);
-
-// Get detailed breakdown
-const details = getDetailedPoolInfo();
-console.log("Nodes by type:", details.typeBreakdown);
-
-// Get advanced insights including miss patterns
-const insights = getPoolInsights();
-console.log("Miss patterns:", insights.missPatterns);
-console.log("Pool utilization:", insights.poolUtilization);
+if (stats) {
+  console.log(
+    `Pool efficiency: ${
+      (stats.poolHits / (stats.poolHits + stats.poolMisses)) * 100
+    }%`
+  );
+  console.log("Pool hits:", stats.poolHits);
+  console.log("Pool misses:", stats.poolMisses);
+  console.log("Nodes created:", stats.created);
+  console.log("Nodes reused:", stats.reused);
+}
 ```
 
 ## Implementation Details
@@ -253,17 +278,19 @@ const nodes = createNodeBatch<GainNode>("gain", audioContext, 10);
 releaseNodeBatch(nodes);
 ```
 
-### 2. **Pool Insights**
+### 2. **Worklet Processor Prewarming**
 
 ```typescript
-const insights = getPoolInsights();
-// Returns: stats, missPatterns, poolUtilization, activeNodes, availableNodes
+import { prewarmWorkletProcessors } from "@/utils/data";
+
+// Prewarm common worklet processors for better performance
+await prewarmWorkletProcessors(audioContext);
 ```
 
 ### 3. **Configuration Updates**
 
 ```typescript
-import { updatePoolConfig } from "@/utils";
+import { updatePoolConfig } from "@/utils/data";
 
 // Update pool configuration at runtime
 updatePoolConfig({ maxPoolSize: 128 });
@@ -272,13 +299,13 @@ updatePoolConfig({ maxPoolSize: 128 });
 ### 4. **Pool Management**
 
 ```typescript
-import { clearPool, resetPoolStats } from "@/utils";
+import { clearPool, disposeNodePool } from "@/utils/data";
 
 // Clear all nodes from pool
 clearPool();
 
-// Reset statistics for fresh monitoring
-resetPoolStats();
+// Dispose the entire pool and clean up resources
+disposeNodePool();
 ```
 
 ## Best Practices
@@ -299,6 +326,9 @@ The system automatically prewarms based on usage patterns:
 
 - **Gain nodes**: 16 nodes (heavily used everywhere)
 - **Analyser nodes**: 2 nodes (used by tuner)
+- **Delay nodes**: 4 nodes with 2.0 second max delay time
+- **Convolver nodes**: 2 nodes (used in reverb effects)
+- **Biquad filter nodes**: 4 nodes (used in filter processing)
 - **Adaptive prewarming**: Based on observed miss patterns
 
 ### 2. **Miss Pattern Analysis**
@@ -306,9 +336,12 @@ The system automatically prewarms based on usage patterns:
 Track and analyze miss patterns for optimization:
 
 ```typescript
-const insights = getPoolInsights();
-if (insights.missPatterns.gain > 5) {
-  // Consider increasing gain node prewarming
+import { getPoolStats } from "@/utils/data";
+
+const stats = getPoolStats();
+if (stats && stats.poolMisses > stats.poolHits) {
+  // Consider increasing pool size or prewarming
+  console.log("Low pool efficiency, consider optimization");
 }
 ```
 
@@ -342,13 +375,16 @@ Recommended pool sizes for different use cases:
 
 ```typescript
 // Enable detailed logging
-import { logger } from "@/utils";
-logger.setLevel("debug");
+import { logger } from "@/utils/core";
 
 // Check pool status
 const stats = getPoolStats();
-const insights = getPoolInsights();
-console.log("Pool Status:", { stats, insights });
+console.log("Pool Status:", stats);
+
+// Check if nodes are in pool
+import { isNodeInPool, getNodeType } from "@/utils/data";
+const nodeInPool = isNodeInPool(someNode);
+const nodeType = getNodeType(someNode);
 ```
 
 ## Conclusion

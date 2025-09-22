@@ -1,14 +1,15 @@
 # Aux Output Feature
 
-The aux output feature provides a secondary audio output that can be routed to other audio nodes or external devices. This allows for flexible audio routing and monitoring capabilities.
+The aux output feature is **mocked** by routing to Reverb and Delay effects instead of creating a true separate audio path.
 
 ## Overview
 
 The aux output consists of:
 
-- A volume control (0-10 scale)
-- An enable/disable switch
-- An audio output node that can be connected to other audio processing chains
+- A volume control (0-10 scale) for aux output level
+- An enable/disable switch to activate/deactivate the aux output
+- **Mocked routing** to Reverb and Delay effects instead of separate audio path
+- Independent control from the main output
 
 ## Implementation
 
@@ -19,40 +20,39 @@ The aux output state is managed in the synth store:
 ```typescript
 auxOutput: {
   enabled: boolean;
-  volume: number; // 0-10
+  volume: number; // 0-10 scale for aux output volume
 }
 ```
 
 ### Audio Routing
 
-The aux output is implemented using the `useAuxOutput` hook which:
+The aux output is **mocked** by routing to Reverb and Delay effects:
 
-1. Creates a GainNode for volume control using the node pooling system
-2. Connects to the master gain node (mixer output) to receive the main audio signal
-3. Provides an output node that can be routed to other audio destinations
-4. Manages gain changes and enables/disables the output
+1. Controls the `auxOutput.volume` parameter (0-10 scale)
+2. Provides enable/disable functionality via `auxOutput.enabled`
+3. Uses logarithmic volume mapping for smooth control
+4. **Mocks external routing** by sending to Reverb and Delay effects
 
 ### Components
 
-- `EffectsOut.tsx` - UI component with volume knob and enable switch
-- `useAuxOutput.ts` - Hook that handles audio routing and gain control
+- `useAuxOutput.ts` - Hook that **mocks** aux output by routing to Reverb and Delay effects
+- Currently **not exposed in the UI** - exists as a backend audio feature
 
 ## Usage
 
 ### Basic Usage
 
-1. Enable the aux output using the rocker switch
-2. Adjust the volume using the volume knob
-3. The aux output will provide the same audio signal as the main output but with independent volume control
+1. Enable aux output using the `auxOutput.enabled` state
+2. Adjust the aux output volume using the `auxOutput.volume` parameter (0-10 scale)
+3. The aux output provides a separate audio signal from the main output
 
-### Audio Routing
+### Aux Control
 
-The aux output node can be connected to:
+The aux output controls:
 
-- External audio interfaces
-- Recording software
-- Additional effects chains
-- Monitoring systems
+- **Enabled state** - activates/deactivates the aux output node
+- **Volume level** - controls the gain of the aux output (0-10 scale)
+- **Independent routing** - separate from main output and effects
 
 ### URL State
 
@@ -62,7 +62,7 @@ Aux output settings are automatically saved to and loaded from the URL, allowing
 
 ### Volume Mapping
 
-The volume control uses a custom logarithmic mapping from the 0-10 UI scale to gain values:
+The aux output volume control uses logarithmic mapping for smooth control across the 0-10 scale:
 
 ```typescript
 const linearToLogGain = (linearVolume: number) => {
@@ -71,73 +71,69 @@ const linearToLogGain = (linearVolume: number) => {
 };
 ```
 
-**Actual Gain Values:**
+### Aux Output Logic
 
-- 0: 0.1 (-20dB)
-- 1: ~0.19 (-14dB)
-- 2: ~0.28 (-11dB)
-- 3: ~0.37 (-8.6dB)
-- 4: ~0.46 (-6.8dB)
-- 5: ~0.55 (-5.2dB)
-- 6: ~0.64 (-3.9dB)
-- 7: ~0.73 (-2.7dB)
-- 8: ~0.82 (-1.7dB)
-- 9: ~0.91 (-0.8dB)
-- 10: 1.0 (0dB)
+The aux output uses this logic:
 
-**Note**: The mapping provides a minimum gain of 0.1 (-20dB) at volume 0, ensuring the aux output is never completely silent.
+```typescript
+const newGain = auxOutput.enabled ? linearToLogGain(auxOutput.volume) : 0;
+```
+
+**Behavior:**
+
+- **Enabled**: Aux output node is active with volume-controlled gain
+- **Disabled**: Aux output node is muted (gain = 0)
+- **Independent**: Separate from main output and effects processing
 
 ### Audio Graph
 
 ```
 Mixer → Master Gain → [Main Output]
-     ↘ Aux Output Gain → [External Destination]
+         ↓
+    [Aux Output] → **Mocked to Reverb & Delay Effects**
 ```
 
-The aux output taps the signal from the mixer output (before the main output), ensuring it receives the complete processed audio signal including all oscillators, noise, external input, and filter processing.
+The aux output is **mocked** by routing to the Reverb and Delay effects instead of creating a true separate audio path.
 
-### Node Pooling Integration
+### Component Integration
 
-The aux output uses the node pooling system for efficient resource management:
+The `useAuxOutput` hook integrates with:
 
-- **GainNode creation**: Uses `getPooledNode("gain", audioContext)` for optimal performance
-- **Resource cleanup**: Automatically releases nodes with `releaseNode()` when unmounting
-- **Gain management**: Uses `resetGain()` utility for smooth gain changes
-
-### Gain Management
-
-The hook includes several safety features:
-
-- **Initial muted state**: Starts with gain 0 to prevent audio spikes
-- **Error handling**: Checks for valid gain values before applying
-- **Smooth transitions**: Uses `resetGain()` for artifact-free gain changes
-- **State synchronization**: Automatically updates gain when enabled/disabled
+- **Store state**: Uses `useSynthStore()` to access `auxOutput` state
+- **Audio context**: Creates and manages `GainNode` instances
+- **Node pooling**: Uses pooled nodes for performance optimization
+- **Audio routing**: **Mocks** external routing by sending to Reverb and Delay effects
 
 ## Implementation Notes
 
 ### Current Features
 
-- ✅ **Volume control** with logarithmic mapping (0-10 scale)
-- ✅ **Enable/disable switch** with rocker switch UI
-- ✅ **Node pooling integration** for efficient resource management
+- ✅ **Aux output volume control** with logarithmic mapping (0-10 scale)
+- ✅ **Enable/disable functionality** via store state
+- ✅ **Node pooling** for performance optimization
 - ✅ **URL state persistence** for preset sharing
-- ✅ **Error handling** for invalid gain values
-- ✅ **Smooth gain transitions** to prevent audio artifacts
+- ✅ **Independent audio routing** from main output
+- ⚠️ **No UI component** - currently backend-only feature
 
 ### Audio Processing
 
-- **Input source**: Mixer output (includes all audio sources)
-- **Processing**: Volume control via GainNode
-- **Output**: Clean audio signal for external routing
-- **Latency**: Minimal processing delay
+- **Input source**: Master gain node (post-mixer, pre-main output)
+- **Processing**: Volume-controlled gain with logarithmic mapping
+- **Output**: **Mocked** by routing to Reverb and Delay effects
+- **Latency**: Minimal - direct connection to master gain
 
 ### Integration Points
 
-- **Main audio system**: Connected via `useNoiseAndAux` hook
-- **Store management**: Integrated with synth store state
+- **Main audio system**: Connected to master gain node
+- **Store management**: Uses `auxOutput` state (`enabled`, `volume`)
 - **URL persistence**: Part of the comprehensive URL state system
-- **Component hierarchy**: Located in the Output section
+- **Hook usage**: Used in `useNoiseAndAux` for audio chain integration
+- **Mocked routing**: Sends to Reverb and Delay effects instead of external output
 
 ## Conclusion
 
-The aux output provides a flexible secondary audio path that maintains the authentic Minimoog sound while enabling modern audio routing capabilities. The implementation is efficient, reliable, and integrates seamlessly with the broader audio optimization systems.
+The aux output is **mocked** by routing to Reverb and Delay effects instead of providing a true separate audio path. While currently implemented as a backend feature without UI controls, it simulates external processing capabilities through the effects chain.
+
+## Note on Effects Output
+
+The "Effects Output" feature (documented separately) controls delay and reverb effects processing, while this aux output **mocks** external routing by sending to those same effects. These are related but distinct systems in the audio chain.

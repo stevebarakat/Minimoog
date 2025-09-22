@@ -12,6 +12,7 @@ The audio processors provide real-time audio processing capabilities for the Min
 
 - **`modulation-monitor-processor.js`** - Real-time modulation signal monitoring and analysis
 - **`overload-meter-processor.js`** - Audio level monitoring and clipping detection
+- **`delay-processor.js`** - Custom delay effect with feedback and wet/dry mixing
 
 ### **Related Processors**
 
@@ -34,6 +35,11 @@ await audioContext.audioWorklet.addModule(
 await audioContext.audioWorklet.addModule(
   "/audio/audio-processors/overload-meter-processor.js"
 );
+
+// Load delay processor
+await audioContext.audioWorklet.addModule(
+  "/audio/audio-processors/delay-processor.js"
+);
 ```
 
 ### **Creating Processor Nodes**
@@ -50,6 +56,17 @@ const overloadMeter = new AudioWorkletNode(
   audioContext,
   "overload-meter-processor"
 );
+
+// Create delay processor node
+const delayNode = new AudioWorkletNode(audioContext, "delay-processor", {
+  processorOptions: {
+    delayTime: 0.25, // 250ms default
+    feedback: 0.3,
+    wetLevel: 0.5,
+    dryLevel: 0.5,
+    enabled: true,
+  },
+});
 ```
 
 ### **Using with Node Pooling**
@@ -84,12 +101,21 @@ releaseNode(overloadMeter);
 - **Threshold**: Configurable overload detection at 0.3 amplitude
 - **Performance**: Efficient frame-based processing with debug logging
 
+### **Delay Processor**
+
+- **Purpose**: Custom delay effect with feedback and wet/dry mixing
+- **Use case**: Adding spatial depth and echo effects to audio
+- **Parameters**: Delay time (0.001-2.0s), feedback (0-0.95), wet/dry levels (0-1)
+- **Features**: Real-time parameter updates, bypass mode, circular buffer implementation
+- **Performance**: Efficient buffer management with minimal CPU overhead
+
 ## 🔗 **Integration**
 
 These processors are used throughout the application for:
 
 - **Modulation monitoring** in the main audio context
 - **Overload detection** in external input and output components
+- **Delay effects** in the effects processing chain
 - **Signal analysis** for debugging and optimization
 - **Performance monitoring** and audio quality assurance
 

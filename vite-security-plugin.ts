@@ -22,7 +22,9 @@ export function securityPlugin(): Plugin {
         // Set CSP header with nonce for development (relaxed for local network access)
         const cspDirectives = [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-eval' 'nonce-" + currentNonce + "' https://www.googletagmanager.com https://va.vercel-scripts.com",
+          "script-src 'self' 'unsafe-eval' 'nonce-" +
+            currentNonce +
+            "' https://www.googletagmanager.com https://va.vercel-scripts.com",
           "style-src 'self' 'unsafe-inline'",
           "font-src 'self'",
           "img-src 'self' data: blob:",
@@ -63,7 +65,9 @@ export function securityPlugin(): Plugin {
         // Update CSP meta tag with proper nonce for development (relaxed for local network access)
         const cspContent = [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-eval' 'nonce-" + currentNonce + "' https://www.googletagmanager.com https://va.vercel-scripts.com",
+          "script-src 'self' 'unsafe-eval' 'nonce-" +
+            currentNonce +
+            "' https://www.googletagmanager.com https://va.vercel-scripts.com",
           "style-src 'self' 'unsafe-inline'",
           "font-src 'self'",
           "img-src 'self' data: blob:",

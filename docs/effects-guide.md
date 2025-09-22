@@ -1,12 +1,12 @@
 # Effects Guide
 
-The Minimoog emulator includes two professional-grade effects using native Web Audio API that can be accessed via the Effects dropdown.
+The Minimoog app includes two professional-grade effects using native Web Audio API that can be accessed via the Effects dropdown.
 
-## Available Effects
+## Effects
 
 ### Delay
 
-Professional digital delay with echo and feedback using custom AudioWorklet processor.
+Digital delay with echo and feedback using custom AudioWorklet processor.
 
 **Controls:**
 
@@ -37,26 +37,3 @@ Effects have their own output section with:
 
 - **Volume**: Master effects level (0-10)
 - **Effects**: Master on/off switch for both effects
-
-## Technical Details
-
-### Web Audio API Integration
-
-- **Professional Audio Quality**: Industry-standard native audio processing algorithms
-- **Optimized Performance**: Efficient real-time audio processing with minimal overhead
-- **Type Safety**: Full TypeScript support with proper type definitions
-
-### Audio Processing
-
-- **Delay**: 20ms to 1000ms range with 0-90% feedback
-- **Reverb**: Authentic impulse response convolution for realistic acoustic spaces
-- **Real-time Control**: All parameters update in real-time without audio glitches
-- **Efficient Routing**: Optimized audio signal path for minimal latency
-
-## Tips
-
-- Effects are processed after the main synthesizer signal
-- Both effects can be used simultaneously
-- Panel positions are automatically saved
-- Effects state persists in URL sharing
-- Professional-grade audio quality comparable to commercial synthesizers
