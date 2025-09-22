@@ -11,9 +11,11 @@ This document outlines the coding standards, architectural decisions, and develo
 ## Code Generation
 
 ### Avoid These Packages
+
 - `tailwindcss` - We use CSS Modules instead
 
 ### Preferred Packages
+
 - `postcss` - CSS processing
 - `autoprefixer` - Automatic vendor prefixes
 - `postcss-preset-env` - Modern CSS features
@@ -37,14 +39,17 @@ This document outlines the coding standards, architectural decisions, and develo
 ## React Guidelines
 
 ### Component Props
+
 - Prefer explicit component props over implicit dependencies
 - Use proper TypeScript typing for all props
 
 ### Event Handlers
+
 - Prefer event handlers over useEffect for user interactions
 - useEffect should only be used for syncing with external APIs (e.g., Web Audio API)
 
 ### useEffect Guidelines
+
 - **One concern per useEffect**: If the dependency list is long or mixes unrelated values, split it into smaller effects
 - **Meaningful dependencies**: Use useMemo/useCallback to reduce dependencies to only what's meaningful
 - **Long dependency lists**: A long dependency list isn't bad if all values belong to the same concern and every change truly needs to trigger the effect
@@ -63,6 +68,7 @@ This document outlines the coding standards, architectural decisions, and develo
 ## Single Responsibility Principle
 
 ### Component Separation
+
 - **Enforce**: Strictly enforce component separation
 - **Max Component Lines**: 200 lines per component
 - **Max Function Lines**: 50 lines per function
@@ -71,11 +77,13 @@ This document outlines the coding standards, architectural decisions, and develo
 ## Project Structure
 
 ### File Organization
+
 - **Colocate Files**: Place related files (component, styles, tests, hooks, types, audio, store, utils, etc.) in the same directory
 - **Improve Discoverability**: Related files should be easy to find together
 - **Maintainability**: Keep related functionality together
 
 ### Index Files
+
 - **Component Index**: Each component directory should include an index.ts file
 - **Clean Imports**: Re-export the default component (e.g., `export { default } from './ComponentName';`)
 - **Consistent Imports**: Enable cleaner and more consistent import statements
@@ -83,25 +91,30 @@ This document outlines the coding standards, architectural decisions, and develo
 ## Testing Strategy
 
 ### Focus Areas
+
 - **Behavior Testing**: Focus on behavior, not implementation details
 - **Avoid Implementation Details**: Don't test internal implementation unless it's part of the public API
 
 ### Layered Testing Approach
 
 #### Unit Tests - DSP Layer
+
 - Test oscillators, filters, envelopes, and mixer modules in isolation
 - Assert Web Audio API node connections, parameter values, and range enforcement
 - Use OfflineAudioContext where possible to render and inspect short audio buffers
 
 #### Integration Tests - Audio Graph
+
 - Create small synth patches and verify parameter changes propagate through the graph
 - Confirm oscillator frequencies, filter cutoffs, and envelope shapes match expected outputs
 
 #### UI Behavior Tests - User Interactions
+
 - Use React Testing Library to simulate clicks, knob drags, and key presses
 - Assert these actions trigger correct DSP parameter updates and start/stop audio as expected
 
 ### Testing Guidelines
+
 - **UI State**: Avoid directly testing hooks or component internals — rely on user-observable changes
 - **DSP State**: Testing 'internal details' is acceptable and required, because DSP internals are part of the app's public API to the UI
 - **Test What, Not How**: Test what the component does, not how it does it, except where DSP internals are the public API
