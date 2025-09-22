@@ -5,6 +5,9 @@ import {
   OscillatorState,
   MixerNoiseState,
   MixerExternalState,
+} from "./types/synth";
+import { track } from "@vercel/analytics";
+import {
   createPitchWheelRange,
   createModWheelRange,
   createMasterTuneRange,
@@ -103,6 +106,7 @@ export function createSynthActions(
       setWithSave(set, () => ({ isMainActive: value })),
 
     setFilterType: (type) => {
+      track("filter_type_changed", { filter_type: type });
       setWithSave(set, () => ({ filterType: type }));
     },
 
@@ -155,6 +159,7 @@ export function createSynthActions(
       setWithSave(set, () => ({ lfoWaveform: waveform })),
 
     setLfoRate: (rate: number) => {
+      track("lfo_rate_changed", { lfo_rate: rate });
       setWithSave(set, () => ({ lfoRate: createLfoRateRange(rate) }));
     },
 

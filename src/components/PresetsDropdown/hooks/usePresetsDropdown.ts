@@ -4,6 +4,7 @@ import { presets, Preset, getCategories } from "@/data/presets";
 import { convertPresetToStoreFormat } from "@/utils/data";
 import { logger } from "@/utils/core";
 import { useToast } from "@/components/Toast/hooks/useToast";
+import { track } from "@vercel/analytics";
 
 export function usePresetsDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +64,11 @@ export function usePresetsDropdown() {
       loadPreset(presetParameters);
       setLastLoadedPresetId(preset.id);
 
+      // Track preset usage
+      track("preset_selected", {
+        preset_name: preset.name,
+        preset_category: preset.category,
+      });
 
       if (typeof window !== "undefined") {
         localStorage.setItem("lastLoadedPresetId", preset.id);

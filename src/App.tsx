@@ -21,7 +21,6 @@ function App() {
           // Service worker registration failed
         });
     }
-
   }, []);
 
   return (

@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import type { UseKeyboardHandlersProps } from "./types";
+import { track } from "@vercel/analytics";
 
 export function useKeyboardHandlers({
   isMouseDown,
@@ -28,6 +29,11 @@ export function useKeyboardHandlers({
         return updatedKeys;
       });
 
+      // Track keyboard usage
+      track("keyboard_press", {
+        note: note,
+        octave: note.replace(/[A-G]#?/, ""),
+      });
 
       setTimeout(() => {
         synth.triggerAttack(note);
