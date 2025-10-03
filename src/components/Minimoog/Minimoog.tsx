@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useSynthStore } from "@/store/synthStore";
 import { useKeyboardState } from "@/store/selectors";
 import Container from "../Container";
@@ -41,6 +41,26 @@ const Minimoog = memo(function Minimoog() {
     },
     enabled: !isInitialized,
   });
+
+  // Activate power when onboarding is closed
+  useEffect(() => {
+    const handleOnboardingCompleted = () => {
+      console.log("Onboarding completed, isInitialized:", isInitialized);
+      if (!isInitialized) {
+        console.log("Calling onInitialize() from onboarding completion");
+        onInitialize();
+      }
+    };
+
+    window.addEventListener("onboarding-completed", handleOnboardingCompleted);
+
+    return () => {
+      window.removeEventListener(
+        "onboarding-completed",
+        handleOnboardingCompleted
+      );
+    };
+  }, [isInitialized, onInitialize]);
 
   // URL synchronization
   const countdownToast = useURLSync();
