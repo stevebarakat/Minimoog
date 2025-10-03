@@ -157,9 +157,6 @@ EXTERNAL_INPUT.LEVEL_MONITORING.MAX_GAIN; // 0.9
 
 ```typescript
 UI.DEFAULTS.KEYBOARD_INSTRUCTIONS_OPEN; // false
-POWER_REQUIRED_TOAST.title; // "Power Required"
-POWER_REQUIRED_TOAST.description; // "Please click the power switch to use the Minimoog"
-POWER_REQUIRED_TOAST.variant; // "error"
 ```
 
 ### Envelope Mapping

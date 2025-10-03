@@ -16,7 +16,7 @@ import { CountdownToast } from "@/components/CountdownToast";
 import { ControlsContainer } from "./components";
 import styles from "./Minimoog.module.css";
 import { useIsMobile } from "@/hooks/useMediaQuery";
-import { usePowerRequiredToast } from "@/hooks/usePowerRequiredToast";
+import { useFirstClickDetection } from "@/hooks/useFirstClickDetection";
 
 const Minimoog = memo(function Minimoog() {
   const isMobile = useIsMobile();
@@ -26,12 +26,21 @@ const Minimoog = memo(function Minimoog() {
   // UI state management
   const { view } = useUIState();
 
-  // Power required toast management
-  const { showPowerRequiredToast, closeToast } = usePowerRequiredToast();
-
   // Audio context management
   const { audioContext, isInitialized, onInitialize, onDispose } =
-    useAudioContextManagement(closeToast);
+    useAudioContextManagement();
+
+  // First click detection for auto power activation
+  useFirstClickDetection({
+    onFirstClick: () => {
+      console.log("First click detected, isInitialized:", isInitialized);
+      if (!isInitialized) {
+        console.log("Calling onInitialize()");
+        onInitialize();
+      }
+    },
+    enabled: !isInitialized,
+  });
 
   // URL synchronization
   const countdownToast = useURLSync();
@@ -51,6 +60,8 @@ const Minimoog = memo(function Minimoog() {
   const safeActiveKeys =
     typeof activeKeys === "string" ? activeKeys : activeKeys?.note || null;
 
+  // Don't render on mobile devices (width <= 760px)
+  // Tablets (761px-979px) and desktop (980px+) are supported
   if (isMobile) return null;
 
   return (
@@ -72,7 +83,6 @@ const Minimoog = memo(function Minimoog() {
           <div className={styles.keyboardPanel}>
             <SidePanel />
             <Keyboard
-              onClick={showPowerRequiredToast}
               activeKeys={safeActiveKeys}
               octaveRange={{ min: 3, max: 5 }}
               extraKeys={8}

@@ -84,7 +84,11 @@ export function useMidiDeviceSetup(
           throw permissionError;
         }
       } else {
-        throw new Error("Web MIDI API not supported in this browser");
+        // Web MIDI API not supported - this is normal on mobile devices
+        console.warn("Web MIDI API not supported in this browser");
+        setPermissionState("unsupported");
+        setError(null);
+        return;
       }
 
       midiAccess.inputs.forEach((input) => {

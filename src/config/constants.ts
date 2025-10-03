@@ -470,12 +470,6 @@ export const UI = {
   },
 } as const;
 
-export const POWER_REQUIRED_TOAST = {
-  title: "Power Required",
-  description: "Please click the power switch to use the Minimoog",
-  variant: "error" as const,
-} as const;
-
 export const ENV = {
   DEV: {
     AUDIO: {

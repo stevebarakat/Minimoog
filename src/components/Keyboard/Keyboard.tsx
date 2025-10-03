@@ -22,7 +22,6 @@ import {
   shouldInterceptKeyboardEvent,
   isSynthFocused,
 } from "@/utils";
-import { usePowerRequiredToast } from "@/hooks/usePowerRequiredToast";
 
 export function Keyboard({
   activeKeys = null,
@@ -42,7 +41,6 @@ export function Keyboard({
   const setPitchWheel = useSynthStore((state) => state.setPitchWheel);
   const setModWheel = useSynthStore((state) => state.setModWheel);
   const pitchWheel = useSynthStore((state) => state.pitchWheel);
-  const { showPowerRequiredToast } = usePowerRequiredToast();
   const pitchRampAnimationRef = useRef<number | null>(null);
   const allKeys = generateKeyboardKeys(octaveRange, extraKeys);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -331,22 +329,6 @@ export function Keyboard({
   const whiteKeyWidth = 100 / keys.filter((key) => !key.isSharp).length;
 
   const handleClick = (e: React.MouseEvent) => {
-    // Don't show toast if clicking on interactive elements
-    const target = e.target as HTMLElement;
-    const isInteractiveElement =
-      target.tagName === "BUTTON" ||
-      target.tagName === "INPUT" ||
-      target.tagName === "LABEL" ||
-      target.closest("button") ||
-      target.closest("input") ||
-      target.closest("label") ||
-      target.closest('[role="button"]') ||
-      target.closest("[tabindex]");
-
-    if (!isInteractiveElement) {
-      showPowerRequiredToast();
-    }
-
     // Call the original onClick handler
     onClick(e);
   };

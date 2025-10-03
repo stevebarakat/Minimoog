@@ -78,8 +78,8 @@
 }
 
 .description {
-  color: var(--color-text);
   margin: 0 0 20px;
+  color: var(--color-text);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;

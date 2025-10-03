@@ -14,7 +14,6 @@ function Power({ isInitialized, onInitialize, onDispose }: PowerProps) {
       style={{
         borderRadius: "0 0 10px 0",
         marginRight: "var(--spacing-md)",
-        height: "100%",
       }}
     >
       <PowerButton

@@ -108,8 +108,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     id: "power",
     title: "You're Ready!",
     description:
-      "You now know the basics of the Minimoog. Start exploring and creating your own unique sounds. Press the power switch to get started!",
-    target: "[data-onboarding='power']",
-    position: "bottom",
+      "You now know the basics of the Minimoog. Start exploring and creating your own unique sounds!",
+    position: "top",
   },
 ];

@@ -26,60 +26,11 @@ export function ControlsContainer({
   scrollRef,
   onKeyDown,
 }: ControlsContainerProps) {
-  const powerButtonRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
     }
   }, [scrollRef]);
-
-  useEffect(() => {
-    function handleOnboardingCompleted() {
-      // Add a small delay to ensure DOM is stable
-      setTimeout(() => {
-        if (powerButtonRef.current) {
-          const powerButtonInput = powerButtonRef.current.querySelector(
-            '[data-testid="power-button"]'
-          ) as HTMLElement;
-          if (powerButtonInput) {
-            const labelElement = powerButtonInput.closest("label");
-            if (labelElement) {
-              labelElement.focus();
-            }
-          }
-        }
-      }, 100);
-    }
-
-    function handleFocusPowerButton() {
-      // Add a small delay to ensure DOM is stable
-      setTimeout(() => {
-        if (powerButtonRef.current) {
-          const powerButtonInput = powerButtonRef.current.querySelector(
-            '[data-testid="power-button"]'
-          ) as HTMLElement;
-          if (powerButtonInput) {
-            const labelElement = powerButtonInput.closest("label");
-            if (labelElement) {
-              labelElement.focus();
-            }
-          }
-        }
-      }, 100);
-    }
-
-    window.addEventListener("onboarding-completed", handleOnboardingCompleted);
-    window.addEventListener("focus-power-button", handleFocusPowerButton);
-
-    return () => {
-      window.removeEventListener(
-        "onboarding-completed",
-        handleOnboardingCompleted
-      );
-      window.removeEventListener("focus-power-button", handleFocusPowerButton);
-    };
-  }, []);
 
   return (
     <div className={styles.controlsContainer}>
@@ -96,13 +47,11 @@ export function ControlsContainer({
         <Mixer audioContext={audioContext!} mixerNode={mixerNode!} />
         <Modifiers />
         <Output />
-        <div ref={powerButtonRef}>
-          <Power
-            isInitialized={isInitialized}
-            onInitialize={onInitialize}
-            onDispose={onDispose}
-          />
-        </div>
+        <Power
+          isInitialized={isInitialized}
+          onInitialize={onInitialize}
+          onDispose={onDispose}
+        />
       </div>
       <div id="scroll-instructions" className="sr-only">
         Use keyboard arrow keys to scroll through synthesizer controls when they

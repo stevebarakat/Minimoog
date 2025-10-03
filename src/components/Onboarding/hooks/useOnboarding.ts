@@ -49,9 +49,6 @@ export function useOnboarding(totalSteps: number = 14) {
     if (newValue === false) {
       setOptions({ welcomeTour: newValue, onboardingVisible: false });
       setIsVisible(false);
-      setTimeout(() => {
-        window.dispatchEvent(new CustomEvent("focus-power-button"));
-      }, 0);
     }
   }
 

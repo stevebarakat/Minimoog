@@ -3,7 +3,6 @@ import styles from "../Keyboard.module.css";
 import { cn } from "@/utils";
 import type { BlackKeyProps } from "../types";
 import { useIsSynthDisabled } from "@/store/selectors";
-import { usePowerRequiredToast } from "@/hooks/usePowerRequiredToast";
 
 export function BlackKey({
   isActive,
@@ -15,11 +14,7 @@ export function BlackKey({
   onPointerLeave,
 }: BlackKeyProps) {
   const isDisabled = useIsSynthDisabled();
-  const { showPowerRequiredToast } = usePowerRequiredToast();
 
-  const handleClick = () => {
-    showPowerRequiredToast();
-  };
   return (
     <button
       className={cn(
@@ -33,7 +28,6 @@ export function BlackKey({
       }}
       aria-pressed={isActive}
       aria-label="Piano key (sharp)"
-      onClick={handleClick}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       onPointerEnter={onPointerEnter}

@@ -2,7 +2,6 @@ import styles from "./RockerSwitch.module.css";
 import { slugify, cn } from "@/utils";
 import { useRockerSwitchKeyboard } from "./hooks";
 import { useEffect, useRef, useCallback } from "react";
-import { usePowerRequiredToast } from "@/hooks/usePowerRequiredToast";
 
 type RockerSwitchProps = {
   checked: boolean;
@@ -43,8 +42,6 @@ function RockerSwitch({
 }: RockerSwitchProps) {
   // Covert label to slug for id
   const id = slugify(label);
-
-  const { showPowerRequiredToast } = usePowerRequiredToast();
 
   // Add keyboard handling for spacebar toggle
   const { switchRef } = useRockerSwitchKeyboard({
@@ -169,7 +166,7 @@ function RockerSwitch({
         htmlFor={id}
         ref={handleSwitchRef}
         tabIndex={0}
-        onPointerDown={disabled ? showPowerRequiredToast : handlePointerDown}
+        onPointerDown={handlePointerDown}
         onClick={handleClick}
         onBlur={handleBlur}
       >

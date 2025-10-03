@@ -13,7 +13,6 @@ import SavePreset from "../SavePreset";
 import { isDevMode } from "@/config";
 import { useSynthStore } from "@/store/synthStore";
 import { useState } from "react";
-import { usePowerRequiredToast } from "@/hooks/usePowerRequiredToast";
 
 function Toolbar() {
   const isInitialized = useIsSynthReady();
@@ -21,7 +20,6 @@ function Toolbar() {
   const devMode = isDevMode();
   const [isDevStatsOpen, setIsDevStatsOpen] = useState(false);
   const audioContext = useSynthStore((state) => state.audioContext.context);
-  const { showPowerRequiredToast } = usePowerRequiredToast();
 
   if (isMobile) return null;
 
@@ -43,7 +41,7 @@ function Toolbar() {
   );
 
   return (
-    <div onPointerDown={showPowerRequiredToast}>
+    <div>
       <Suspense fallback={<div className="loader"></div>}>
         {conditionalControls}
         <Ribbon

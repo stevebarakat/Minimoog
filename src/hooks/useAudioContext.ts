@@ -30,7 +30,7 @@ export function useAudioContext() {
   );
   const [error, setError] = useState<string | null>(null);
   const setAudioContext = useSynthStore((state) => state.setAudioContext);
-  const showToast = useToast();
+  const { showToast } = useToast();
 
   const initialize = async () => {
     try {
@@ -92,9 +92,12 @@ export function useAudioContext() {
         await audioContextRef.current.resume();
       }
 
-      await audioContextRef.current.audioWorklet.addModule(
-        "/audio/audio-processors/modulation-monitor-processor.js"
-      );
+      // Only add worklet module if AudioWorklet is supported
+      if (audioContextRef.current.audioWorklet) {
+        await audioContextRef.current.audioWorklet.addModule(
+          "/audio/audio-processors/modulation-monitor-processor.js"
+        );
+      }
 
       setAudioContextState(audioContextRef.current);
       setAudioContext({

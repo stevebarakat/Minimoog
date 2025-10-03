@@ -460,6 +460,12 @@ export async function prewarmWorkletProcessors(
     return;
   }
 
+  // Check if AudioWorklet is supported
+  if (!audioContext.audioWorklet) {
+    logger.warn("AudioWorklet not supported, skipping worklet prewarming");
+    return;
+  }
+
   try {
     // Load common audio processors
     const processorModules = [

@@ -6,7 +6,6 @@ import { KnobProps } from ".";
 import styles from "./Knob.module.css";
 import { cn, slugify } from "@/utils";
 import { useMagnifyKnobs } from "@/store/selectors";
-import { usePowerRequiredToast } from "@/hooks/usePowerRequiredToast";
 
 type PushPullProps = {
   pushPull?: boolean; // enables push/pull mode
@@ -103,11 +102,8 @@ const Knob = React.memo(function Knob({
   const labelClass =
     title && !(magnifyKnobs && isFocused) ? styles.labelHidden : styles.label;
 
-  const { showPowerRequiredToast } = usePowerRequiredToast();
-
   return (
     <div
-      onPointerDown={disabled ? showPowerRequiredToast : undefined}
       style={style}
       className={cn(
         styles.knobContainer,
