@@ -1,6 +1,8 @@
 import * as RadixTooltip from "@radix-ui/react-tooltip";
-import { ReactNode } from "react";
+import * as RadixPopover from "@radix-ui/react-popover";
+import { ReactNode, useState } from "react";
 import { useTooltips } from "@/store/selectors";
+import { useIsTouchDevice } from "@/utils";
 import styles from "./Tooltip.module.css";
 
 type TooltipProps = {
@@ -23,9 +25,33 @@ export function Tooltip({
   className,
 }: TooltipProps) {
   const tooltipsEnabled = useTooltips();
+  const isTouchDevice = useIsTouchDevice();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   if (!tooltipsEnabled || !content?.trim()) {
     return <>{children}</>;
+  }
+
+  if (isTouchDevice) {
+    return (
+      <RadixPopover.Root open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+        <RadixPopover.Trigger asChild>
+          <div style={{ display: "inline-block" }}>{children}</div>
+        </RadixPopover.Trigger>
+        <RadixPopover.Portal>
+          <RadixPopover.Content
+            className={`${styles.tooltip} ${className || ""}`}
+            side={side}
+            sideOffset={sideOffset}
+            align={align}
+            alignOffset={alignOffset}
+          >
+            <div dangerouslySetInnerHTML={{ __html: content }} />
+            <RadixPopover.Arrow className={styles.arrow} />
+          </RadixPopover.Content>
+        </RadixPopover.Portal>
+      </RadixPopover.Root>
+    );
   }
 
   return (
