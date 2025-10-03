@@ -21,4 +21,3 @@
 - [Onboarding Component](onboarding-readme.md) - User onboarding
 - [Configuration](config-readme.md) - Project config
 - [CSS Guidelines](css-guidelines.md) - Styling guidelines
-- [Analytics Setup](analytics-setup.md) - Analytics config

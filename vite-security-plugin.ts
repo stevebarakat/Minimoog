@@ -22,13 +22,11 @@ export function securityPlugin(): Plugin {
         // Set CSP header with nonce for development (relaxed for local network access)
         const cspDirectives = [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-eval' 'nonce-" +
-            currentNonce +
-            "' https://www.googletagmanager.com https://va.vercel-scripts.com",
-          "style-src 'self' 'unsafe-inline'",
-          "font-src 'self'",
+          "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://va.vercel-scripts.com",
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+          "font-src 'self' https://fonts.gstatic.com",
           "img-src 'self' data: blob:",
-          "connect-src 'self' blob: ws: wss: https://www.google-analytics.com https://va.vercel-scripts.com",
+          "connect-src 'self' blob: ws: wss: ws://localhost:* wss://localhost:* https://www.google-analytics.com https://va.vercel-scripts.com",
           "media-src 'self' blob:",
           "object-src 'none'",
           "base-uri 'self'",
@@ -65,13 +63,11 @@ export function securityPlugin(): Plugin {
         // Update CSP meta tag with proper nonce for development (relaxed for local network access)
         const cspContent = [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-eval' 'nonce-" +
-            currentNonce +
-            "' https://www.googletagmanager.com https://va.vercel-scripts.com",
-          "style-src 'self' 'unsafe-inline'",
-          "font-src 'self'",
+          "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://va.vercel-scripts.com",
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+          "font-src 'self' https://fonts.gstatic.com",
           "img-src 'self' data: blob:",
-          "connect-src 'self' blob: ws: wss: https://www.google-analytics.com https://va.vercel-scripts.com",
+          "connect-src 'self' blob: ws: wss: ws://localhost:* wss://localhost:* https://www.google-analytics.com https://va.vercel-scripts.com",
           "media-src 'self' blob:",
           "object-src 'none'",
           "base-uri 'self'",
@@ -87,6 +83,10 @@ export function securityPlugin(): Plugin {
 
         // Add nonce to all scripts (both module and inline)
         html = html.replace(/<script([^>]*)>/g, (match, attributes) => {
+          // Don't add nonce if it's already present
+          if (attributes.includes("nonce=")) {
+            return match;
+          }
           return `<script${attributes} nonce="${currentNonce}">`;
         });
 
