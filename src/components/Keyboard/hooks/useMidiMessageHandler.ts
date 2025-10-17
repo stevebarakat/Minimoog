@@ -21,6 +21,7 @@ export function useMidiMessageHandler({
   pressedKeysRef,
   setActiveKeysRef,
   activeKeysRef,
+  glideOnRef,
   pendingMod,
   pendingPitch,
 }: {
@@ -33,6 +34,7 @@ export function useMidiMessageHandler({
   pressedKeysRef: { current: Set<string> };
   setActiveKeysRef: { current: (note: string | null) => void };
   activeKeysRef: { current: string | null };
+  glideOnRef: { current: boolean };
   pendingMod: { current: number };
   pendingPitch: { current: number };
 }) {
@@ -58,14 +60,17 @@ export function useMidiMessageHandler({
             const currentActiveKey = activeKeysRef.current;
             pressedKeysRef.current.add(note);
             if (currentActiveKey && currentActiveKey !== note) {
-              // Release current note before triggering new note to prevent decay cutoff
-              synthObjRef.current?.triggerRelease();
               setActiveKeysRef.current(note);
               activeKeysRef.current = note;
-              // Small delay to allow smooth transition
-              setTimeout(() => {
+
+              if (glideOnRef.current) {
                 synthObjRef.current?.triggerAttack(note);
-              }, 15);
+              } else {
+                synthObjRef.current?.triggerRelease();
+                setTimeout(() => {
+                  synthObjRef.current?.triggerAttack(note);
+                }, 15);
+              }
             } else if (!currentActiveKey) {
               setActiveKeysRef.current(note);
               activeKeysRef.current = note;
@@ -78,14 +83,17 @@ export function useMidiMessageHandler({
               const remainingKeys = Array.from(pressedKeysRef.current);
               if (remainingKeys.length > 0) {
                 const nextKey = remainingKeys[remainingKeys.length - 1];
-                // Release current note before triggering next note to prevent decay cutoff
-                synthObjRef.current?.triggerRelease();
                 setActiveKeysRef.current(nextKey);
                 activeKeysRef.current = nextKey;
-                // Small delay to allow smooth transition
-                setTimeout(() => {
+
+                if (glideOnRef.current) {
                   synthObjRef.current?.triggerAttack(nextKey);
-                }, 15);
+                } else {
+                  synthObjRef.current?.triggerRelease();
+                  setTimeout(() => {
+                    synthObjRef.current?.triggerAttack(nextKey);
+                  }, 15);
+                }
               } else {
                 setActiveKeysRef.current(null);
                 activeKeysRef.current = null;
@@ -103,14 +111,17 @@ export function useMidiMessageHandler({
             const remainingKeys = Array.from(pressedKeysRef.current);
             if (remainingKeys.length > 0) {
               const nextKey = remainingKeys[remainingKeys.length - 1];
-              // Release current note before triggering next note to prevent decay cutoff
-              synthObjRef.current?.triggerRelease();
               setActiveKeysRef.current(nextKey);
               activeKeysRef.current = nextKey;
-              // Small delay to allow smooth transition
-              setTimeout(() => {
+
+              if (glideOnRef.current) {
                 synthObjRef.current?.triggerAttack(nextKey);
-              }, 15);
+              } else {
+                synthObjRef.current?.triggerRelease();
+                setTimeout(() => {
+                  synthObjRef.current?.triggerAttack(nextKey);
+                }, 15);
+              }
             } else {
               setActiveKeysRef.current(null);
               activeKeysRef.current = null;

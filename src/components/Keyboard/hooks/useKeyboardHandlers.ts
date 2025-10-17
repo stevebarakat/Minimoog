@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import type { UseKeyboardHandlersProps } from "./types";
 import { track } from "@vercel/analytics";
+import { useSynthStore } from "@/store/synthStore";
 
 export function useKeyboardHandlers({
   isMouseDown,
@@ -15,6 +16,8 @@ export function useKeyboardHandlers({
   onMouseUp,
   isDisabled,
 }: UseKeyboardHandlersProps) {
+  const glideOn = useSynthStore((state) => state.glideOn);
+
   const handleKeyPress = useCallback(
     (note: string): void => {
       if (isDisabled || !synth) return;
@@ -56,21 +59,20 @@ export function useKeyboardHandlers({
       if (note === activeKeys) {
         const stillPressedKeys = pressedKeys.filter((key) => key !== note);
         if (stillPressedKeys.length > 0) {
-          // There are still other keys pressed - switch to the last pressed key
           const nextKey = stillPressedKeys[stillPressedKeys.length - 1];
 
-          // Properly release the current note before triggering the next one
-          // This prevents decay cutoff issues and ensures clean note transitions
-          synth.triggerRelease(note);
-
-          // Small delay to allow the release to process before triggering the next note
-          // This mimics the robust note sequencing logic used in MIDI handling
-          setTimeout(() => {
+          if (glideOn) {
             synth.triggerAttack(nextKey);
             onKeyDown(nextKey);
-          }, 10);
+          } else {
+            synth.triggerRelease(note);
+
+            setTimeout(() => {
+              synth.triggerAttack(nextKey);
+              onKeyDown(nextKey);
+            }, 10);
+          }
         } else {
-          // No more keys pressed - release the note
           synth.triggerRelease(note);
           onKeyUp(note);
         }
@@ -84,6 +86,7 @@ export function useKeyboardHandlers({
       activeKeys,
       pressedKeys,
       setPressedKeys,
+      glideOn,
     ]
   );
 

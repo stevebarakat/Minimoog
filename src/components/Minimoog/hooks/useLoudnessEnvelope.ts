@@ -18,8 +18,13 @@ export function useLoudnessEnvelope({
   osc2,
   osc3,
 }: LoudnessEnvelopeProps) {
-  const { decaySwitchOn, loudnessAttack, loudnessDecay, loudnessSustain } =
-    useSynthStore();
+  const {
+    decaySwitchOn,
+    loudnessAttack,
+    loudnessDecay,
+    loudnessSustain,
+    glideOn,
+  } = useSynthStore();
 
   // Precompute envelope times with conversion
   const loudnessAttackTime = mapEnvelopeTime(loudnessAttack);
@@ -59,12 +64,10 @@ export function useLoudnessEnvelope({
         const now = audioContext.currentTime;
 
         if (decaySwitchOn) {
-          // Long release - let envelope control volume, stop oscillators after
           loudnessEnvelopeGain.gain.cancelScheduledValues(now);
           const currentGain = loudnessEnvelopeGain.gain.value;
 
-          // Use a very short ramp to prevent popping
-          const rampTime = 0.002; // 2ms ramp
+          const rampTime = 0.002;
 
           loudnessEnvelopeGain.gain.setValueAtTime(currentGain, now);
           loudnessEnvelopeGain.gain.linearRampToValueAtTime(
@@ -72,25 +75,25 @@ export function useLoudnessEnvelope({
             now + rampTime + loudnessDecayTime
           );
 
-          // Stop oscillators after the envelope finishes
-          setTimeout(() => {
+          if (!glideOn) {
+            setTimeout(() => {
+              osc1?.triggerRelease?.();
+              osc2?.triggerRelease?.();
+              osc3?.triggerRelease?.();
+            }, (rampTime + loudnessDecayTime) * 1000);
+          }
+        } else {
+          if (!glideOn) {
             osc1?.triggerRelease?.();
             osc2?.triggerRelease?.();
             osc3?.triggerRelease?.();
-          }, (rampTime + loudnessDecayTime) * 1000);
-        } else {
-          // Immediate cutoff - stop oscillators right away
-          osc1?.triggerRelease?.();
-          osc2?.triggerRelease?.();
-          osc3?.triggerRelease?.();
+          }
 
           loudnessEnvelopeGain.gain.cancelScheduledValues(now);
           const currentGain = loudnessEnvelopeGain.gain.value;
-          // Add a small release time to prevent popping
-          const releaseTime = Math.max(0.005, loudnessDecayTime * 0.1); // At least 5ms
+          const releaseTime = Math.max(0.005, loudnessDecayTime * 0.1);
 
-          // Use a very short ramp to prevent popping
-          const rampTime = 0.002; // 2ms ramp
+          const rampTime = 0.002;
 
           loudnessEnvelopeGain.gain.setValueAtTime(currentGain, now);
           loudnessEnvelopeGain.gain.linearRampToValueAtTime(
@@ -107,6 +110,7 @@ export function useLoudnessEnvelope({
     osc2,
     osc3,
     decaySwitchOn,
+    glideOn,
     loudnessAttackTime,
     loudnessDecayTime,
     loudnessSustainLevel,

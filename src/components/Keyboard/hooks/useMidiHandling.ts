@@ -11,7 +11,7 @@ export function useMidiHandling(
   synthObj: SimpleSynthObject | null,
   isMobile: boolean
 ) {
-  const { setActiveKeys, setPitchWheel, setModWheel, activeKeys } =
+  const { setActiveKeys, setPitchWheel, setModWheel, activeKeys, glideOn } =
     useSynthStore();
 
   // Track pressed keys for legato mode
@@ -25,6 +25,7 @@ export function useMidiHandling(
   const setModWheelRef = useRef(setModWheel);
   const synthObjRef = useRef(synthObj);
   const activeKeysRef = useRef(activeKeys);
+  const glideOnRef = useRef(glideOn);
 
   // Update refs when store values change
   useEffect(() => {
@@ -33,7 +34,15 @@ export function useMidiHandling(
     setModWheelRef.current = setModWheel;
     synthObjRef.current = synthObj;
     activeKeysRef.current = activeKeys;
-  }, [setActiveKeys, setPitchWheel, setModWheel, synthObj, activeKeys]);
+    glideOnRef.current = glideOn;
+  }, [
+    setActiveKeys,
+    setPitchWheel,
+    setModWheel,
+    synthObj,
+    activeKeys,
+    glideOn,
+  ]);
 
   // Use extracted MIDI message handler
   const handleMidiMessage = useMidiMessageHandler({
@@ -43,6 +52,7 @@ export function useMidiHandling(
     setPitchWheelRef,
     setModWheelRef,
     activeKeysRef,
+    glideOnRef,
     pendingMod,
     pendingPitch,
     currentMod,

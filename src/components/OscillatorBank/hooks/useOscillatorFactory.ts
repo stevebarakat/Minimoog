@@ -78,8 +78,7 @@ export function useOscillatorFactory(
     (note: string) => {
       if (!audioContext || !mixerNode) return;
 
-      // Clean up existing oscillator before creating new one
-      if (oscRef.current) {
+      if (!glideOn && oscRef.current) {
         try {
           oscRef.current.stop();
           oscRef.current = null;
@@ -88,20 +87,22 @@ export function useOscillatorFactory(
         }
       }
 
-      try {
-        oscRef.current = createOscillator(
-          {
-            audioContext,
-            waveform: oscillatorState.waveform,
-            frequency: oscillatorState.frequency,
-            range: oscillatorState.range,
-            gain: oscillatorState.enabled ? boostedVolume : 0,
-          },
-          mixerNode
-        );
-      } catch (error) {
-        console.error("Error creating oscillator:", error);
-        return;
+      if (!oscRef.current) {
+        try {
+          oscRef.current = createOscillator(
+            {
+              audioContext,
+              waveform: oscillatorState.waveform,
+              frequency: oscillatorState.frequency,
+              range: oscillatorState.range,
+              gain: oscillatorState.enabled ? boostedVolume : 0,
+            },
+            mixerNode
+          );
+        } catch (error) {
+          console.error("Error creating oscillator:", error);
+          return;
+        }
       }
 
       try {
