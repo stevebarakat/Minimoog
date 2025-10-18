@@ -101,7 +101,7 @@ export const securityConfig: SecurityConfig = {
     "X-Content-Type-Options": "nosniff",
 
     // Clickjacking Protection
-    "X-Frame-Options": "DENY",
+    "X-Frame-Options": "SAMEORIGIN",
 
     // Referrer Policy
     "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -114,16 +114,16 @@ export const securityConfig: SecurityConfig = {
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
 
     // Cross-Origin Opener Policy
-    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
 
     // Cross-Origin Resource Policy
-    "Cross-Origin-Resource-Policy": "same-origin",
+    "Cross-Origin-Resource-Policy": "cross-origin",
 
     // Cross-Origin Embedder Policy
-    "Cross-Origin-Embedder-Policy": "require-corp",
+    "Cross-Origin-Embedder-Policy": "unsafe-none",
 
     // Origin Isolation
-    "Origin-Isolation": "require-corp",
+    "Origin-Isolation": "unsafe-none",
 
     // Clear Site Data (for logout scenarios)
     "Clear-Site-Data": '"cache", "cookies", "storage"',

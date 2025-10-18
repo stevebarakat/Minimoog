@@ -31,7 +31,7 @@ export function securityPlugin(): Plugin {
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'self'",
-          "frame-ancestors 'none'", // Prevents clickjacking
+          "frame-ancestors 'self' https://www.upwork.com https://*.upwork.com",
           // Removed upgrade-insecure-requests for local development
         ].join("; ");
 
@@ -39,7 +39,7 @@ export function securityPlugin(): Plugin {
 
         // Set additional security headers (relaxed for local development)
         res.setHeader("X-Content-Type-Options", "nosniff");
-        res.setHeader("X-Frame-Options", "DENY");
+        res.setHeader("X-Frame-Options", "SAMEORIGIN");
         res.setHeader("X-XSS-Protection", "1; mode=block");
         res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
         res.setHeader(
@@ -72,6 +72,7 @@ export function securityPlugin(): Plugin {
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'self'",
+          "frame-ancestors 'self' https://www.upwork.com https://*.upwork.com",
           // Removed upgrade-insecure-requests for local development
         ].join("; ");
 
