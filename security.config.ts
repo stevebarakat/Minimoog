@@ -100,9 +100,6 @@ export const securityConfig: SecurityConfig = {
     // Content Type Sniffing Protection
     "X-Content-Type-Options": "nosniff",
 
-    // Clickjacking Protection
-    "X-Frame-Options": "SAMEORIGIN",
-
     // Referrer Policy
     "Referrer-Policy": "strict-origin-when-cross-origin",
 
