@@ -11,8 +11,25 @@
   font-weight: 400;
 }
 
-.link {
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.githubLink {
   @media (width >= 1420px) {
     display: none;
   }
+}
+
+.link {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
+.linkContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
 }
