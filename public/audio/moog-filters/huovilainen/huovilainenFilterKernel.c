@@ -1,4 +1,25 @@
 /*
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ * Original Csound implementation: Copyright (c) Victor Lazzarini, 2004.
+ * C++ adaptation: Dimitri Diakopoulos and MoogLadders contributors.
+ * Minimoog C/WASM adaptation by Steve Barakat, present since 2025-09-21:
+ * parameter/envelope handling, smoothing, DC blocking, and processing changes.
+ * Licensing notice clarified 2026-11-21; upstream credits are retained below.
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or (at
+ * your option) any later version.
+ *
+ * This library is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * See ../COPYING.LESSER and ../THIRD_PARTY_NOTICES.md in deployed assets;
+ * reference copies: see the collection's COPYING.LESSER and LICENSING.md.
+ */
+
+/*
  *  Huovilainen Moog Ladder Filter Implementation
  *  Based on the work by Antti Huovilainen (2004, 2010)
  *  Original implementation: Victor Lazzarini for CSound5

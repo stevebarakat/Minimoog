@@ -16,7 +16,7 @@ Each model is unique. The newest is from 2015 while the oldest dates back over 2
 Implementation | License | Original Source | Closed-Source Friendly
 ------------- | ------------- | ----------------- | -----------------
 Simplified | Custom | DAFX | No
-Huovilainen  | LGPLv3 | CSound | If dynamically linked
+Huovilainen  | LGPL-2.1-or-later | CSound | Subject to LGPL requirements
 Stilson | Unlicense | Moog~ by D. Lowenfels | Yes
 Microtracker | Unlicense | Magnus Jonsson | Yes
 Krajeski | Unlicense | Aaron Krajeski | Yes
@@ -36,3 +36,9 @@ Community contributions are welcome.
 
 # License
 If not otherwise stated in the header of a file, all other code in this project is released under the Unlicense.
+
+## License scope clarification
+
+See [LICENSING.md](LICENSING.md) for the collection's file-specific terms.
+The default Unlicense does not override model headers. The upstream README's
+LGPLv3 label has been clarified using Csound's explicit 2.1-or-later grant.

@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Original Csound implementation: Copyright (c) Victor Lazzarini, 2004.
+// LGPL version 2.1 or (at your option) any later version; without warranty.
+// License clarification added 2026-11-21; processing code unchanged.
+// See ../COPYING.LESSER and ../LICENSING.md. Original provenance follows.
 // Based on implementation in CSound5 (LGPLv2.1)
 // https://github.com/csound/csound/blob/develop/COPYING
 
