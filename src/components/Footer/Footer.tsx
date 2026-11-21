@@ -20,7 +20,7 @@ function Footer() {
         </Row>
         <Row justify="center">
           <span>
-            Styled with guidance from{" "}
+            Built with guidance from{" "}
             <a
               href="https://www.joshwcomeau.com/blog/whimsical-animations/#the-synth-6"
               target="_blank"
