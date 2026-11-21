@@ -5,9 +5,10 @@ The MIT license below applies to original Minimoog code by Steve Barakat.
 It does not replace the licenses, public-domain dedications, or other terms
 of bundled third-party material or code derived from that material.
 
-The filter collection is mixed-license. See THIRD_PARTY_NOTICES.md and the
-notices and license texts in resources/moog-ladder-filters/ and
-public/audio/moog-filters/. Research papers retain their authors' terms.
+The application and filter have different licenses. See THIRD_PARTY_NOTICES.md and the
+notices and license texts in public/audio/moog-filters/. The retained audio
+filter is LGPL-2.1-or-later; the MoogLadders default Unlicense is preserved
+separately and does not supersede that filter's terms.
 
 MIT License
 

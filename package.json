@@ -13,7 +13,10 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "analyze:css": "npm run lint:css:check && echo 'CSS analysis complete'"
+    "analyze:css": "npm run lint:css:check && echo 'CSS analysis complete'",
+    "build:filters": "bash scripts/build-filters.sh",
+    "check:filters": "bash scripts/build-filters.sh --check",
+    "test:filters": "node --test scripts/filter-runtime.check.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

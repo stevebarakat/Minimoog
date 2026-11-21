@@ -1,16 +1,20 @@
 # Third-party notices
 
-The MIT license in [LICENSE](LICENSE) applies to original Minimoog application
-code. Third-party material and derived code retain their own terms.
+The [MIT License](LICENSE) applies to original Minimoog application and worklet
+code. The Huovilainen C implementation and compiled WebAssembly module retain
+**LGPL-2.1-or-later** terms from Victor Lazzarini's Csound implementation.
 
-The filter collection has multiple licenses. See the complete
-[filter notices, license map, upstream evidence, and source instructions](public/audio/moog-filters/THIRD_PARTY_NOTICES.md).
-These notices and the [LGPL 2.1 text](public/audio/moog-filters/COPYING.LESSER)
-are also shipped with the web application's static filter assets.
+See the complete [filter notices and upstream evidence](public/audio/moog-filters/THIRD_PARTY_NOTICES.md),
+[LGPL 2.1 license](public/audio/moog-filters/COPYING.LESSER), and
+[corresponding source and build instructions](public/audio/moog-filters/huovilainen/README.md).
+The [MoogLadders default Unlicense](public/audio/moog-filters/UNLICENSE) is
+preserved as upstream context; it does not override the filter's LGPL terms.
+The same notices, license texts, C source, build script, and worklet interfaces
+are shipped with the web application. The footer links to a readable notice page.
 
-The original MoogLadders [Unlicense](resources/moog-ladder-filters/LICENSE)
-is retained. It does not override file-specific LGPL, ISC, BSD, or custom terms.
-The filter notices explicitly identify unresolved permissions rather than
-asserting that every bundled file is MIT or cleared for commercial use.
+The unused reference collection, alternative filters, research PDFs, and
+unmatched backup binaries are not included in the current tree or deployments.
+They were removed rather than relicensed or declared cleared for redistribution.
+This does not retroactively change earlier releases or repository history.
 
-Dependencies installed through npm retain their own license files and notices.
+Packages installed through npm retain their own licenses and notices.

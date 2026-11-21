@@ -212,11 +212,11 @@ This project incorporates several third-party libraries, algorithms, and researc
 
 ### 📄 License Compliance
 
-Third-party material retains its own terms. The filter collection includes
-LGPL-2.1-or-later, Unlicense/public-domain, ISC, BSD, and custom notices; it is
-not uniformly MIT-licensed. See [Third-party notices](THIRD_PARTY_NOTICES.md)
-for file-level scope, upstream evidence, and unresolved permissions. A credit
-or license label alone is not a determination of compliance.
+The retained Huovilainen C/WASM filter is LGPL-2.1-or-later. Original
+application/worklet code is MIT; the upstream MoogLadders Unlicense is also
+preserved. Unused filter implementations, orphaned binaries, and bundled
+research PDFs have been removed. See [Third-party notices](THIRD_PARTY_NOTICES.md)
+for scope, upstream evidence, and corresponding source/build instructions.
 
 ---
 
@@ -237,14 +237,15 @@ or license label alone is not a determination of compliance.
 ## License
 
 Original Minimoog application code is available under the [MIT License](LICENSE).
-Bundled third-party code, derived filters, and research papers retain their
-respective terms; the MIT grant does not override them.
+The Huovilainen filter retains its LGPL-2.1-or-later terms; the MIT grant does
+not override them.
 
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the license map and
 [the deployed filter notices](public/audio/moog-filters/THIRD_PARTY_NOTICES.md)
 for the source and license information shipped with the WebAssembly filters.
-The MIT permission to use code commercially does not extend to material
-whose own notice restricts commercial use or whose permissions are unresolved.
+Both the application and the retained filter permit commercial use under their
+respective licenses. Redistribution must preserve notices and satisfy the
+LGPL source and modification requirements.
 
 ---
 
