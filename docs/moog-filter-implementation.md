@@ -1,5 +1,13 @@
 # Moog Filter Implementation
 
+The retained C/WASM filter is LGPL-2.1-or-later. See the
+[license and source notices](../public/audio/moog-filters/THIRD_PARTY_NOTICES.md)
+and [canonical build instructions](../public/audio/moog-filters/huovilainen/README.md).
+Builds require Emscripten 4.0.14 and `-sSIDE_MODULE=1` to use the worklet's memory.
+Run `npm run build:filters`, `npm run check:filters`, and `npm run test:filters`
+from the repository root. Unused alternate filters and research PDFs have been
+removed from the repository and published assets.
+
 ## Overview
 
 The Moog filter is implemented using WebAssembly for optimal performance and authentic sound reproduction. The current implementation uses the Huovilainen filter model for physically accurate emulation of the original Moog ladder filter, enhanced with authentic Minimoog-style characteristics.
@@ -10,7 +18,7 @@ The Moog filter is implemented using WebAssembly for optimal performance and aut
 public/audio/moog-filters/
 └── huovilainen/               # Huovilainen filter (physically accurate)
     ├── huovilainen-worklet-processor.js          # Basic AudioWorklet processor
-    ├── huovilainen-worklet-processor.js # Optimized processor with performance enhancements
+    ├── huovilainen-worklet-processor-optimized.js # Optimized processor with performance enhancements
     ├── huovilainenFilterKernel.c                 # C source code for Huovilainen filter
     └── huovilainenFilterKernel.wasm             # Compiled WASM bytecode
 ```
@@ -26,11 +34,11 @@ The synthesizer uses the Huovilainen filter model, which provides the most physi
 - `public/audio/moog-filters/huovilainen/huovilainenFilterKernel.c` - C source code for Huovilainen filter
 - `public/audio/moog-filters/huovilainen/huovilainenFilterKernel.wasm` - Compiled WASM bytecode
 - `public/audio/moog-filters/huovilainen/huovilainen-worklet-processor.js` - Basic AudioWorklet processor
-- `public/audio/moog-filters/huovilainen/huovilainen-worklet-processor.js` - **Optimized processor with performance enhancements**
+- `public/audio/moog-filters/huovilainen/huovilainen-worklet-processor-optimized.js` - **Optimized processor with performance enhancements**
 
 ### Filter Type System
 
-The synthesizer now supports multiple filter implementations:
+The synthesizer exposes one retained filter implementation:
 
 ```typescript
 // Current filter type configuration
@@ -120,7 +128,7 @@ void updateFilterCoefficients() {
     fc = fmin(fc, 0.45);
 
     // Calculate resonance scaling
-    resQuad = 4.0 * resonance * acr;
+    resQuad = 2.0 * resonance * acr;
 }
 ```
 
@@ -158,7 +166,7 @@ The Huovilainen filter is compiled using Emscripten with the following flags:
 
 ```bash
 # Actual compilation directive from source code
-emcc -O3 -s WASM=1 huovilainenFilterKernel.c -o huovilainenFilterKernel.wasm --no-entry
+bash build.sh
 
 # Note: -O3 provides maximum optimization for performance
 # The --no-entry flag is used since this is a library module
@@ -335,10 +343,10 @@ To recompile the WASM module after making changes to the C source:
 cd public/audio/moog-filters/huovilainen
 
 # Use the exact flags from the source code
-emcc -O3 -s WASM=1 huovilainenFilterKernel.c -o huovilainenFilterKernel.wasm --no-entry
+bash build.sh
 
 # For development with debugging
-emcc -O0 -g -s WASM=1 huovilainenFilterKernel.c -o huovilainenFilterKernel.wasm --no-entry
+emcc -O0 -g -sSIDE_MODULE=1 huovilainenFilterKernel.c -o huovilainenFilterKernel.wasm
 ```
 
 ### Performance Optimization

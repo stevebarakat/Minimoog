@@ -1,0 +1,30 @@
+name: Filter source and deployment validation
+
+on:
+  pull_request:
+  push:
+    branches: [main, fix/filter-license-notices]
+
+permissions:
+  contents: read
+
+jobs:
+  filter-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Rebuild and compare the LGPL filter
+        run: >-
+          docker run --rm -v "$PWD:/src" -w /src
+          emscripten/emsdk:4.0.14 bash scripts/build-filters.sh --check
+      - name: Verify source hashes, baseline audio, and real worklet loading
+        run: npm run test:filters
+      - name: Build the production app
+        run: npm run build
+      - name: Verify published filter source and notices
+        run: node scripts/check-filter-distribution.mjs

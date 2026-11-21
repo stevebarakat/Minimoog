@@ -7,7 +7,7 @@ A web-based emulation of the classic Minimoog Model D analog synthesizer
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.2.1-646CFF.svg)](https://vitejs.dev/)
 [![Vitest](https://img.shields.io/badge/Vitest-3.1.4-green.svg)](https://vitest.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT + third-party terms](https://img.shields.io/badge/License-MIT%20%2B%20third--party%20terms-yellow.svg)](THIRD_PARTY_NOTICES.md)
 
 ---
 
@@ -175,7 +175,7 @@ This project incorporates several third-party libraries, algorithms, and researc
 
 - **Research**: Based on work by Antti Huovilainen (2004, 2010)
 - **Implementation**: Adapted from CSound5 implementation by Victor Lazzarini
-- **License**: LGPLv3 (original CSound5 implementation)
+- **License**: LGPL-2.1-or-later; see the [upstream source and license explanation](public/audio/moog-filters/THIRD_PARTY_NOTICES.md#huovilainen-filter-csound-derived).
 - **Reference**: [Non-Linear Digital Implementation of the Moog Ladder Filter](https://dafx.de/paper-archive/2004/P_061.PDF)
 
 ### 🛠️ Core Libraries
@@ -212,10 +212,11 @@ This project incorporates several third-party libraries, algorithms, and researc
 
 ### 📄 License Compliance
 
-All third-party code is used in compliance with their respective licenses:
-
-- **MIT License**: Most libraries and utilities
-- **LGPLv3**: Huovilainen filter implementation (CSound5 derived)
+The retained Huovilainen C/WASM filter is LGPL-2.1-or-later. Original
+application/worklet code is MIT; the upstream MoogLadders Unlicense is also
+preserved. Unused filter implementations, orphaned binaries, and bundled
+research PDFs have been removed. See [Third-party notices](THIRD_PARTY_NOTICES.md)
+for scope, upstream evidence, and corresponding source/build instructions.
 
 ---
 
@@ -235,19 +236,16 @@ All third-party code is used in compliance with their respective licenses:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Original Minimoog application code is available under the [MIT License](LICENSE).
+The Huovilainen filter retains its LGPL-2.1-or-later terms; the MIT grant does
+not override them.
 
-### License Summary
-
-The MIT License allows you to:
-
-- Use the software for any purpose
-- Modify the software
-- Distribute the software
-- Distribute modified versions
-- Use it commercially
-
-The only requirement is that the original license and copyright notice be included in all copies or substantial portions of the software.
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the license map and
+[the deployed filter notices](public/audio/moog-filters/THIRD_PARTY_NOTICES.md)
+for the source and license information shipped with the WebAssembly filters.
+Both the application and the retained filter permit commercial use under their
+respective licenses. Redistribution must preserve notices and satisfy the
+LGPL source and modification requirements.
 
 ---
 
